@@ -3,14 +3,17 @@ import { CreateSessionComponent } from './create-session.component';
 import { useHistory } from 'react-router-dom';
 import { createRoom } from './create-session.api';
 import { routes } from 'core/router';
+import { AuthContext } from 'core';
 
 export const CreateSessionContainer: React.FunctionComponent = () => {
   const history = useHistory();
+  const authContext = React.useContext(AuthContext);
 
-  const handleCreateSession = async () => {
+  const handleCreateSession = async (nickname: string) => {
     // TODO: Error handling
     try {
       const room = await createRoom();
+      authContext.setNickname(nickname);
 
       history.push(routes.master(room));
     } catch (e) {

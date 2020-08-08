@@ -9,7 +9,7 @@ interface SwitchRoutes {
 export const switchRoutes: SwitchRoutes = {
   root: '/',
   player: '/player/:room',
-  master: 'master/:room',
+  master: '/master/:room',
 };
 
 interface Routes extends Omit<SwitchRoutes, 'player' | 'master'> {

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "run-p -l type-check:watch start:dev",
-    "start:dev": "webpack-dev-server --config ./config/webpack/dev.js --open",
+    "start:dev": "webpack-dev-server --config ./config/webpack/dev.js",
     "build": "run-p -l type-check build:prod",
     "build:prod": "npm run clean && webpack --config ./config/webpack/prod.js",
     "analyze": "npm run clean && npm run type-check && webpack --config ./config/webpack/analyze.js",
@@ -32,7 +32,8 @@
     "react-dom": "^16.12.0",
     "react-hot-loader": "^4.12.18",
     "react-router-dom": "^5.2.0",
-    "regenerator-runtime": "^0.13.3"
+    "regenerator-runtime": "^0.13.3",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.4",
@@ -48,6 +49,7 @@
     "@types/react": "^16.9.13",
     "@types/react-dom": "^16.9.4",
     "@types/react-router-dom": "^5.1.5",
+    "@types/socket.io": "^2.1.10",
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",
     "babel-loader": "^8.0.6",

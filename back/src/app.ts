@@ -36,7 +36,7 @@ app.listen(envConstants.PORT, () => {
 // whenever a user connects on port 3000 via
 // a websocket, log that a user has connected
 io.on('connection', function (socket: any) {
-  console.log('a user connected');
+  console.log(`user ${socket.handshake.query.user} connected`);
 
   // whenever we receive a 'message' we log it out
   socket.on('message', function (message: any) {
