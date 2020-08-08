@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { switchRoutes } from './routes';
-import { CreateSessionScene } from 'scenes';
+import { CreateSessionScene, MasterScene } from 'scenes';
 
 export const RouterComponent: React.FunctionComponent = () => {
   return (
@@ -11,6 +11,11 @@ export const RouterComponent: React.FunctionComponent = () => {
           exact={true}
           path={switchRoutes.root}
           component={CreateSessionScene}
+        />
+        <Route
+          exact={true}
+          path={switchRoutes.master}
+          component={MasterScene}
         />
       </Switch>
     </Router>
