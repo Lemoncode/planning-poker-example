@@ -11,7 +11,16 @@ export const MasterContainer = () => {
     // TODO: Error handling
     // Connect to the socket
     const nickname = authContext.nickname;
-    const socket = createSocket({ user: nickname, room: params.room });
+    const room = params['room'];
+    const socket = createSocket({
+      user: nickname,
+      room,
+      isMaster: true,
+    });
+
+    socket.on('message', msg => {
+      console.log(msg);
+    });
   }, []);
 
   return <h1>Hello from Master Container</h1>;

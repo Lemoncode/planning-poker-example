@@ -36,8 +36,20 @@ app.listen(envConstants.PORT, () => {
 // whenever a user connects on port 3000 via
 // a websocket, log that a user has connected
 io.on('connection', function (socket: any) {
-  console.log(`user ${socket.handshake.query.user} connected`);
-  console.log(`room request: ${socket.handshake.query.room}`);
+  const { user, room } = socket.handshake.query;
+  console.log(`user ${user} connected`);
+  console.log(`room request: ${room}`);
+
+  // TODO: if room does not previously exists do not allow creation
+  // Extract as well this logic
+  const isMaster = socket.handshake.query.isMaster;
+  if (isMaster) {
+    // Create room
+    socket.join(room);
+    // Send test message to that room
+    socket.emit('message', 'Message broadcasted');
+    io.in(room).emit('message', `Room ${room} created successfully`);
+  }
 
   // whenever we receive a 'message' we log it out
   socket.on('message', function (message: any) {
