@@ -37,6 +37,7 @@ app.listen(envConstants.PORT, () => {
 // a websocket, log that a user has connected
 io.on('connection', function (socket: any) {
   console.log(`user ${socket.handshake.query.user} connected`);
+  console.log(`room request: ${socket.handshake.query.room}`);
 
   // whenever we receive a 'message' we log it out
   socket.on('message', function (message: any) {

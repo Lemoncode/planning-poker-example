@@ -3,13 +3,14 @@ import { baseSocketUrl } from 'core';
 
 export interface ConnectionSetup {
   user: string;
+  room: string;
 }
 
 export const createSocket = (connectionSetup: ConnectionSetup) => {
   const socketParams = {
     url: baseSocketUrl,
     options: {
-      query: `user=${connectionSetup.user}`,
+      query: { user: connectionSetup.user, room: connectionSetup.room },
     },
   };
 
