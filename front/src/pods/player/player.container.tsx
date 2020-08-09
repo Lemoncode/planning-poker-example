@@ -1,23 +1,22 @@
 import * as React from 'react';
-import { createSocket } from './master.api';
-import { AuthContext } from 'core';
+import { PlayerComponent } from './player.component';
 import { useParams } from 'react-router-dom';
-import { MasterComponent } from './master.component';
+import { createSocket } from './player.api';
+import { AuthContext } from 'core';
 
-export const MasterContainer = () => {
+export const PlayerContainer = () => {
   const authContext = React.useContext(AuthContext);
-  const params = useParams(); // TODO: Type this
+  // TODO: type this.
+  const params = useParams();
   const [room, setRoom] = React.useState('');
 
   React.useEffect(() => {
-    // TODO: Error handling
-    // Connect to the socket
     const nickname = authContext.nickname;
     const room = params['room'];
     const socket = createSocket({
       user: nickname,
       room,
-      isMaster: true,
+      isMaster: false,
     });
 
     setRoom(room);
@@ -27,5 +26,10 @@ export const MasterContainer = () => {
     });
   }, []);
 
-  return <MasterComponent room={room} />;
+  return (
+    <>
+      <h1>Player Container</h1>
+      <PlayerComponent room={room} />
+    </>
+  );
 };

@@ -49,6 +49,16 @@ io.on('connection', function (socket: any) {
     // Send test message to that room
     socket.emit('message', 'Message broadcasted');
     io.in(room).emit('message', `Room ${room} created successfully`);
+
+    // TODO: room master refactor this later on
+    // plus add token for the master role
+    const masterChannel = `${room}.master`;
+    socket.join(masterChannel);
+    // Whenver a given non master user connects to the room we will
+    // emmit a message to the master using the room.master
+  } else {
+    // Player
+    socket.emit('messsage', '${user} has joined');
   }
 
   // whenever we receive a 'message' we log it out
