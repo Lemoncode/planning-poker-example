@@ -28,6 +28,13 @@ export const addNewUser = (
   },
 ];
 
+export const isMasterUser = (connectionId: string) => {
+  const session = userCollectionSession.find(
+    (session) => session.connectionId === connectionId && session.isMaster
+  );
+  return session;
+};
+
 export const getRoomFromConnectionId = (connectionId: string) => {
   const session = userCollectionSession.find(
     (session) => session.connectionId === connectionId

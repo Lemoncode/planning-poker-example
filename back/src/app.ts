@@ -2,13 +2,14 @@ import { createApp } from './express.server';
 import { envConstants } from './env.constants';
 import { api } from './api';
 import cors from 'cors';
+import * as SocketIOClient from 'socket.io';
 
 const app = createApp();
 
 let http = require('http').Server(app);
 // set up socket.io and bind it to our
 // http server.
-let io = require('socket.io')(http);
+let io: SocketIOClient.Socket = require('socket.io')(http);
 
 //options for cors midddleware
 const options: cors.CorsOptions = {
