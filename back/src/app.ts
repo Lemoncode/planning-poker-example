@@ -39,13 +39,15 @@ io.on('connection', function (socket: any) {
   const { user, room } = socket.handshake.query;
   console.log(`user ${user} connected`);
   console.log(`room request: ${room}`);
+  console.log('*** Session ID:', socket.conn.id);
 
   // TODO: if room does not previously exists do not allow creation
   // Extract as well this logic
   const isMaster = socket.handshake.query.isMaster;
+  // Create room
+  socket.join(room);
+
   if (isMaster === 'true') {
-    // Create room
-    socket.join(room);
     // Send test message to that room
     socket.emit('message', 'Message broadcasted');
     io.in(room).emit('message', `Room ${room} created successfully`);
@@ -56,9 +58,11 @@ io.on('connection', function (socket: any) {
     socket.join(masterChannel);
     // Whenver a given non master user connects to the room we will
     // emmit a message to the master using the room.master
+    console.log('*** Session ID from master:', socket.conn.id);
   } else {
     // Player
-    io.emit('message', `io ${user}  joined`);
+    socket.emit('message', `io ${user}  joined`);
+    console.log('*** Session ID from client:', socket.conn.id);
   }
 
   // whenever we receive a 'message' we log it out
