@@ -1,24 +1,74 @@
-import { InputMessageTypes } from './consts';
-import { Action, InputUserVoted } from './model';
+import { InputMessageTypes, OutputMessageTypes, getMasterRoom } from './consts';
+import {
+  Action,
+  InputUserVoted,
+  InputEstablishConnectionMaster,
+  OutputConnectionEstablishedMaster,
+  SocketInfo,
+} from './model';
 import {
   vote,
   isMasterUser,
   getRoomFromConnectionId,
   resetVotes,
+  isRoomAvailable,
+  addNewUser,
 } from '../storage';
+import { processOuputMessage } from './output-processor';
 
-export const processInputMessage = (connectionId: string, action: Action) => {
+export const processInputMessage = (
+  socketInfo: SocketInfo,
+  action: Action
+): Action[] => {
+  let outputActionCollection: Action[] = [];
   switch (action.type) {
+    case InputMessageTypes.ESTABLISH_CONNECTION_MASTER:
+      const payloadECM: InputEstablishConnectionMaster = action.payload;
+      outputActionCollection = handleEstablishConnectionMaster(
+        socketInfo,
+        payloadECM.nickname,
+        payloadECM.room
+      );
+      break;
+    case InputMessageTypes.ESTABLISH_CONNECTION_PLAYER:
+      break;
     case InputMessageTypes.CREATE_STORY:
       break;
 
     case InputMessageTypes.USER_VOTED:
       const payload: InputUserVoted = action.payload;
-      handleVote(connectionId, payload.vote);
+      handleVote(socketInfo.connectionId, payload.vote);
       break;
 
     case InputMessageTypes.END_VOTE_TIME:
       break;
+  }
+
+  return outputActionCollection;
+};
+
+const handleEstablishConnectionMaster = (
+  socketInfo: SocketInfo,
+  nickname: string,
+  room: string
+): Action[] => {
+  if (!nickname || !room) {
+    // Ignore
+    return [];
+  }
+
+  if (isRoomAvailable(room)) {
+    addNewUser(socketInfo.connectionId, { room, nickname, isMaster: true });
+    socketInfo.socket.join(room);
+    socketInfo.socket.join(getMasterRoom(room));
+
+    const payload: OutputConnectionEstablishedMaster = { newUser: nickname };
+    return [
+      { type: OutputMessageTypes.CONNECTION_ESTABLISHED_MASTER, payload },
+    ];
+  } else {
+    // TODO Enque Error master
+    return [{ type: OutputMessageTypes.ERROR_ROOM_BUSY }];
   }
 };
 

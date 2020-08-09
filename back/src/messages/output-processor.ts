@@ -1,35 +1,34 @@
-import { OutputMessageTypes } from './consts';
-import { Action, InputUserVoted } from './model';
+import { OutputMessageTypes, getMasterRoom, ErrorCodes } from './consts';
+import { Action, InputUserVoted, SocketInfo } from './model';
 import {
   vote,
   isMasterUser,
   getRoomFromConnectionId,
+  getNicknameFromConnectionId,
   resetVotes,
 } from '../storage';
 import * as SocketIOClient from 'socket.io';
+import { ResponseBase, responseType } from './response';
 
 export const processOutputMessageCollection = (
-  connectionId: string,
-  io: SocketIOClient.Socket,
+  socketInfo: SocketInfo,
   actionCollection: Action[]
 ) => {
   // TODO: Error handling
-  actionCollection.forEach((action) =>
-    processOuputMessage(connectionId, io, action)
-  );
+  actionCollection.forEach((action) => processOuputMessage(socketInfo, action));
 };
 
-export const processOuputMessage = (
-  connectionId: string,
-  io: SocketIOClient.Socket,
-  action: Action
-) => {
+export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
+  const { connectionId, io, socket } = socketInfo;
   const isMaster = isMasterUser(connectionId);
   const room = getRoomFromConnectionId(connectionId);
 
   switch (action.type) {
-    case OutputMessageTypes.CONNECTION_ESTABLISHED:
-      handleConnectionEstablished(io, connectionId);
+    case OutputMessageTypes.CONNECTION_ESTABLISHED_MASTER:
+      handleNotifyConnectionEstablishedMaster(socketInfo, connectionId);
+      break;
+    case OutputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
+      handleNotifyConnectionEstablishedPlayer(io, connectionId);
       break;
     case OutputMessageTypes.USER_JOINED_ONLY_SEND_MASTER:
       break;
@@ -39,12 +38,37 @@ export const processOuputMessage = (
       break;
     case OutputMessageTypes.SHOW_RESULTS:
       break;
+    case OutputMessageTypes.ERROR_ROOM_BUSY:
+      handleErrorRoomIsBusy(io, connectionId);
+      break;
   }
 };
 
-const handleConnectionEstablished = (
+const handleNotifyConnectionEstablishedMaster = (
+  socketInfo: SocketInfo,
+  connectionId: string
+) => {
+  const response: ResponseBase = { type: responseType.CONNECTION_ACK };
+  socketInfo.socket.emit('message', response);
+};
+
+const handleNotifyConnectionEstablishedPlayer = (
   io: SocketIOClient.Socket,
   connectionId: string
 ) => {
-  io.client[connectionId].emit('messsage', { connection: true });
+  // TODO: consider getting this in one go
+  const room = getRoomFromConnectionId(connectionId);
+  const nickname = getNicknameFromConnectionId(room);
+
+  const masterRoom = getMasterRoom(room);
+
+  // TODO Type this messages later on
+  io.in(masterRoom).emit('message', 'connection', { nickname });
+};
+
+const handleErrorRoomIsBusy = (
+  io: SocketIOClient.Socket,
+  connectionId: string
+) => {
+  io.client[connectionId].emit('error', ErrorCodes.roomBusy);
 };

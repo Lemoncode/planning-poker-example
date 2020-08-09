@@ -1,6 +1,27 @@
+import {Socket} from 'socket.io';
+
+export type MessageType = 'message' | 'error';
+
+export interface SocketInfo {
+  socket: Socket;
+  io: Socket,
+  connectionId: string;
+}
+
 export interface Action {
   type: string;
-  payload: any;
+  payload?: any;
+  messageType?: MessageType;
+}
+
+export interface InputEstablishConnectionMaster {
+  nickname: string;
+  room: string;
+}
+
+export interface InputEstablishConnectionPlayer {
+  nickname: string;
+  room: string;
 }
 
 export interface InputCreateStoryPayload {
@@ -15,12 +36,10 @@ export interface OutputUserJoined {
   name: string;
 }
 
-export interface OutputMasterUserJoined {
+export interface OutputConnectionEstablishedMaster {
   newUser: string;
 }
 
-// How do I know who voted !!!
-// SessionId? check
 export interface OutputMasterUserVoted {
   vote: string;
 }

@@ -22,8 +22,9 @@ export const PlayerContainer = () => {
 
     setRoom(room);
 
-    socket.on('message', msg => {
+    socket.on('message', (msg, obj) => {
       console.log(msg);
+      console.log(obj);
     });
 
     // TODO close socket on navgiate away (use effect return)

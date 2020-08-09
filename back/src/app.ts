@@ -2,7 +2,14 @@ import { createApp } from './express.server';
 import { envConstants } from './env.constants';
 import { api } from './api';
 import cors from 'cors';
-import * as SocketIOClient from 'socket.io';
+import SocketIOClient, { Socket } from 'socket.io';
+import {
+  processInputMessage,
+  InputMessageTypes,
+  processOutputMessageCollection,
+  Action,
+  SocketInfo,
+} from './messages';
 
 const app = createApp();
 
@@ -36,12 +43,38 @@ app.listen(envConstants.PORT, () => {
 
 // whenever a user connects on port 3000 via
 // a websocket, log that a user has connected
-io.on('connection', function (socket: any) {
-  const { user, room } = socket.handshake.query;
+io.on('connection', function (socket: Socket) {
+  // WATCH OUT !! Reconnect is not implemented
+  // In the connection input processing, we should
+  // check if connectionId matches with userId and RoomId
+  // if not reject, if it's accepted send connection
+  // reestablished
+  const { user, room, isMaster } = socket.handshake.query;
   console.log(`user ${user} connected`);
   console.log(`room request: ${room}`);
   console.log('*** Session ID:', socket.conn.id);
 
+  let outputMessageCollection: Action[] = [];
+  const socketInfo: SocketInfo = {
+    socket: socket,
+    io,
+    connectionId: socket.conn.id,
+  };
+
+  if (isMaster) {
+    // TODO Move this to processInputMessage
+
+    outputMessageCollection = processInputMessage(socketInfo, {
+      type: InputMessageTypes.ESTABLISH_CONNECTION_MASTER,
+      payload: {
+        nickname: user,
+        room,
+      },
+    });
+  }
+
+  processOutputMessageCollection(socketInfo, outputMessageCollection);
+  /*
   // TODO: if room does not previously exists do not allow creation
   // Extract as well this logic
   const isMaster = socket.handshake.query.isMaster;
@@ -50,7 +83,7 @@ io.on('connection', function (socket: any) {
 
   if (isMaster === 'true') {
     // Send test message to that room
-    socket.emit('message', 'Message broadcasted');
+    //socket.emit('message', 'Message broadcasted');
     io.in(room).emit('message', `Room ${room} created successfully`);
 
     // TODO: room master refactor this later on
@@ -70,6 +103,7 @@ io.on('connection', function (socket: any) {
   socket.on('message', function (message: any) {
     console.log(message);
   });
+  */
 });
 
 const server = http.listen(3000, function () {

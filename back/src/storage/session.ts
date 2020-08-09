@@ -3,26 +3,32 @@
 
 interface ConnectSessionInfo {
   room: string;
+  nickname: string;
   isMaster: boolean;
 }
 
 interface UserSession extends ConnectSessionInfo {
   connectionId: string;
+  nickname: string;
   hasVoted: boolean;
   vote: string;
 }
 
 let userCollectionSession: UserSession[] = [];
 
+export const isRoomAvailable = (room: string) =>
+  !userCollectionSession.find((session) => session.room === room);
+
 export const addNewUser = (
   connectionId: string,
-  { room, isMaster }: ConnectSessionInfo
+  { room, nickname, isMaster }: ConnectSessionInfo
 ) => [
   ...userCollectionSession,
   {
     connectionId,
     room,
     isMaster: isMaster,
+    nickname: nickname,
     hasVoted: false,
     vote: '',
   },
@@ -40,6 +46,13 @@ export const getRoomFromConnectionId = (connectionId: string) => {
     (session) => session.connectionId === connectionId
   );
   return session ? session.room : '';
+};
+
+export const getNicknameFromConnectionId = (connectionId: string) => {
+  const session = userCollectionSession.find(
+    (session) => session.connectionId === connectionId
+  );
+  return session ? session.nickname : '';
 };
 
 export const resetVotes = (room: string) => {
