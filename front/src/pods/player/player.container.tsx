@@ -10,8 +10,9 @@ export const PlayerContainer = () => {
   const params = useParams();
   const [room, setRoom] = React.useState('');
 
-  React.useEffect(() => {
-    const nickname = authContext.nickname;
+  const handleConnect = nickname => {
+    authContext.setNickname(nickname);
+
     const room = params['room'];
     const socket = createSocket({
       user: nickname,
@@ -24,12 +25,14 @@ export const PlayerContainer = () => {
     socket.on('message', msg => {
       console.log(msg);
     });
-  }, []);
+
+    // TODO close socket on navgiate away (use effect return)
+  };
 
   return (
     <>
       <h1>Player Container</h1>
-      <PlayerComponent room={room} />
+      <PlayerComponent room={room} onConnect={handleConnect} />
     </>
   );
 };

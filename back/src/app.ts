@@ -43,7 +43,7 @@ io.on('connection', function (socket: any) {
   // TODO: if room does not previously exists do not allow creation
   // Extract as well this logic
   const isMaster = socket.handshake.query.isMaster;
-  if (isMaster) {
+  if (isMaster === 'true') {
     // Create room
     socket.join(room);
     // Send test message to that room
@@ -58,7 +58,7 @@ io.on('connection', function (socket: any) {
     // emmit a message to the master using the room.master
   } else {
     // Player
-    socket.emit('messsage', '${user} has joined');
+    io.emit('message', `io ${user}  joined`);
   }
 
   // whenever we receive a 'message' we log it out
