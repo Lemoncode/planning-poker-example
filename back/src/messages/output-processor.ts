@@ -28,7 +28,7 @@ export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
       handleNotifyConnectionEstablishedMaster(socketInfo, connectionId);
       break;
     case OutputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
-      handleNotifyConnectionEstablishedPlayer(io, connectionId);
+      handleNotifyConnectionEstablishedPlayer(socketInfo, connectionId);
       break;
     case OutputMessageTypes.USER_JOINED_ONLY_SEND_MASTER:
       break;
@@ -39,7 +39,7 @@ export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
     case OutputMessageTypes.SHOW_RESULTS:
       break;
     case OutputMessageTypes.ERROR_ROOM_BUSY:
-      handleErrorRoomIsBusy(io, connectionId);
+      handleErrorRoomIsBusy(socketInfo, connectionId);
       break;
   }
 };
@@ -53,22 +53,26 @@ const handleNotifyConnectionEstablishedMaster = (
 };
 
 const handleNotifyConnectionEstablishedPlayer = (
-  io: SocketIOClient.Socket,
+  socketInfo: SocketInfo,
   connectionId: string
 ) => {
+  const { io, socket } = socketInfo;
+
   // TODO: consider getting this in one go
   const room = getRoomFromConnectionId(connectionId);
-  const nickname = getNicknameFromConnectionId(room);
+  const nickname = getNicknameFromConnectionId(connectionId);
 
   const masterRoom = getMasterRoom(room);
 
   // TODO Type this messages later on
-  io.in(masterRoom).emit('message', 'connection', { nickname });
+  io.in(masterRoom).emit('message', `Hey master new joiner: ${nickname}`);
+  socket.emit('message', 'connection succeeded');
 };
 
 const handleErrorRoomIsBusy = (
-  io: SocketIOClient.Socket,
+  socketInfo: SocketInfo,
   connectionId: string
 ) => {
-  io.client[connectionId].emit('error', ErrorCodes.roomBusy);
+  const { socket } = socketInfo;
+  socket.emit('error', ErrorCodes.roomBusy);
 };

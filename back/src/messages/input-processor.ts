@@ -3,7 +3,9 @@ import {
   Action,
   InputUserVoted,
   InputEstablishConnectionMaster,
+  InputEstablishConnectionPlayer,
   OutputConnectionEstablishedMaster,
+  OutputConnectionEstablishedPlayer,
   SocketInfo,
 } from './model';
 import {
@@ -31,6 +33,12 @@ export const processInputMessage = (
       );
       break;
     case InputMessageTypes.ESTABLISH_CONNECTION_PLAYER:
+      const payloadPlayer: InputEstablishConnectionPlayer = action.payload;
+      outputActionCollection = handleEstablishConnectionPlayer(
+        socketInfo,
+        payloadPlayer.nickname,
+        payloadPlayer.room
+      );
       break;
     case InputMessageTypes.CREATE_STORY:
       break;
@@ -69,6 +77,28 @@ const handleEstablishConnectionMaster = (
   } else {
     // TODO Enque Error master
     return [{ type: OutputMessageTypes.ERROR_ROOM_BUSY }];
+  }
+};
+
+const handleEstablishConnectionPlayer = (
+  socketInfo: SocketInfo,
+  nickname: string,
+  room: string
+): Action[] => {
+  if (!nickname || !room) {
+    // Ignore
+    return [];
+  }
+  if (isRoomAvailable(room)) {
+    // TODO Enque Error master
+    return [{ type: OutputMessageTypes.ERROR_CANNOT_FIND_ROOM }];
+  } else {
+    addNewUser(socketInfo.connectionId, { room, nickname, isMaster: false });
+    socketInfo.socket.join(room);
+    const payload: OutputConnectionEstablishedPlayer = { newUser: nickname };
+    return [
+      { type: OutputMessageTypes.CONNECTION_ESTABLISHED_PLAYER, payload },
+    ];
   }
 };
 

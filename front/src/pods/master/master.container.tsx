@@ -25,6 +25,13 @@ export const MasterContainer = () => {
     socket.on('message', msg => {
       console.log(msg);
     });
+
+    // TODO we are assuming all goes fine
+    // plus time lapse between room is assigned
+    // and connection established has no colllision
+    // later on we can control that handling the sockets
+    // responses (add spinner, and show entering, succeeded,
+    // or error)
   }, []);
 
   return <MasterComponent room={room} />;

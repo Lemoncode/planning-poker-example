@@ -3,6 +3,7 @@ import { PlayerComponent } from './player.component';
 import { useParams } from 'react-router-dom';
 import { createSocket } from './player.api';
 import { AuthContext } from 'core';
+import SocketIOClient, { Socket } from 'socket.io';
 
 export const PlayerContainer = () => {
   const authContext = React.useContext(AuthContext);
@@ -14,7 +15,11 @@ export const PlayerContainer = () => {
     authContext.setNickname(nickname);
 
     const room = params['room'];
-    const socket = createSocket({
+    // No Error handling here
+    // connection maybe refused, e.g. room is not valid
+    // or nickname is already in use in that room
+    // TODO: fix this
+    const socket : Socket = createSocket({
       user: nickname,
       room,
       isMaster: false,

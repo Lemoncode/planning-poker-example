@@ -8,12 +8,14 @@ export interface ConnectionSetup {
   isMaster: boolean;
 }
 
+// TODO Move this common
 export const createSocket = (connectionSetup: ConnectionSetup) => {
   const { user, room, isMaster } = connectionSetup;
   const socketParams = {
     url: baseSocketUrl,
     options: {
       query: { user, room, isMaster },
+      timeout: 60000,
     },
   };
 

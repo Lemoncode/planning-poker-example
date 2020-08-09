@@ -14,6 +14,7 @@ export const OutputMessageTypes = {
   SHOW_RESULTS: 'SHOW_RESULTS',
   NEW_STORY: 'NEW_STORY',
   ERROR_ROOM_BUSY: 'ERROR_ROOM_BUSY',
+  ERROR_CANNOT_FIND_ROOM: 'ERROR_CANNOT_FIND_ROOM',
 };
 
 const masterRoomSuffix = 'master';
@@ -23,6 +24,6 @@ export const getMasterRoom = (room: string) => `${room}.${masterRoomSuffix}`;
 export const ErrorCodes = {
   roomBusy: {
     code: 1,
-    message: 'cannot create room, room is busy'
-  }
-}
+    message: 'cannot create room, room is busy',
+  },
+};

@@ -13,6 +13,7 @@ export const createSocket = (connectionSetup: ConnectionSetup) => {
     url: baseSocketUrl,
     options: {
       query: { user, room, isMaster },
+      timeout: 60000,
     },
   };
 

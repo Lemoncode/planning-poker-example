@@ -22,17 +22,19 @@ export const isRoomAvailable = (room: string) =>
 export const addNewUser = (
   connectionId: string,
   { room, nickname, isMaster }: ConnectSessionInfo
-) => [
-  ...userCollectionSession,
-  {
-    connectionId,
-    room,
-    isMaster: isMaster,
-    nickname: nickname,
-    hasVoted: false,
-    vote: '',
-  },
-];
+) => {
+  userCollectionSession = [
+    ...userCollectionSession,
+    {
+      connectionId,
+      room,
+      isMaster: isMaster,
+      nickname: nickname,
+      hasVoted: false,
+      vote: '',
+    },
+  ];
+};
 
 export const isMasterUser = (connectionId: string) => {
   const session = userCollectionSession.find(

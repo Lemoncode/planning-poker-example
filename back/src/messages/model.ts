@@ -1,10 +1,10 @@
-import {Socket} from 'socket.io';
+import { Socket } from 'socket.io';
 
 export type MessageType = 'message' | 'error';
 
 export interface SocketInfo {
   socket: Socket;
-  io: Socket,
+  io: Socket;
   connectionId: string;
 }
 
@@ -37,6 +37,10 @@ export interface OutputUserJoined {
 }
 
 export interface OutputConnectionEstablishedMaster {
+  newUser: string;
+}
+
+export interface OutputConnectionEstablishedPlayer {
   newUser: string;
 }
 

@@ -61,11 +61,18 @@ io.on('connection', function (socket: Socket) {
     connectionId: socket.conn.id,
   };
 
-  if (isMaster) {
-    // TODO Move this to processInputMessage
-
+  // TODO encapuslate this to processInputMessage
+  if (isMaster === 'true') {
     outputMessageCollection = processInputMessage(socketInfo, {
       type: InputMessageTypes.ESTABLISH_CONNECTION_MASTER,
+      payload: {
+        nickname: user,
+        room,
+      },
+    });
+  } else {
+    outputMessageCollection = processInputMessage(socketInfo, {
+      type: InputMessageTypes.ESTABLISH_CONNECTION_PLAYER,
       payload: {
         nickname: user,
         room,
