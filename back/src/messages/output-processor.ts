@@ -1,4 +1,9 @@
-import { OutputMessageTypes, getMasterRoom, ErrorCodes } from './consts';
+import {
+  OutputMessageTypes,
+  getMasterRoom,
+  ErrorCodes,
+  SocketMessageTypes,
+} from './consts';
 import { Action, InputUserVoted, SocketInfo } from './model';
 import {
   vote,
@@ -65,7 +70,13 @@ const handleNotifyConnectionEstablishedPlayer = (
   const masterRoom = getMasterRoom(room);
 
   // TODO Type this messages later on
-  io.in(masterRoom).emit('message', `Hey master new joiner: ${nickname}`);
+  console.log(`new user joined: ${nickname}`);
+  // Notify to master room user
+  io.in(masterRoom).emit('message', {
+    type: SocketMessageTypes.CONNECTION_ESTABLISHED_PLAYER,
+    payload: nickname,
+  });
+  // Notify to user connected
   socket.emit('message', 'connection succeeded');
 };
 

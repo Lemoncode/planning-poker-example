@@ -17,6 +17,10 @@ export const OutputMessageTypes = {
   ERROR_CANNOT_FIND_ROOM: 'ERROR_CANNOT_FIND_ROOM',
 };
 
+export const SocketMessageTypes = {
+  CONNECTION_ESTABLISHED_PLAYER: 'CONNECTION_ESTABLISHED_PLAYER',
+};
+
 const masterRoomSuffix = 'master';
 
 export const getMasterRoom = (room: string) => `${room}.${masterRoomSuffix}`;
