@@ -74,5 +74,6 @@ const handleErrorRoomIsBusy = (
   connectionId: string
 ) => {
   const { socket } = socketInfo;
-  socket.emit('error', ErrorCodes.roomBusy);
+  console.log('**** ROOM BUSY ERROR *****');
+  socket.emit('error-app', ErrorCodes.roomBusy);
 };
