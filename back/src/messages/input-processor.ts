@@ -16,6 +16,7 @@ import {
   isRoomAvailable,
   addNewUser,
   isNicknameInUse,
+  getNicknameFromConnectionId,
 } from '../storage';
 import { processOuputMessage } from './output-processor';
 
@@ -48,7 +49,10 @@ export const processInputMessage = (
 
     case InputMessageTypes.USER_VOTED:
       const payload: InputUserVoted = action.payload;
-      handleVote(socketInfo.connectionId, payload.vote);
+      outputActionCollection = handleVote(
+        socketInfo.connectionId,
+        payload.vote
+      );
       break;
 
     case InputMessageTypes.END_VOTE_TIME:
@@ -83,7 +87,6 @@ const handleEstablishConnectionMaster = (
   }
 };
 
-
 const handleEstablishConnectionPlayer = (
   socketInfo: SocketInfo,
   nickname: string,
@@ -111,10 +114,8 @@ const handleEstablishConnectionPlayer = (
   }
 };
 
-
-
 const handleCreateStory = (socketInfo: SocketInfo, title: string) => {
-  const {connectionId} = socketInfo;
+  const { connectionId } = socketInfo;
   // this should generate output message
   // later TODO: global flag cannot vote, to avoid having users cheating
   // Maybe processInputMessage should return a qeueu of outputMesssages
@@ -123,9 +124,7 @@ const handleCreateStory = (socketInfo: SocketInfo, title: string) => {
 
   if (isMaster) {
     resetVotes(room);
-    return [
-      { type: OutputMessageTypes.NEW_STORY, payload: title },
-    ];
+    return [{ type: OutputMessageTypes.NEW_STORY, payload: title }];
     // SendMessage to every body newStory
     // enque output message send to all participants new  question
   } else {
@@ -135,6 +134,10 @@ const handleCreateStory = (socketInfo: SocketInfo, title: string) => {
 
 const handleVote = (connectionId: string, value: string) => {
   vote(connectionId, value);
+  const nickname = getNicknameFromConnectionId(connectionId);
+  return [
+    { type: OutputMessageTypes.USER_VOTED_ONLY_SEND_MASTER, payload: nickname },
+  ];
 };
 
 const handleEndVoteTime = (connectionId: string) => {

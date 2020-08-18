@@ -3,16 +3,26 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { ConnectionStatus } from './player.vm';
-import { ConnectComponent, WaitComponent } from './components';
+import { ConnectComponent, WaitComponent, VoteComponent } from './components';
 
 interface Props {
   room: string;
   onConnect: (nickname: string) => void;
   connectionStatus: ConnectionStatus;
+  story: string;
+  vote: string;
+  onVoteChosen: (vote: string) => void;
 }
 
 export const PlayerComponent: React.FC<Props> = props => {
-  const { room, onConnect, connectionStatus } = props;
+  const {
+    room,
+    onConnect,
+    connectionStatus,
+    story,
+    vote,
+    onVoteChosen,
+  } = props;
   const [nickname, setNickname] = React.useState('Buba');
 
   return (
@@ -23,8 +33,10 @@ export const PlayerComponent: React.FC<Props> = props => {
           onConnect={onConnect}
           room={room}
         />
-      ) : (
+      ) : story === '' ? (
         <WaitComponent />
+      ) : (
+        <VoteComponent story={story} vote={vote} onVoteChosen={onVoteChosen} />
       )}
     </>
   );

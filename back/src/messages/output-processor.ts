@@ -38,7 +38,8 @@ export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
       break;
     case OutputMessageTypes.USER_JOINED_ONLY_SEND_MASTER:
       break;
-    case OutputMessageTypes.USER_VOTED_ONLY_SEND_MASTER_:
+    case OutputMessageTypes.USER_VOTED_ONLY_SEND_MASTER:
+      handleUserVotedOnlySendMaster(socketInfo, action.payload);
       break;
     case OutputMessageTypes.NEW_STORY:
       handleNewStory(socketInfo, action.payload);
@@ -52,6 +53,21 @@ export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
       handleNickNameAlreadyInUse(socketInfo, connectionId);
       break;
   }
+};
+
+const handleUserVotedOnlySendMaster = (
+  socketInfo: SocketInfo,
+  nickname: string
+) => {
+  const { io, connectionId } = socketInfo;
+  const room = getRoomFromConnectionId(connectionId);
+  const masterRoom = getMasterRoom(room);
+
+  // Notify to master room user
+  io.in(masterRoom).emit('message', {
+    type: SocketMessageTypes.NOTIFY_USER_VOTED,
+    payload: nickname,
+  });
 };
 
 const handleNotifyConnectionEstablishedMaster = (

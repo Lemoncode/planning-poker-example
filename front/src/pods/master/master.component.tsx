@@ -3,10 +3,11 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { appBaseUrl } from 'core';
 import { DefineStoryComponent, PlayersConnectedComponent } from './components';
+import { Player } from './master.vm';
 
 interface Props {
   room: string;
-  playerCollection: string[];
+  playerCollection: Player[];
   onSetStoryTitle: (title: string) => void;
 }
 
@@ -18,7 +19,7 @@ export const MasterComponent: React.FC<Props> = props => {
       <Typography variant="h3">
         Share this link to let other participants join the session:
       </Typography>
-      {/* TODO: avoid harcoding here*/}
+
       <Typography variant="h3">{`${appBaseUrl}/#/player/${room}`}</Typography>
 
       {room ? (

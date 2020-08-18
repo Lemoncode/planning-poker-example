@@ -7,6 +7,8 @@ export const appBaseUrl = 'http://localhost:8080';
 
 export const SocketInputMessageTypes = {
   CONNECTION_ESTABLISHED_PLAYER: 'CONNECTION_ESTABLISHED_PLAYER',
+  NEW_STORY: 'NEW_STORY',
+  NOTIFY_USER_VOTED: 'NOTIFY_USER_VOTED',
 };
 
 export const SocketErrorTypes = {
@@ -20,4 +22,14 @@ export const SocketOuputMessageLiteral = {
 
 export const SocketOuputMessageTypes = {
   CREATE_STORY: 'CREATE_STORY', // Master creates a user story
+  USER_VOTED: 'USER_VOTED', // A given player has emited his vote
+};
+
+export const TShirtVotes = {
+  XXL: 'XXL',
+  XL: 'XL',
+  L: 'L',
+  M: 'M',
+  S: 'S',
+  XS: 'XS',
 };

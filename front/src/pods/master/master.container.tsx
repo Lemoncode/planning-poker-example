@@ -9,14 +9,15 @@ import {
 } from 'core';
 import { useParams } from 'react-router-dom';
 import { MasterComponent } from './master.component';
+import { Player } from './master.vm';
 
 export const MasterContainer = () => {
   const socketContext = React.useContext(SocketContext);
   const authContext = React.useContext(AuthContext);
   const params = useParams(); // TODO: Type this
   const [room, setRoom] = React.useState('');
-  const [playerCollection, setPlayerCollection] = React.useState<string[]>([]);
-  const playerCollectionRef = React.useRef<string[]>([]);
+  const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);
+  const playerCollectionRef = React.useRef<Player[]>([]);
 
   React.useEffect(() => {
     // TODO: Error handling
@@ -40,11 +41,27 @@ export const MasterContainer = () => {
         switch (type) {
           case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
             const nickname = payload;
-            setPlayerCollection([...playerCollectionRef.current, nickname]);
-            playerCollectionRef.current = [
+            const newPlayerCollection = [
               ...playerCollectionRef.current,
-              nickname,
+              { nickname, voted: false },
             ];
+
+            setPlayerCollection(newPlayerCollection);
+            playerCollectionRef.current = newPlayerCollection;
+            break;
+          case SocketInputMessageTypes.NOTIFY_USER_VOTED:
+            const updatedPlayerList = playerCollectionRef.current.map(player =>
+              player.nickname === msg.payload
+                ? {
+                    ...player,
+                    voted: true,
+                  }
+                : player
+            );
+
+            setPlayerCollection(updatedPlayerList);
+            playerCollectionRef.current = updatedPlayerList;
+
             break;
         }
       }

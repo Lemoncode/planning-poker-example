@@ -2,18 +2,29 @@ import * as React from 'react';
 import { PlayerComponent } from './player.component';
 import { useParams } from 'react-router-dom';
 import { createSocket } from './player.api';
-import { AuthContext, SocketErrorTypes, SocketInputMessageTypes } from 'core';
+import {
+  AuthContext,
+  SocketErrorTypes,
+  SocketInputMessageTypes,
+  SocketContext,
+  SocketOuputMessageLiteral,
+  SocketOuputMessageTypes,
+} from 'core';
 import SocketIOClient, { Socket } from 'socket.io';
 import { ConnectionStatus } from './player.vm';
 
 export const PlayerContainer = () => {
   const authContext = React.useContext(AuthContext);
+  const socketContext = React.useContext(SocketContext);
+
   // TODO: type this.
   const params = useParams();
   const [room, setRoom] = React.useState('');
   const [connected, setConnected] = React.useState<ConnectionStatus>(
     ConnectionStatus.notConnected
   );
+  const [story, setStory] = React.useState('');
+  const [vote, setVote] = React.useState('');
 
   const handleConnect = nickname => {
     setConnected(ConnectionStatus.ConnectionInProgress);
@@ -30,6 +41,8 @@ export const PlayerContainer = () => {
       isMaster: false,
     });
 
+    socketContext.setSocket(socket);
+
     setRoom(room);
 
     socket.on('message', msg => {
@@ -39,6 +52,10 @@ export const PlayerContainer = () => {
           case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
             alert('Connection established !!!');
             setConnected(ConnectionStatus.Connected);
+            break;
+          case SocketInputMessageTypes.NEW_STORY:
+            alert('new Story !!');
+            setStory(msg.payload);
             break;
         }
       }
@@ -60,6 +77,16 @@ export const PlayerContainer = () => {
     // TODO close socket on navgiate away (use effect return)
   };
 
+  const handleVoteChosen = (vote: string) => {
+    setVote(vote);
+
+    // Send messsage to server informing about the vote
+    socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
+      type: SocketOuputMessageTypes.USER_VOTED,
+      payload: vote,
+    });
+  };
+
   return (
     <>
       <h1>Player Container</h1>
@@ -67,6 +94,9 @@ export const PlayerContainer = () => {
         connectionStatus={connected}
         room={room}
         onConnect={handleConnect}
+        story={story}
+        vote={vote}
+        onVoteChosen={handleVoteChosen}
       />
     </>
   );
