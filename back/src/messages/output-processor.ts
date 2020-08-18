@@ -46,6 +46,9 @@ export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
     case OutputMessageTypes.ERROR_ROOM_BUSY:
       handleErrorRoomIsBusy(socketInfo, connectionId);
       break;
+    case OutputMessageTypes.NICKNAME_ALREADY_IN_USE:
+      handleNickNameAlreadyInUse(socketInfo, connectionId);
+      break;
   }
 };
 
@@ -77,7 +80,10 @@ const handleNotifyConnectionEstablishedPlayer = (
     payload: nickname,
   });
   // Notify to user connected
-  socket.emit('message', 'connection succeeded');
+  socket.emit('message', {
+    type: SocketMessageTypes.CONNECTION_ESTABLISHED_PLAYER,
+    payload: nickname,
+  });
 };
 
 const handleErrorRoomIsBusy = (
@@ -87,4 +93,13 @@ const handleErrorRoomIsBusy = (
   const { socket } = socketInfo;
   console.log('**** ROOM BUSY ERROR *****');
   socket.emit('error-app', ErrorCodes.roomBusy);
+};
+
+const handleNickNameAlreadyInUse = (
+  socketInfo: SocketInfo,
+  connectionId: string
+) => {
+  const { socket } = socketInfo;
+  console.log('**** NICKNAME ALREADY IN USE ERROR *****');
+  socket.emit('error-app', ErrorCodes.nicknameAlreadyInUse);
 };

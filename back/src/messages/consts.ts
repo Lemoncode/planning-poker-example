@@ -15,6 +15,7 @@ export const OutputMessageTypes = {
   NEW_STORY: 'NEW_STORY',
   ERROR_ROOM_BUSY: 'ERROR_ROOM_BUSY',
   ERROR_CANNOT_FIND_ROOM: 'ERROR_CANNOT_FIND_ROOM',
+  NICKNAME_ALREADY_IN_USE: 'NICKNAME_ALREADY_IN_USE',
 };
 
 export const SocketMessageTypes = {
@@ -27,7 +28,11 @@ export const getMasterRoom = (room: string) => `${room}.${masterRoomSuffix}`;
 
 export const ErrorCodes = {
   roomBusy: {
-    code: 1,
+    type: 1,
     message: 'cannot create room, room is busy',
+  },
+  nicknameAlreadyInUse: {
+    type: 2,
+    message: 'nickname is already in use',
   },
 };

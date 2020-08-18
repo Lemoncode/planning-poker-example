@@ -8,3 +8,8 @@ export const appBaseUrl = 'http://localhost:8080';
 export const SocketMessageTypes = {
   CONNECTION_ESTABLISHED_PLAYER: 'CONNECTION_ESTABLISHED_PLAYER',
 };
+
+export const SocketErrorTypes = {
+  ROOM_BUSY: 1,
+  NICKNAME_ALREADY_IN_USE: 2,
+};

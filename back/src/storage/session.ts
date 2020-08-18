@@ -43,6 +43,11 @@ export const isMasterUser = (connectionId: string) => {
   return session;
 };
 
+export const isNicknameInUse = (nickname: string, room: string) =>
+  userCollectionSession.findIndex(
+    (session) => session.nickname === nickname && session.room === room
+  ) !== -1;
+
 export const getRoomFromConnectionId = (connectionId: string) => {
   const session = userCollectionSession.find(
     (session) => session.connectionId === connectionId

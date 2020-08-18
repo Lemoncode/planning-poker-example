@@ -2,16 +2,21 @@ import * as React from 'react';
 import { PlayerComponent } from './player.component';
 import { useParams } from 'react-router-dom';
 import { createSocket } from './player.api';
-import { AuthContext } from 'core';
+import { AuthContext, SocketErrorTypes, SocketMessageTypes } from 'core';
 import SocketIOClient, { Socket } from 'socket.io';
+import { ConnectionStatus } from './player.vm';
 
 export const PlayerContainer = () => {
   const authContext = React.useContext(AuthContext);
   // TODO: type this.
   const params = useParams();
   const [room, setRoom] = React.useState('');
+  const [connected, setConnected] = React.useState<ConnectionStatus>(
+    ConnectionStatus.notConnected
+  );
 
   const handleConnect = nickname => {
+    setConnected(ConnectionStatus.ConnectionInProgress);
     authContext.setNickname(nickname);
 
     const room = params['room'];
@@ -19,7 +24,7 @@ export const PlayerContainer = () => {
     // connection maybe refused, e.g. room is not valid
     // or nickname is already in use in that room
     // TODO: fix this
-    const socket : Socket = createSocket({
+    const socket: Socket = createSocket({
       user: nickname,
       room,
       isMaster: false,
@@ -27,9 +32,28 @@ export const PlayerContainer = () => {
 
     setRoom(room);
 
-    socket.on('message', (msg, obj) => {
+    socket.on('message', msg => {
+      if (msg.type) {
+        switch (msg.type) {
+          case SocketMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
+            alert('Connection established !!!');
+            setConnected(ConnectionStatus.Connected);
+            break;
+        }
+      }
+    });
+
+    socket.on('error-app', msg => {
+      if (msg.type) {
+        switch (msg.type) {
+          case SocketErrorTypes.NICKNAME_ALREADY_IN_USE:
+            alert('Please Choose another nickname');
+            socket.disconnect();
+            setConnected(ConnectionStatus.notConnected);
+            break;
+        }
+      }
       console.log(msg);
-      console.log(obj);
     });
 
     // TODO close socket on navgiate away (use effect return)
@@ -38,7 +62,11 @@ export const PlayerContainer = () => {
   return (
     <>
       <h1>Player Container</h1>
-      <PlayerComponent room={room} onConnect={handleConnect} />
+      <PlayerComponent
+        connectionStatus={connected}
+        room={room}
+        onConnect={handleConnect}
+      />
     </>
   );
 };

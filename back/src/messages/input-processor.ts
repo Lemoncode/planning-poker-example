@@ -15,6 +15,7 @@ import {
   resetVotes,
   isRoomAvailable,
   addNewUser,
+  isNicknameInUse,
 } from '../storage';
 import { processOuputMessage } from './output-processor';
 
@@ -93,12 +94,18 @@ const handleEstablishConnectionPlayer = (
     // TODO Enque Error master
     return [{ type: OutputMessageTypes.ERROR_CANNOT_FIND_ROOM }];
   } else {
-    addNewUser(socketInfo.connectionId, { room, nickname, isMaster: false });
-    socketInfo.socket.join(room);
-    const payload: OutputConnectionEstablishedPlayer = { newUser: nickname };
-    return [
-      { type: OutputMessageTypes.CONNECTION_ESTABLISHED_PLAYER, payload },
-    ];
+    if(isNicknameInUse(nickname, room)) {
+      // TODO Enqueue Error master
+      return [{ type: OutputMessageTypes.NICKNAME_ALREADY_IN_USE }];
+    } else {
+      addNewUser(socketInfo.connectionId, { room, nickname, isMaster: false });
+      socketInfo.socket.join(room);
+      const payload: OutputConnectionEstablishedPlayer = { newUser: nickname };
+      return [
+        { type: OutputMessageTypes.CONNECTION_ESTABLISHED_PLAYER, payload },
+      ];
+    }
+
   }
 };
 

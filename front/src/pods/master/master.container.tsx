@@ -9,6 +9,7 @@ export const MasterContainer = () => {
   const params = useParams(); // TODO: Type this
   const [room, setRoom] = React.useState('');
   const [playerCollection, setPlayerCollection] = React.useState<string[]>([]);
+  const playerCollectionRef = React.useRef<string[]>([]);
 
   React.useEffect(() => {
     // TODO: Error handling
@@ -30,7 +31,11 @@ export const MasterContainer = () => {
         switch (type) {
           case SocketMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
             const nickname = payload;
-            setPlayerCollection([...playerCollection, nickname]);
+            setPlayerCollection([...playerCollectionRef.current, nickname]);
+            playerCollectionRef.current = [
+              ...playerCollectionRef.current,
+              nickname,
+            ];
             break;
         }
       }
