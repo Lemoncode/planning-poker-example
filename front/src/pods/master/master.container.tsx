@@ -10,6 +10,7 @@ import {
 import { useParams } from 'react-router-dom';
 import { MasterComponent } from './master.component';
 import { Player } from './master.vm';
+import { AddNewPlayer, userVoted } from './master.business';
 
 export const MasterContainer = () => {
   const socketContext = React.useContext(SocketContext);
@@ -33,6 +34,11 @@ export const MasterContainer = () => {
 
     setRoom(room);
 
+    const updatePlayerCollection = (newPlayerCollection: Player[]) => {
+      setPlayerCollection(newPlayerCollection);
+      playerCollectionRef.current = newPlayerCollection;
+    };
+
     socket.on(SocketOuputMessageLiteral.MESSAGE, msg => {
       console.log(msg);
       if (msg.type) {
@@ -40,28 +46,19 @@ export const MasterContainer = () => {
 
         switch (type) {
           case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
-            const nickname = payload;
-            const newPlayerCollection = [
-              ...playerCollectionRef.current,
-              { nickname, voted: false },
-            ];
-
-            setPlayerCollection(newPlayerCollection);
-            playerCollectionRef.current = newPlayerCollection;
-            break;
-          case SocketInputMessageTypes.NOTIFY_USER_VOTED:
-            const updatedPlayerList = playerCollectionRef.current.map(player =>
-              player.nickname === msg.payload
-                ? {
-                    ...player,
-                    voted: true,
-                  }
-                : player
+            const newPlayerCollection = AddNewPlayer(
+              playerCollectionRef.current,
+              payload
             );
 
-            setPlayerCollection(updatedPlayerList);
-            playerCollectionRef.current = updatedPlayerList;
-
+            updatePlayerCollection(newPlayerCollection);
+            break;
+          case SocketInputMessageTypes.NOTIFY_USER_VOTED:
+            const updatedPlayerList = userVoted(
+              playerCollectionRef.current,
+              payload
+            );
+            updatePlayerCollection(updatedPlayerList);
             break;
         }
       }
