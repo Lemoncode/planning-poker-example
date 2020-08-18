@@ -9,10 +9,11 @@ interface Props {
   room: string;
   playerCollection: Player[];
   onSetStoryTitle: (title: string) => void;
+  storyBeingVoted: boolean;
 }
 
 export const MasterComponent: React.FC<Props> = props => {
-  const { room, playerCollection, onSetStoryTitle } = props;
+  const { room, playerCollection, onSetStoryTitle, storyBeingVoted } = props;
 
   return (
     <>
@@ -24,10 +25,32 @@ export const MasterComponent: React.FC<Props> = props => {
 
       {room ? (
         <>
-          <DefineStoryComponent onSubmit={onSetStoryTitle} />
+          <CommandLine
+            onSetStoryTitle={onSetStoryTitle}
+            storyBeingVoted={storyBeingVoted}
+          />
           <PlayersConnectedComponent playerCollection={playerCollection} />
         </>
       ) : null}
+    </>
+  );
+};
+
+interface PropsCommandLine {
+  storyBeingVoted: boolean;
+  onSetStoryTitle: (title: string) => void;
+}
+
+const CommandLine: React.FC<PropsCommandLine> = props => {
+  const { storyBeingVoted, onSetStoryTitle } = props;
+
+  return (
+    <>
+      {!storyBeingVoted ? (
+        <DefineStoryComponent onSubmit={onSetStoryTitle} />
+      ) : (
+        <span>Finish Vote</span>
+      )}
     </>
   );
 };

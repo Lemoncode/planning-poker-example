@@ -19,6 +19,7 @@ export const MasterContainer = () => {
   const [room, setRoom] = React.useState('');
   const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);
   const playerCollectionRef = React.useRef<Player[]>([]);
+  const [storyBeingVoted, setStoryBeingVoted] = React.useState(false);
 
   React.useEffect(() => {
     // TODO: Error handling
@@ -73,6 +74,7 @@ export const MasterContainer = () => {
   }, []);
 
   const handleSetStoryTitle = (title: string) => {
+    setStoryBeingVoted(true);
     // TODO: Sent vía sockets
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
       type: SocketOuputMessageTypes.CREATE_STORY,
@@ -85,6 +87,7 @@ export const MasterContainer = () => {
       room={room}
       playerCollection={playerCollection}
       onSetStoryTitle={handleSetStoryTitle}
+      storyBeingVoted={storyBeingVoted}
     />
   );
 };
