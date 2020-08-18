@@ -36,3 +36,7 @@ export const ErrorCodes = {
     message: 'nickname is already in use',
   },
 };
+
+export const SocketOuputMessageLiteral = {
+  MESSAGE: 'message',
+};

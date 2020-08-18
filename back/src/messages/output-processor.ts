@@ -3,6 +3,7 @@ import {
   getMasterRoom,
   ErrorCodes,
   SocketMessageTypes,
+  SocketOuputMessageLiteral,
 } from './consts';
 import { Action, InputUserVoted, SocketInfo } from './model';
 import {
@@ -40,6 +41,7 @@ export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
     case OutputMessageTypes.USER_VOTED_ONLY_SEND_MASTER_:
       break;
     case OutputMessageTypes.NEW_STORY:
+      handleNewStory(socketInfo, action.payload);
       break;
     case OutputMessageTypes.SHOW_RESULTS:
       break;
@@ -57,7 +59,14 @@ const handleNotifyConnectionEstablishedMaster = (
   connectionId: string
 ) => {
   const response: ResponseBase = { type: responseType.CONNECTION_ACK };
-  socketInfo.socket.emit('message', response);
+  socketInfo.socket.emit(SocketOuputMessageLiteral.MESSAGE, response);
+};
+
+const handleNewStory = (socketInfo: SocketInfo, title: string) => {
+  socketInfo.io.emit(SocketOuputMessageLiteral.MESSAGE, {
+    type: responseType.NEW_STORY,
+    payload: title,
+  });
 };
 
 const handleNotifyConnectionEstablishedPlayer = (

@@ -42,6 +42,8 @@ export const processInputMessage = (
       );
       break;
     case InputMessageTypes.CREATE_STORY:
+      const storyTitle: string = action.payload;
+      outputActionCollection = handleCreateStory(socketInfo, storyTitle);
       break;
 
     case InputMessageTypes.USER_VOTED:
@@ -81,6 +83,7 @@ const handleEstablishConnectionMaster = (
   }
 };
 
+
 const handleEstablishConnectionPlayer = (
   socketInfo: SocketInfo,
   nickname: string,
@@ -94,7 +97,7 @@ const handleEstablishConnectionPlayer = (
     // TODO Enque Error master
     return [{ type: OutputMessageTypes.ERROR_CANNOT_FIND_ROOM }];
   } else {
-    if(isNicknameInUse(nickname, room)) {
+    if (isNicknameInUse(nickname, room)) {
       // TODO Enqueue Error master
       return [{ type: OutputMessageTypes.NICKNAME_ALREADY_IN_USE }];
     } else {
@@ -105,11 +108,13 @@ const handleEstablishConnectionPlayer = (
         { type: OutputMessageTypes.CONNECTION_ESTABLISHED_PLAYER, payload },
       ];
     }
-
   }
 };
 
-const handleCreateStory = (connectionId: string, value: string) => {
+
+
+const handleCreateStory = (socketInfo: SocketInfo, title: string) => {
+  const {connectionId} = socketInfo;
   // this should generate output message
   // later TODO: global flag cannot vote, to avoid having users cheating
   // Maybe processInputMessage should return a qeueu of outputMesssages
@@ -118,6 +123,10 @@ const handleCreateStory = (connectionId: string, value: string) => {
 
   if (isMaster) {
     resetVotes(room);
+    return [
+      { type: OutputMessageTypes.NEW_STORY, payload: title },
+    ];
+    // SendMessage to every body newStory
     // enque output message send to all participants new  question
   } else {
     // TODO: Log Error bug in code or somebody trying to be a naughty boy

@@ -81,36 +81,18 @@ io.on('connection', function (socket: Socket) {
   }
 
   processOutputMessageCollection(socketInfo, outputMessageCollection);
-  /*
-  // TODO: if room does not previously exists do not allow creation
-  // Extract as well this logic
-  const isMaster = socket.handshake.query.isMaster;
-  // Create room
-  socket.join(room);
 
-  if (isMaster === 'true') {
-    // Send test message to that room
-    //socket.emit('message', 'Message broadcasted');
-    io.in(room).emit('message', `Room ${room} created successfully`);
-
-    // TODO: room master refactor this later on
-    // plus add token for the master role
-    const masterChannel = `${room}.master`;
-    socket.join(masterChannel);
-    // Whenver a given non master user connects to the room we will
-    // emmit a message to the master using the room.master
-    console.log('*** Session ID from master:', socket.conn.id);
-  } else {
-    // Player
-    socket.emit('message', `io ${user}  joined`);
-    console.log('*** Session ID from client:', socket.conn.id);
-  }
-
-  // whenever we receive a 'message' we log it out
   socket.on('message', function (message: any) {
     console.log(message);
+    if (message.type) {
+      const outputMessageCollection: Action[] = processInputMessage(
+        socketInfo,
+        message
+      );
+
+      processOutputMessageCollection(socketInfo, outputMessageCollection);
+    }
   });
-  */
 });
 
 const server = http.listen(3000, function () {

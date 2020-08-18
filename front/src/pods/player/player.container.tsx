@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PlayerComponent } from './player.component';
 import { useParams } from 'react-router-dom';
 import { createSocket } from './player.api';
-import { AuthContext, SocketErrorTypes, SocketMessageTypes } from 'core';
+import { AuthContext, SocketErrorTypes, SocketInputMessageTypes } from 'core';
 import SocketIOClient, { Socket } from 'socket.io';
 import { ConnectionStatus } from './player.vm';
 
@@ -33,9 +33,10 @@ export const PlayerContainer = () => {
     setRoom(room);
 
     socket.on('message', msg => {
+      console.log(msg);
       if (msg.type) {
         switch (msg.type) {
-          case SocketMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
+          case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
             alert('Connection established !!!');
             setConnected(ConnectionStatus.Connected);
             break;

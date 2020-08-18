@@ -7,15 +7,11 @@ import { DefineStoryComponent, PlayersConnectedComponent } from './components';
 interface Props {
   room: string;
   playerCollection: string[];
+  onSetStoryTitle: (title: string) => void;
 }
 
 export const MasterComponent: React.FC<Props> = props => {
-  const { room, playerCollection } = props;
-
-  const handleSetStoryTitle = (title: string) => {
-    console.log(title);
-    // TODO: Sent vía sockets
-  };
+  const { room, playerCollection, onSetStoryTitle } = props;
 
   return (
     <>
@@ -27,7 +23,7 @@ export const MasterComponent: React.FC<Props> = props => {
 
       {room ? (
         <>
-          <DefineStoryComponent onSubmit={handleSetStoryTitle} />
+          <DefineStoryComponent onSubmit={onSetStoryTitle} />
           <PlayersConnectedComponent playerCollection={playerCollection} />
         </>
       ) : null}

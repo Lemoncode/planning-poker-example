@@ -1,5 +1,6 @@
 import * as ioClient from 'socket.io-client';
 import { baseSocketUrl } from 'core';
+import SocketIOClient, { Socket } from 'socket.io';
 
 export interface ConnectionSetup {
   user: string;
@@ -7,7 +8,7 @@ export interface ConnectionSetup {
   isMaster: boolean;
 }
 
-export const createSocket = (connectionSetup: ConnectionSetup) => {
+export const createSocket = (connectionSetup: ConnectionSetup) : Socket => {
   const { user, room, isMaster } = connectionSetup;
   const socketParams = {
     url: baseSocketUrl,
