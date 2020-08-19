@@ -22,6 +22,7 @@ export const MasterContainer = () => {
   const [masterStatus, SetMasterStatus] = React.useState<MasterStatus>(
     MasterStatus.INITIALIZING
   );
+  const [masterVoted, setMasterVoted] = React.useState(false);
 
   React.useEffect(() => {
     // TODO: Error handling
@@ -77,6 +78,7 @@ export const MasterContainer = () => {
   }, []);
 
   const handleSetStoryTitle = (title: string) => {
+    setMasterVoted(false);
     SetMasterStatus(MasterStatus.VOTING_IN_PROGRESS);
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
       type: SocketOuputMessageTypes.CREATE_STORY,
@@ -85,7 +87,7 @@ export const MasterContainer = () => {
   };
 
   const handleMasterVoteChosen = (vote: string) => {
-    //SetplayerStatus(PlayerStatus.VOTING_CLOSED);
+    setMasterVoted(true);
 
     // Send messsage to server informing about the vote
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
@@ -116,6 +118,7 @@ export const MasterContainer = () => {
       onFinishVoting={handleFinishVoting}
       onMoveToNextStory={handleMoveToNextStory}
       onMasterVoteChosen={handleMasterVoteChosen}
+      masterVoted={masterVoted}
     />
   );
 };

@@ -18,6 +18,7 @@ interface Props {
   onFinishVoting: () => void;
   onMoveToNextStory: () => void;
   onMasterVoteChosen: (vote :string) => void;
+  masterVoted : boolean;
 }
 
 export const MasterComponent: React.FC<Props> = props => {
@@ -28,7 +29,8 @@ export const MasterComponent: React.FC<Props> = props => {
     masterStatus,
     onFinishVoting,
     onMoveToNextStory,
-    onMasterVoteChosen
+    onMasterVoteChosen,
+    masterVoted
   } = props;
 
   function showComponentBasedOnMasterStatus(status: MasterStatus) {
@@ -38,7 +40,7 @@ export const MasterComponent: React.FC<Props> = props => {
       case MasterStatus.CREATING_STORY:
         return <DefineStoryComponent onSubmit={onSetStoryTitle} />;
       case MasterStatus.VOTING_IN_PROGRESS:
-        return <VotingInProgress onFinishVoting={onFinishVoting} onMasterVoteChosen={onMasterVoteChosen} />;
+        return <VotingInProgress masterVoted={masterVoted} onFinishVoting={onFinishVoting} onMasterVoteChosen={onMasterVoteChosen} />;
       case MasterStatus.SHOWING_RESULTS:
         return <ShowVotingResults onMoveToNextStory={onMoveToNextStory}/>;
       default:
