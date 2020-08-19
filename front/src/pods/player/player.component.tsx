@@ -6,9 +6,10 @@ import { PlayerStatus, VoteResult } from './player.vm';
 import {
   ConnectComponent,
   WaitComponent,
-  VoteOptionsComponent,
   ShowVotingResults,
 } from './components';
+
+import { VoteOptionsComponent } from 'common-app/components';
 
 interface Props {
   room: string;
@@ -45,7 +46,7 @@ export const PlayerComponent: React.FC<Props> = props => {
       case PlayerStatus.WAITING_FOR_STORY:
         return <WaitComponent />;
       case PlayerStatus.VOTING_IN_PROGRESS:
-        return <VoteOptionsComponent vote={vote} onVoteChosen={onVoteChosen} />;
+        return <VoteOptionsComponent onVoteChosen={onVoteChosen} />;
       case PlayerStatus.VOTING_CLOSED:
         return <span>You voted: {vote} wait for next story</span>;
       case PlayerStatus.SHOW_RESULTS:

@@ -84,6 +84,16 @@ export const MasterContainer = () => {
     });
   };
 
+  const handleMasterVoteChosen = (vote: string) => {
+    //SetplayerStatus(PlayerStatus.VOTING_CLOSED);
+
+    // Send messsage to server informing about the vote
+    socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
+      type: SocketOuputMessageTypes.USER_VOTED,
+      payload: vote,
+    });
+  };
+
   const handleFinishVoting = () => {
     console.log('finished voting...');
     SetMasterStatus(MasterStatus.SHOWING_RESULTS);
@@ -105,6 +115,7 @@ export const MasterContainer = () => {
       masterStatus={masterStatus}
       onFinishVoting={handleFinishVoting}
       onMoveToNextStory={handleMoveToNextStory}
+      onMasterVoteChosen={handleMasterVoteChosen}
     />
   );
 };

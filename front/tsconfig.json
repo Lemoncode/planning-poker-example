@@ -17,7 +17,8 @@
       "layout": ["layout"],
       "core": ["core"],
       "scenes": ["scenes"],
-      "pods": ["pods"]
+      "pods": ["pods"],
+      "common-app": ["common-app"]
     }
   },
   "include": ["./src/**/*", "./config/test/setup.ts", "./global.types.d.ts"]

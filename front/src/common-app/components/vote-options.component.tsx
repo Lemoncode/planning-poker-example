@@ -3,12 +3,11 @@ import Button from '@material-ui/core/Button';
 import { TShirtVotes } from 'core';
 
 interface Props {
-  vote: string;
   onVoteChosen: (vote: string) => void;
 }
 
 export const VoteOptionsComponent : React.FC<Props> = props => {
-  const { vote, onVoteChosen } = props;
+  const { onVoteChosen } = props;
 
   return (
     <>
