@@ -19,6 +19,7 @@ interface Props {
   onVoteChosen: (vote: string) => void;
   playerStatus: PlayerStatus;
   voteCollectionResult: VoteResult[];
+  title: string;
 }
 
 export const PlayerComponent: React.FC<Props> = props => {
@@ -30,6 +31,7 @@ export const PlayerComponent: React.FC<Props> = props => {
     onVoteChosen,
     playerStatus,
     voteCollectionResult,
+    title,
   } = props;
   const [nickname, setNickname] = React.useState('Buba');
 
@@ -46,7 +48,9 @@ export const PlayerComponent: React.FC<Props> = props => {
       case PlayerStatus.WAITING_FOR_STORY:
         return <WaitComponent />;
       case PlayerStatus.VOTING_IN_PROGRESS:
-        return <VoteOptionsComponent onVoteChosen={onVoteChosen} />;
+        return (
+          <VoteOptionsComponent onVoteChosen={onVoteChosen} title={title} />
+        );
       case PlayerStatus.VOTING_CLOSED:
         return <span>You voted: {vote} wait for next story</span>;
       case PlayerStatus.SHOW_RESULTS:

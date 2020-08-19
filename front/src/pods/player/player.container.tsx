@@ -23,7 +23,9 @@ export const PlayerContainer = () => {
 
   const [story, setStory] = React.useState('');
   const [vote, setVote] = React.useState('');
-  const [voteCollectionResult, setVoteCollectionresult] = React.useState<VoteResult[]>([]);
+  const [voteCollectionResult, setVoteCollectionresult] = React.useState<
+    VoteResult[]
+  >([]);
   const [playerStatus, SetplayerStatus] = React.useState<PlayerStatus>(
     PlayerStatus.NOT_CONNECTED
   );
@@ -106,6 +108,7 @@ export const PlayerContainer = () => {
         vote={vote}
         onVoteChosen={handleVoteChosen}
         voteCollectionResult={voteCollectionResult}
+        title={story}
       />
     </>
   );

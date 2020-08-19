@@ -6,15 +6,19 @@ interface Props {
   onFinishVoting: () => void;
   onMasterVoteChosen: (vote: string) => void;
   masterVoted: boolean;
+  title: string;
 }
 
 export const VotingInProgress: React.FC<Props> = (props: Props) => {
-  const { onFinishVoting, onMasterVoteChosen, masterVoted } = props;
+  const { onFinishVoting, onMasterVoteChosen, masterVoted, title } = props;
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div>
         {!masterVoted ? (
-          <VoteOptionsComponent onVoteChosen={onMasterVoteChosen} />
+          <VoteOptionsComponent
+            onVoteChosen={onMasterVoteChosen}
+            title={title}
+          />
         ) : (
           <span>You voted</span>
         )}

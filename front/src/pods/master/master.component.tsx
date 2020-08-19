@@ -21,6 +21,7 @@ interface Props {
   onMasterVoteChosen: (vote: string) => void;
   masterVoted: boolean;
   voteCollectionResult: VoteResult[];
+  title: string;
 }
 
 export const MasterComponent: React.FC<Props> = props => {
@@ -34,6 +35,7 @@ export const MasterComponent: React.FC<Props> = props => {
     onMasterVoteChosen,
     masterVoted,
     voteCollectionResult,
+    title,
   } = props;
 
   function showComponentBasedOnMasterStatus(status: MasterStatus) {
@@ -48,6 +50,7 @@ export const MasterComponent: React.FC<Props> = props => {
             masterVoted={masterVoted}
             onFinishVoting={onFinishVoting}
             onMasterVoteChosen={onMasterVoteChosen}
+            title={title}
           />
         );
       case MasterStatus.SHOWING_RESULTS:
