@@ -17,6 +17,7 @@ export const CreateSessionContainer: React.FunctionComponent = () => {
 
       history.push(routes.master(room));
     } catch (e) {
+      // TODO: Add proper error control
       console.log('captured error: ', e);
     }
   };

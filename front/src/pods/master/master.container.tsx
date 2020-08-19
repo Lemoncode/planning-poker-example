@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createSocket } from './master.api';
+import { createSocket } from 'core';
 import {
   AuthContext,
   SocketContext,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { PlayerComponent } from './player.component';
 import { useParams } from 'react-router-dom';
-import { createSocket } from './player.api';
+import { createSocket } from 'core';
 import {
   AuthContext,
   SocketErrorTypes,

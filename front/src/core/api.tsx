@@ -8,7 +8,7 @@ export interface ConnectionSetup {
   isMaster: boolean;
 }
 
-export const createSocket = (connectionSetup: ConnectionSetup) : Socket => {
+export const createSocket = (connectionSetup: ConnectionSetup): Socket => {
   const { user, room, isMaster } = connectionSetup;
   const socketParams = {
     url: baseSocketUrl,
