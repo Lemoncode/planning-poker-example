@@ -17,6 +17,7 @@ import {
   addNewUser,
   isNicknameInUse,
   getNicknameFromConnectionId,
+  getVotesFromRoom,
 } from '../storage';
 import { processOuputMessage } from './output-processor';
 
@@ -56,6 +57,12 @@ export const processInputMessage = (
       break;
 
     case InputMessageTypes.END_VOTE_TIME:
+      const room = getRoomFromConnectionId(socketInfo.connectionId);
+      const votesCollection = getVotesFromRoom(room);
+      resetVotes(room);
+      outputActionCollection = [
+        { type: OutputMessageTypes.SHOW_RESULTS, payload: votesCollection },
+      ];
       break;
   }
 

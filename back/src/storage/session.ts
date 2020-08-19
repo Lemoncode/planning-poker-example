@@ -9,7 +9,6 @@ interface ConnectSessionInfo {
 
 interface UserSession extends ConnectSessionInfo {
   connectionId: string;
-  nickname: string;
   hasVoted: boolean;
   vote: string;
 }
@@ -84,6 +83,16 @@ export const vote = (connectionId: string, value: string) =>
         }
       : session
   );
+
+export const getVotesFromRoom = (room: string) => {
+  const filteredUserCollection = userCollectionSession.filter(
+    (s) => s.room === room
+  );
+  return filteredUserCollection.map(({ nickname, vote }) => ({
+    nickname,
+    vote,
+  }));
+};
 
 export const freeRoom = (room: string) => {
   userCollectionSession = userCollectionSession.filter(

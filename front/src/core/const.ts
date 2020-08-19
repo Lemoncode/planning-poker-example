@@ -9,7 +9,7 @@ export const SocketInputMessageTypes = {
   CONNECTION_ESTABLISHED_PLAYER: 'CONNECTION_ESTABLISHED_PLAYER',
   NEW_STORY: 'NEW_STORY',
   NOTIFY_USER_VOTED: 'NOTIFY_USER_VOTED',
-  SHOW_VOTING_RESULTS: 'SHOW_VOTING_RESULTS'
+  SHOW_VOTING_RESULTS: 'SHOW_VOTING_RESULTS',
 };
 
 export const SocketErrorTypes = {
@@ -24,6 +24,7 @@ export const SocketOuputMessageLiteral = {
 export const SocketOuputMessageTypes = {
   CREATE_STORY: 'CREATE_STORY', // Master creates a user story
   USER_VOTED: 'USER_VOTED', // A given player has emited his vote
+  END_VOTE_TIME: 'END_VOTE_TIME',
 };
 
 export const TShirtVotes = {
@@ -34,4 +35,3 @@ export const TShirtVotes = {
   S: 'S',
   XS: 'XS',
 };
-

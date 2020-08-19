@@ -78,7 +78,6 @@ export const MasterContainer = () => {
 
   const handleSetStoryTitle = (title: string) => {
     SetMasterStatus(MasterStatus.VOTING_IN_PROGRESS);
-    // TODO: Sent vía sockets
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
       type: SocketOuputMessageTypes.CREATE_STORY,
       payload: title,
@@ -87,6 +86,10 @@ export const MasterContainer = () => {
 
   const handleFinishVoting = () => {
     console.log('finished voting...')
+    socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
+      type: SocketOuputMessageTypes.END_VOTE_TIME,
+      payload: null,
+    });
   }
 
   return (

@@ -45,6 +45,7 @@ export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
       handleNewStory(socketInfo, action.payload);
       break;
     case OutputMessageTypes.SHOW_RESULTS:
+      handleShowResults(socketInfo, action.payload);
       break;
     case OutputMessageTypes.ERROR_ROOM_BUSY:
       handleErrorRoomIsBusy(socketInfo, connectionId);
@@ -53,6 +54,13 @@ export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
       handleNickNameAlreadyInUse(socketInfo, connectionId);
       break;
   }
+};
+
+const handleShowResults = (socketInfo: SocketInfo, votesCollection: any[]) => {
+  socketInfo.io.emit(SocketOuputMessageLiteral.MESSAGE, {
+    type: responseType.SHOW_VOTING_RESULTS,
+    payload: votesCollection,
+  });
 };
 
 const handleUserVotedOnlySendMaster = (
