@@ -20,8 +20,12 @@ export const processOutputMessageCollection = (
   socketInfo: SocketInfo,
   actionCollection: Action[]
 ) => {
-  // TODO: Error handling
-  actionCollection.forEach((action) => processOuputMessage(socketInfo, action));
+  if (actionCollection) {
+    // TODO: Error handling
+    actionCollection.forEach((action) =>
+      processOuputMessage(socketInfo, action)
+    );
+  }
 };
 
 export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {

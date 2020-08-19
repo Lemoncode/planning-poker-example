@@ -6,6 +6,7 @@ import {
   DefineStoryComponent,
   PlayersConnectedComponent,
   VotingInProgress,
+  ShowVotingResults
 } from './components';
 import { Player, MasterStatus } from './master.vm';
 
@@ -15,6 +16,7 @@ interface Props {
   onSetStoryTitle: (title: string) => void;
   masterStatus: MasterStatus;
   onFinishVoting: () => void;
+  onMoveToNextStory: () => void;
 }
 
 export const MasterComponent: React.FC<Props> = props => {
@@ -24,6 +26,7 @@ export const MasterComponent: React.FC<Props> = props => {
     onSetStoryTitle,
     masterStatus,
     onFinishVoting,
+    onMoveToNextStory
   } = props;
 
   function showComponentBasedOnMasterStatus(status: MasterStatus) {
@@ -35,7 +38,7 @@ export const MasterComponent: React.FC<Props> = props => {
       case MasterStatus.VOTING_IN_PROGRESS:
         return <VotingInProgress onFinishVoting={onFinishVoting} />;
       case MasterStatus.SHOWING_RESULTS:
-        return null;
+        return <ShowVotingResults onMoveToNextStory={onMoveToNextStory}/>;
       default:
         return null;
     }

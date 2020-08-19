@@ -85,12 +85,17 @@ export const MasterContainer = () => {
   };
 
   const handleFinishVoting = () => {
-    console.log('finished voting...')
+    console.log('finished voting...');
+    SetMasterStatus(MasterStatus.SHOWING_RESULTS);
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
       type: SocketOuputMessageTypes.END_VOTE_TIME,
       payload: null,
     });
-  }
+  };
+
+  const handleMoveToNextStory = () => {
+    SetMasterStatus(MasterStatus.CREATING_STORY);
+  };
 
   return (
     <MasterComponent
@@ -99,6 +104,7 @@ export const MasterContainer = () => {
       onSetStoryTitle={handleSetStoryTitle}
       masterStatus={masterStatus}
       onFinishVoting={handleFinishVoting}
+      onMoveToNextStory={handleMoveToNextStory}
     />
   );
 };
