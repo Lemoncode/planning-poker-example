@@ -28,9 +28,6 @@ export interface InputCreateStoryPayload {
   content: string;
 }
 
-export interface InputUserVoted {
-  vote: string;
-}
 
 export interface OutputUserJoined {
   name: string;

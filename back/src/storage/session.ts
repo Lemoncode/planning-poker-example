@@ -73,8 +73,8 @@ export const resetVotes = (room: string) => {
   );
 };
 
-export const vote = (connectionId: string, value: string) =>
-  userCollectionSession.map((session) =>
+export const vote = (connectionId: string, value: string) => {
+  userCollectionSession = userCollectionSession.map((session) =>
     session.connectionId === connectionId
       ? {
           ...session,
@@ -83,6 +83,7 @@ export const vote = (connectionId: string, value: string) =>
         }
       : session
   );
+};
 
 export const getVotesFromRoom = (room: string) => {
   const filteredUserCollection = userCollectionSession.filter(

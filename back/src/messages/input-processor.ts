@@ -49,11 +49,8 @@ export const processInputMessage = (
       break;
 
     case InputMessageTypes.USER_VOTED:
-      const payload: InputUserVoted = action.payload;
-      outputActionCollection = handleVote(
-        socketInfo.connectionId,
-        payload.vote
-      );
+      const vote: string = action.payload;
+      outputActionCollection = handleVote(socketInfo.connectionId, vote);
       break;
 
     case InputMessageTypes.END_VOTE_TIME:
