@@ -20,9 +20,7 @@ export const PlayerContainer = () => {
   // TODO: type this.
   const params = useParams();
   const [room, setRoom] = React.useState('');
-  /*const [connected, setConnected] = React.useState<ConnectionStatus>(
-    ConnectionStatus.notConnected
-  );*/
+
   const [story, setStory] = React.useState('');
   const [vote, setVote] = React.useState('');
   const [playerStatus, SetplayerStatus] = React.useState<PlayerStatus>(

@@ -9,7 +9,7 @@ import {
 } from 'core';
 import { useParams } from 'react-router-dom';
 import { MasterComponent } from './master.component';
-import { Player } from './master.vm';
+import { Player, MasterStatus } from './master.vm';
 import { AddNewPlayer, userVoted } from './master.business';
 
 export const MasterContainer = () => {
@@ -19,7 +19,9 @@ export const MasterContainer = () => {
   const [room, setRoom] = React.useState('');
   const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);
   const playerCollectionRef = React.useRef<Player[]>([]);
-  const [storyBeingVoted, setStoryBeingVoted] = React.useState(false);
+  const [masterStatus, SetMasterStatus] = React.useState<MasterStatus>(
+    MasterStatus.INITIALIZING
+  );
 
   React.useEffect(() => {
     // TODO: Error handling
@@ -34,6 +36,7 @@ export const MasterContainer = () => {
     socketContext.setSocket(socket);
 
     setRoom(room);
+    SetMasterStatus(MasterStatus.CREATING_STORY);
 
     const updatePlayerCollection = (newPlayerCollection: Player[]) => {
       setPlayerCollection(newPlayerCollection);
@@ -74,7 +77,7 @@ export const MasterContainer = () => {
   }, []);
 
   const handleSetStoryTitle = (title: string) => {
-    setStoryBeingVoted(true);
+    SetMasterStatus(MasterStatus.VOTING_IN_PROGRESS);
     // TODO: Sent vía sockets
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
       type: SocketOuputMessageTypes.CREATE_STORY,
@@ -87,7 +90,7 @@ export const MasterContainer = () => {
       room={room}
       playerCollection={playerCollection}
       onSetStoryTitle={handleSetStoryTitle}
-      storyBeingVoted={storyBeingVoted}
+      masterStatus={masterStatus}
     />
   );
 };
