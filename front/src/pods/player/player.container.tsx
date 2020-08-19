@@ -11,7 +11,7 @@ import {
   SocketOuputMessageTypes,
 } from 'core';
 import SocketIOClient, { Socket } from 'socket.io';
-import { ConnectionStatus, PlayerStatus } from './player.vm';
+import { ConnectionStatus, PlayerStatus, VoteResult } from './player.vm';
 
 export const PlayerContainer = () => {
   const authContext = React.useContext(AuthContext);
@@ -23,6 +23,7 @@ export const PlayerContainer = () => {
 
   const [story, setStory] = React.useState('');
   const [vote, setVote] = React.useState('');
+  const [voteCollectionResult, setVoteCollectionresult] = React.useState<VoteResult[]>([]);
   const [playerStatus, SetplayerStatus] = React.useState<PlayerStatus>(
     PlayerStatus.NOT_CONNECTED
   );
@@ -60,6 +61,7 @@ export const PlayerContainer = () => {
             SetplayerStatus(PlayerStatus.VOTING_IN_PROGRESS);
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
+            setVoteCollectionresult(msg.payload);
             SetplayerStatus(PlayerStatus.SHOW_RESULTS);
             break;
         }
@@ -103,6 +105,7 @@ export const PlayerContainer = () => {
         story={story}
         vote={vote}
         onVoteChosen={handleVoteChosen}
+        voteCollectionResult={voteCollectionResult}
       />
     </>
   );

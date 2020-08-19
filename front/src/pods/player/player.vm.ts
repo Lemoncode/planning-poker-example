@@ -13,3 +13,8 @@ export enum PlayerStatus {
   VOTING_CLOSED,
   SHOW_RESULTS,
 }
+
+export interface VoteResult {
+ nickname: string;
+ vote: string;
+}
