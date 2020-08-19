@@ -28,6 +28,11 @@ export const MasterContainer = () => {
   const [masterVoted, setMasterVoted] = React.useState(false);
   const [storyTitle, setStoryTitle] = React.useState('');
 
+  const updatePlayerCollection = (newPlayerCollection: Player[]) => {
+    setPlayerCollection(newPlayerCollection);
+    playerCollectionRef.current = newPlayerCollection;
+  };
+
   React.useEffect(() => {
     // TODO: Error handling
     // Connect to the socket
@@ -42,11 +47,6 @@ export const MasterContainer = () => {
 
     setRoom(room);
     SetMasterStatus(MasterStatus.CREATING_STORY);
-
-    const updatePlayerCollection = (newPlayerCollection: Player[]) => {
-      setPlayerCollection(newPlayerCollection);
-      playerCollectionRef.current = newPlayerCollection;
-    };
 
     socket.on(SocketOuputMessageLiteral.MESSAGE, msg => {
       console.log(msg);
@@ -114,7 +114,19 @@ export const MasterContainer = () => {
   };
 
   const handleMoveToNextStory = () => {
+    // Reset values, extract this, to business or hook
     setStoryTitle('');
+    const wipedVoteCollection = voteCollectionResult.map(item => ({
+      ...item,
+      vote: '',
+    }));
+    setVoteCollectionresult(wipedVoteCollection);
+
+    const wipedVotedPlayerCollection = playerCollectionRef.current.map(
+      item => ({ ...item, voted: false })
+    );
+    updatePlayerCollection(wipedVotedPlayerCollection);
+
     SetMasterStatus(MasterStatus.CREATING_STORY);
   };
 
