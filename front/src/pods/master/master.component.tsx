@@ -6,9 +6,10 @@ import {
   DefineStoryComponent,
   PlayersConnectedComponent,
   VotingInProgress,
-  ShowVotingResults
+  ShowVotingResults,
 } from './components';
-import { Player, MasterStatus } from './master.vm';
+import { Player, MasterStatus, VoteResult } from './master.vm';
+import { VoteOptionsComponent } from 'common-app/components';
 
 interface Props {
   room: string;
@@ -17,8 +18,9 @@ interface Props {
   masterStatus: MasterStatus;
   onFinishVoting: () => void;
   onMoveToNextStory: () => void;
-  onMasterVoteChosen: (vote :string) => void;
-  masterVoted : boolean;
+  onMasterVoteChosen: (vote: string) => void;
+  masterVoted: boolean;
+  voteCollectionResult: VoteResult[];
 }
 
 export const MasterComponent: React.FC<Props> = props => {
@@ -30,7 +32,8 @@ export const MasterComponent: React.FC<Props> = props => {
     onFinishVoting,
     onMoveToNextStory,
     onMasterVoteChosen,
-    masterVoted
+    masterVoted,
+    voteCollectionResult,
   } = props;
 
   function showComponentBasedOnMasterStatus(status: MasterStatus) {
@@ -40,9 +43,20 @@ export const MasterComponent: React.FC<Props> = props => {
       case MasterStatus.CREATING_STORY:
         return <DefineStoryComponent onSubmit={onSetStoryTitle} />;
       case MasterStatus.VOTING_IN_PROGRESS:
-        return <VotingInProgress masterVoted={masterVoted} onFinishVoting={onFinishVoting} onMasterVoteChosen={onMasterVoteChosen} />;
+        return (
+          <VotingInProgress
+            masterVoted={masterVoted}
+            onFinishVoting={onFinishVoting}
+            onMasterVoteChosen={onMasterVoteChosen}
+          />
+        );
       case MasterStatus.SHOWING_RESULTS:
-        return <ShowVotingResults onMoveToNextStory={onMoveToNextStory}/>;
+        return (
+          <ShowVotingResults
+            onMoveToNextStory={onMoveToNextStory}
+            voteCollectionResult={voteCollectionResult}
+          />
+        );
       default:
         return null;
     }

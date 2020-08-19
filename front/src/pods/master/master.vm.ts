@@ -9,3 +9,8 @@ export enum MasterStatus {
   VOTING_IN_PROGRESS,
   SHOWING_RESULTS,
 }
+
+export interface VoteResult {
+  nickname: string;
+  vote: string;
+ }

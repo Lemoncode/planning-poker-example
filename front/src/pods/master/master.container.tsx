@@ -9,7 +9,7 @@ import {
 } from 'core';
 import { useParams } from 'react-router-dom';
 import { MasterComponent } from './master.component';
-import { Player, MasterStatus } from './master.vm';
+import { Player, MasterStatus, VoteResult } from './master.vm';
 import { AddNewPlayer, userVoted } from './master.business';
 
 export const MasterContainer = () => {
@@ -19,6 +19,9 @@ export const MasterContainer = () => {
   const [room, setRoom] = React.useState('');
   const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);
   const playerCollectionRef = React.useRef<Player[]>([]);
+  const [voteCollectionResult, setVoteCollectionresult] = React.useState<
+    VoteResult[]
+  >([]);
   const [masterStatus, SetMasterStatus] = React.useState<MasterStatus>(
     MasterStatus.INITIALIZING
   );
@@ -64,6 +67,9 @@ export const MasterContainer = () => {
               payload
             );
             updatePlayerCollection(updatedPlayerList);
+            break;
+          case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
+            setVoteCollectionresult(msg.payload);
             break;
         }
       }
@@ -119,6 +125,7 @@ export const MasterContainer = () => {
       onMoveToNextStory={handleMoveToNextStory}
       onMasterVoteChosen={handleMasterVoteChosen}
       masterVoted={masterVoted}
+      voteCollectionResult={voteCollectionResult}
     />
   );
 };
