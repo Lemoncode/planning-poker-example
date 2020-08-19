@@ -12,13 +12,35 @@ import { MasterComponent } from './master.component';
 import { Player, MasterStatus, VoteResult } from './master.vm';
 import { AddNewPlayer, userVoted } from './master.business';
 
+const usePlayerCollection = () => {
+  const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);
+  const playerCollectionRef = React.useRef<Player[]>([]);
+
+  const updatePlayerCollection = (newPlayerCollection: Player[]) => {
+    setPlayerCollection(newPlayerCollection);
+    playerCollectionRef.current = newPlayerCollection;
+  };
+
+  const resetVotedFlagOnEveryPlayer = () => {
+    const wipedVotedPlayerCollection = playerCollectionRef.current.map(
+      item => ({ ...item, voted: false })
+    );
+    updatePlayerCollection(wipedVotedPlayerCollection);
+  };
+
+  return {
+    playerCollection,
+    playerCollectionRef,
+    updatePlayerCollection,
+    resetVotedFlagOnEveryPlayer,
+  };
+};
+
 export const MasterContainer = () => {
   const socketContext = React.useContext(SocketContext);
   const authContext = React.useContext(AuthContext);
   const params = useParams(); // TODO: Type this
   const [room, setRoom] = React.useState('');
-  const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);
-  const playerCollectionRef = React.useRef<Player[]>([]);
   const [voteCollectionResult, setVoteCollectionresult] = React.useState<
     VoteResult[]
   >([]);
@@ -27,11 +49,12 @@ export const MasterContainer = () => {
   );
   const [masterVoted, setMasterVoted] = React.useState(false);
   const [storyTitle, setStoryTitle] = React.useState('');
-
-  const updatePlayerCollection = (newPlayerCollection: Player[]) => {
-    setPlayerCollection(newPlayerCollection);
-    playerCollectionRef.current = newPlayerCollection;
-  };
+  const {
+    playerCollection,
+    playerCollectionRef,
+    updatePlayerCollection,
+    resetVotedFlagOnEveryPlayer,
+  } = usePlayerCollection();
 
   React.useEffect(() => {
     // TODO: Error handling
@@ -122,10 +145,7 @@ export const MasterContainer = () => {
     }));
     setVoteCollectionresult(wipedVoteCollection);
 
-    const wipedVotedPlayerCollection = playerCollectionRef.current.map(
-      item => ({ ...item, voted: false })
-    );
-    updatePlayerCollection(wipedVotedPlayerCollection);
+    resetVotedFlagOnEveryPlayer();
 
     SetMasterStatus(MasterStatus.CREATING_STORY);
   };
