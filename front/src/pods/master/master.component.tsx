@@ -2,7 +2,11 @@ import * as React from 'react';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { appBaseUrl } from 'core';
-import { DefineStoryComponent, PlayersConnectedComponent } from './components';
+import {
+  DefineStoryComponent,
+  PlayersConnectedComponent,
+  VotingInProgress,
+} from './components';
 import { Player, MasterStatus } from './master.vm';
 
 interface Props {
@@ -10,10 +14,17 @@ interface Props {
   playerCollection: Player[];
   onSetStoryTitle: (title: string) => void;
   masterStatus: MasterStatus;
+  onFinishVoting: () => void;
 }
 
 export const MasterComponent: React.FC<Props> = props => {
-  const { room, playerCollection, onSetStoryTitle, masterStatus } = props;
+  const {
+    room,
+    playerCollection,
+    onSetStoryTitle,
+    masterStatus,
+    onFinishVoting,
+  } = props;
 
   function showComponentBasedOnMasterStatus(status: MasterStatus) {
     switch (status) {
@@ -22,7 +33,7 @@ export const MasterComponent: React.FC<Props> = props => {
       case MasterStatus.CREATING_STORY:
         return <DefineStoryComponent onSubmit={onSetStoryTitle} />;
       case MasterStatus.VOTING_IN_PROGRESS:
-        return <span>Finish Vote</span>;
+        return <VotingInProgress onFinishVoting={onFinishVoting} />;
       case MasterStatus.SHOWING_RESULTS:
         return null;
       default:
@@ -45,8 +56,3 @@ export const MasterComponent: React.FC<Props> = props => {
     </>
   );
 };
-
-interface PropsCommandLine {
-  storyBeingVoted: boolean;
-  onSetStoryTitle: (title: string) => void;
-}

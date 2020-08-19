@@ -24,7 +24,7 @@ export const CreateSessionComponent: React.FunctionComponent<Props> = props => {
         color="primary"
         onClick={e => onCreateSession(nickname)}
       >
-        Crear nueva sesión
+        Create new session
       </Button>
     </>
   );

@@ -85,12 +85,17 @@ export const MasterContainer = () => {
     });
   };
 
+  const handleFinishVoting = () => {
+    console.log('finished voting...')
+  }
+
   return (
     <MasterComponent
       room={room}
       playerCollection={playerCollection}
       onSetStoryTitle={handleSetStoryTitle}
       masterStatus={masterStatus}
+      onFinishVoting={handleFinishVoting}
     />
   );
 };
