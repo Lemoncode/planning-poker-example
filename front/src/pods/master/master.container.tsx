@@ -36,14 +36,36 @@ const usePlayerCollection = () => {
   };
 };
 
+const useVoteCollectionResult = () => {
+  const [voteCollectionResult, setVoteCollectionResult] = React.useState<
+    VoteResult[]
+  >([]);
+
+  const resetValueOnVoteCollection = () => {
+    const wipedVoteCollection = voteCollectionResult.map(item => ({
+      ...item,
+      vote: '',
+    }));
+    setVoteCollectionResult(wipedVoteCollection);
+  };
+
+  return {
+    voteCollectionResult,
+    setVoteCollectionResult,
+    resetValueOnVoteCollection,
+  };
+};
+
 export const MasterContainer = () => {
   const socketContext = React.useContext(SocketContext);
   const authContext = React.useContext(AuthContext);
   const params = useParams(); // TODO: Type this
   const [room, setRoom] = React.useState('');
-  const [voteCollectionResult, setVoteCollectionresult] = React.useState<
-    VoteResult[]
-  >([]);
+  const {
+    voteCollectionResult,
+    setVoteCollectionResult,
+    resetValueOnVoteCollection,
+  } = useVoteCollectionResult();
   const [masterStatus, SetMasterStatus] = React.useState<MasterStatus>(
     MasterStatus.INITIALIZING
   );
@@ -93,7 +115,7 @@ export const MasterContainer = () => {
             updatePlayerCollection(updatedPlayerList);
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
-            setVoteCollectionresult(msg.payload);
+            setVoteCollectionResult(msg.payload);
             break;
         }
       }
@@ -139,12 +161,7 @@ export const MasterContainer = () => {
   const handleMoveToNextStory = () => {
     // Reset values, extract this, to business or hook
     setStoryTitle('');
-    const wipedVoteCollection = voteCollectionResult.map(item => ({
-      ...item,
-      vote: '',
-    }));
-    setVoteCollectionresult(wipedVoteCollection);
-
+    resetValueOnVoteCollection();
     resetVotedFlagOnEveryPlayer();
 
     SetMasterStatus(MasterStatus.CREATING_STORY);
