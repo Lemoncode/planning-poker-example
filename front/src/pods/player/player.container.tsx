@@ -11,7 +11,7 @@ import {
   SocketOuputMessageTypes,
 } from 'core';
 import SocketIOClient, { Socket } from 'socket.io';
-import { ConnectionStatus } from './player.vm';
+import { ConnectionStatus, PlayerStatus } from './player.vm';
 
 export const PlayerContainer = () => {
   const authContext = React.useContext(AuthContext);
@@ -20,14 +20,17 @@ export const PlayerContainer = () => {
   // TODO: type this.
   const params = useParams();
   const [room, setRoom] = React.useState('');
-  const [connected, setConnected] = React.useState<ConnectionStatus>(
+  /*const [connected, setConnected] = React.useState<ConnectionStatus>(
     ConnectionStatus.notConnected
-  );
+  );*/
   const [story, setStory] = React.useState('');
   const [vote, setVote] = React.useState('');
+  const [playerStatus, SetplayerStatus] = React.useState<PlayerStatus>(
+    PlayerStatus.NOT_CONNECTED
+  );
 
   const handleConnect = nickname => {
-    setConnected(ConnectionStatus.ConnectionInProgress);
+    SetplayerStatus(PlayerStatus.CONNECTION_IN_PROGRESS);
     authContext.setNickname(nickname);
 
     const room = params['room'];
@@ -50,12 +53,16 @@ export const PlayerContainer = () => {
       if (msg.type) {
         switch (msg.type) {
           case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
-            alert('Connection established !!!');
-            setConnected(ConnectionStatus.Connected);
+            //alert('Connection established !!!');
+            SetplayerStatus(PlayerStatus.WAITING_FOR_STORY);
             break;
           case SocketInputMessageTypes.NEW_STORY:
-            alert('new Story !!');
+            //alert('new Story !!');
             setStory(msg.payload);
+            SetplayerStatus(PlayerStatus.VOTING_IN_PROGRESS);
+            break;
+          case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
+            SetplayerStatus(PlayerStatus.SHOW_RESULTS);
             break;
         }
       }
@@ -67,7 +74,7 @@ export const PlayerContainer = () => {
           case SocketErrorTypes.NICKNAME_ALREADY_IN_USE:
             alert('Please Choose another nickname');
             socket.disconnect();
-            setConnected(ConnectionStatus.notConnected);
+            SetplayerStatus(PlayerStatus.NOT_CONNECTED);
             break;
         }
       }
@@ -79,6 +86,7 @@ export const PlayerContainer = () => {
 
   const handleVoteChosen = (vote: string) => {
     setVote(vote);
+    SetplayerStatus(PlayerStatus.VOTING_CLOSED);
 
     // Send messsage to server informing about the vote
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
@@ -91,7 +99,7 @@ export const PlayerContainer = () => {
     <>
       <h1>Player Container</h1>
       <PlayerComponent
-        connectionStatus={connected}
+        playerStatus={playerStatus}
         room={room}
         onConnect={handleConnect}
         story={story}

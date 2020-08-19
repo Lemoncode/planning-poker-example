@@ -9,6 +9,7 @@ export const SocketInputMessageTypes = {
   CONNECTION_ESTABLISHED_PLAYER: 'CONNECTION_ESTABLISHED_PLAYER',
   NEW_STORY: 'NEW_STORY',
   NOTIFY_USER_VOTED: 'NOTIFY_USER_VOTED',
+  SHOW_VOTING_RESULTS: 'SHOW_VOTING_RESULTS'
 };
 
 export const SocketErrorTypes = {
@@ -33,3 +34,4 @@ export const TShirtVotes = {
   S: 'S',
   XS: 'XS',
 };
+

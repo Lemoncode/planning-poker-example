@@ -2,16 +2,16 @@ import * as React from 'react';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { ConnectionStatus } from '../player.vm';
+import { ConnectionStatus, PlayerStatus } from '../player.vm';
 
 interface Props {
   room: string;
   onConnect: (nickname: string) => void;
-  connectionStatus: ConnectionStatus;
+  playerStatus: PlayerStatus;
 }
 
 export const ConnectComponent: React.FC<Props> = props => {
-  const { room, onConnect, connectionStatus } = props;
+  const { room, onConnect, playerStatus } = props;
   const [nickname, setNickname] = React.useState('Buba');
 
   return (
@@ -27,11 +27,10 @@ export const ConnectComponent: React.FC<Props> = props => {
         variant="contained"
         color="primary"
         onClick={e => onConnect(nickname)}
-        disabled={connectionStatus === ConnectionStatus.ConnectionInProgress}
+        disabled={playerStatus === PlayerStatus.CONNECTION_IN_PROGRESS}
       >
         Crear nueva sesión
       </Button>
     </>
   );
 };
-
