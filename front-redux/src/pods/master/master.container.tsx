@@ -11,6 +11,8 @@ import { useParams } from 'react-router-dom';
 import { MasterComponent } from './master.component';
 import { Player, MasterStatus, VoteResult } from './master.vm';
 import { AddNewPlayer, userVoted } from './master.business';
+import { useSelector, useDispatch } from 'react-redux';
+import { GlobalState } from 'core/reducers';
 
 const usePlayerCollection = () => {
   const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);
@@ -77,11 +79,14 @@ export const MasterContainer = () => {
     updatePlayerCollection,
     resetVotedFlagOnEveryPlayer,
   } = usePlayerCollection();
+  const nickname = useSelector(
+    (state: GlobalState) => state.profileState.nickname
+  );
 
   React.useEffect(() => {
     // TODO: Error handling
     // Connect to the socket
-    const nickname = authContext.nickname;
+    //const nickname = authContext.nickname;
     const room = params['room'];
     const socket = createSocket({
       user: nickname,
