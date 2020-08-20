@@ -9,6 +9,7 @@ import {
   roomRequestStartAction,
   setMasterNickname,
 } from './create-session.actions';
+import { AddPlayer } from 'core/actions';
 
 export const CreateSessionContainer: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ export const CreateSessionContainer: React.FunctionComponent = () => {
   const handleCreateSession = async (nickname: string) => {
     dispatch(roomRequestStartAction());
     dispatch(setMasterNickname(nickname));
+    dispatch(AddPlayer(nickname));
   };
 
   return (

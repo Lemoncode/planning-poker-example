@@ -59,10 +59,15 @@ const useVoteCollectionResult = () => {
 };
 
 export const MasterContainer = () => {
+  const nickname = useSelector(
+    (state: GlobalState) => state.profileState.nickname
+  );
+
+  const room = useSelector((state: GlobalState) => state.profileState.room);
+
   const socketContext = React.useContext(SocketContext);
   const authContext = React.useContext(AuthContext);
   const params = useParams(); // TODO: Type this
-  const [room, setRoom] = React.useState('');
   const {
     voteCollectionResult,
     setVoteCollectionResult,
@@ -79,15 +84,11 @@ export const MasterContainer = () => {
     updatePlayerCollection,
     resetVotedFlagOnEveryPlayer,
   } = usePlayerCollection();
-  const nickname = useSelector(
-    (state: GlobalState) => state.profileState.nickname
-  );
 
   React.useEffect(() => {
     // TODO: Error handling
     // Connect to the socket
     //const nickname = authContext.nickname;
-    const room = params['room'];
     const socket = createSocket({
       user: nickname,
       room,
@@ -95,7 +96,6 @@ export const MasterContainer = () => {
     });
     socketContext.setSocket(socket);
 
-    setRoom(room);
     SetMasterStatus(MasterStatus.CREATING_STORY);
 
     socket.on(SocketOuputMessageLiteral.MESSAGE, msg => {
