@@ -1,8 +1,15 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { globalReducers } from 'core/reducers';
+import { all, fork } from 'redux-saga/effects';
+import { createSessionPodRootSaga } from 'pods/create-session';
 
 const sagaMiddleware = createSagaMiddleware();
+
+// Group here all pods sagas
+const rootSaga = function* root() {
+  yield all([fork(createSessionPodRootSaga)]);
+};
 
 const composeEnhancer =
   (process.env.NODE_ENV !== 'production' &&
@@ -17,3 +24,5 @@ export const store = createStore(
   {},
   composeEnhancer(applyMiddleware(sagaMiddleware))
 );
+
+sagaMiddleware.run(rootSaga);

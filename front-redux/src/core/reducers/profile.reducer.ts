@@ -18,8 +18,8 @@ export const profileReducer = (
   action: ActionBase
 ) => {
   switch (action.type) {
-    case actionIds.SET_USER_INFORMATION:
-      return handleSetuserInformation(state, action.payload);
+    case actionIds.SET_MASTER_NICK_NAME:
+      return handleSetMasterNickname(state, action.payload);
     case actionIds.ROOM_REQUEST_COMPLETED:
       return handleSetRoom(state, action.payload);
   }
@@ -28,13 +28,13 @@ export const profileReducer = (
 };
 
 // TODO: Enhance payload typing
-const handleSetuserInformation = (
+const handleSetMasterNickname = (
   state: ProfileState,
-  { nickname, isMaster }
+  nickname: string
 ): ProfileState => ({
   ...state,
   nickname,
-  isMaster,
+  isMaster: true,
 });
 
 const handleSetRoom = (state: ProfileState, room: string): ProfileState => ({

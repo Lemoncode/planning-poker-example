@@ -1,11 +1,12 @@
 import React from 'react';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 import { switchRoutes } from './routes';
 import { CreateSessionScene, MasterScene, PlayerScene } from 'scenes';
+import { history } from './history';
 
 export const RouterComponent: React.FunctionComponent = () => {
   return (
-    <Router>
+    <Router history={history}>
       <Switch>
         <Route
           exact={true}

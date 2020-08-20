@@ -1,8 +1,10 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { actionIds, roomRequestCompletedAction } from 'core/actions';
+import { call, put, takeEvery, fork, all } from 'redux-saga/effects';
+import { actionIds } from 'core/actions';
 import { createRoom } from './create-session.api';
+import { history, routes } from 'core/router';
+import { roomRequestCompletedAction } from './create-session.actions';
 
-export function* watchRoomRequestStart() {
+function* watchRoomRequestStart() {
   yield takeEvery(actionIds.ROOM_REQUEST_START, fireRoomRequest);
 }
 
@@ -10,4 +12,9 @@ export function* watchRoomRequestStart() {
 function* fireRoomRequest() {
   const room = yield call(createRoom);
   yield put(roomRequestCompletedAction(room));
+  history.push(routes.master(room));
 }
+
+export const createSessionPodRootSaga = function* root() {
+  yield all([fork(watchRoomRequestStart)]);
+};
