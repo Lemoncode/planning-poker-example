@@ -1,7 +1,6 @@
 import { InputMessageTypes, OutputMessageTypes, getMasterRoom } from './consts';
 import {
   Action,
-  InputUserVoted,
   InputEstablishConnectionMaster,
   InputEstablishConnectionPlayer,
   OutputConnectionEstablishedMaster,

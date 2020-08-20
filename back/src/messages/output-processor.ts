@@ -5,7 +5,7 @@ import {
   SocketMessageTypes,
   SocketOuputMessageLiteral,
 } from './consts';
-import { Action, InputUserVoted, SocketInfo } from './model';
+import { Action, SocketInfo } from './model';
 import {
   vote,
   isMasterUser,
