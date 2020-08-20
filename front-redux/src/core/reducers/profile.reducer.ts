@@ -20,7 +20,7 @@ export const profileReducer = (
   switch (action.type) {
     case actionIds.SET_USER_INFORMATION:
       return handleSetuserInformation(state, action.payload);
-    case actionIds.SET_ROOM:
+    case actionIds.ROOM_REQUEST_COMPLETED:
       return handleSetRoom(state, action.payload);
   }
 

@@ -13,7 +13,7 @@ export const setUserProfileAction = (
   payload: userInformation,
 });
 
-export const setRoomAction = (room: string): ActionBase => ({
-  type: actionIds.SET_ROOM,
+export const roomRequestCompletedAction = (room: string): ActionBase => ({
+  type: actionIds.ROOM_REQUEST_COMPLETED,
   payload: room,
 });
