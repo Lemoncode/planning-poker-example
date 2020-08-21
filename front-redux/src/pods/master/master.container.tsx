@@ -14,7 +14,10 @@ import { AddNewPlayer, userVoted } from './master.business';
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalState } from 'core/reducers';
 import { selectVoteCollectionResult } from './master.selectors';
-import { ConnectMasterAction } from './master.actions';
+import {
+  ConnectMasterAction,
+  SendCreateStoryMessageToServerAction,
+} from './master.actions';
 import { resetAllVotedFlags, resetAllVotesValues } from 'core/actions';
 
 export const MasterContainer = () => {
@@ -64,14 +67,6 @@ export const MasterContainer = () => {
         const { type, payload } = msg;
 
         switch (type) {
-          case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
-            const newPlayerCollection = AddNewPlayer(
-              playerCollectionRef.current,
-              payload
-            );
-
-            updatePlayerCollection(newPlayerCollection);
-            break;
           case SocketInputMessageTypes.NOTIFY_USER_VOTED:
             const updatedPlayerList = userVoted(
               playerCollectionRef.current,
@@ -98,16 +93,18 @@ export const MasterContainer = () => {
   const handleSetStoryTitle = (title: string) => {
     setMasterVoted(false);
     setStoryTitle(title);
+    dispatch(SendCreateStoryMessageToServerAction(title));
+
     SetMasterStatus(MasterStatus.VOTING_IN_PROGRESS);
+    /*
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
       type: SocketOuputMessageTypes.CREATE_STORY,
       payload: title,
-    });
+    });*/
   };
 
   const handleMasterVoteChosen = (vote: string) => {
     setMasterVoted(true);
-
     // Send messsage to server informing about the vote
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
       type: SocketOuputMessageTypes.USER_VOTED,

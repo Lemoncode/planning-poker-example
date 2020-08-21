@@ -8,7 +8,7 @@ import {
   SocketOuputMessageLiteral,
   SocketInputMessageTypes,
 } from 'core';
-import { addPlayer } from 'core/actions';
+import { addPlayer, userVoted } from 'core/actions';
 
 function subscribe(socket) {
   return eventChannel(emit => {
@@ -22,6 +22,7 @@ function subscribe(socket) {
             emit(addPlayer(payload));
             break;
           case SocketInputMessageTypes.NOTIFY_USER_VOTED:
+            emit(userVoted(payload));
             /*const updatedPlayerList = userVoted(
               playerCollectionRef.current,
               payload

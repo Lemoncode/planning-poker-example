@@ -9,7 +9,7 @@ interface Player {
 
 export type PlayerCollectionState = Player[];
 
-const createDefaultState = (): PlayerCollectionState[] => [];
+const createDefaultState = (): PlayerCollectionState => [];
 
 export const playerCollectionReducer = (
   state: PlayerCollectionState = createDefaultState(),
@@ -22,10 +22,22 @@ export const playerCollectionReducer = (
       return handleResetVotedFlagOnEveryPlayer(state);
     case actionIds.RESET_VOTE_VALUE_ON_EVERY_PLAYER:
       return handleResetVoteValueOnEveryPlayer(state);
+    case actionIds.USER_VOTED:
+      return handleUserVoted(state, action.payload);
   }
 
   return state;
 };
+
+const handleUserVoted = (state: PlayerCollectionState, nickname: string) =>
+  state.map(user =>
+    user.nickname == nickname
+      ? {
+          ...user,
+          voted: true,
+        }
+      : user
+  );
 
 const handleAddPLayer = (
   state: PlayerCollectionState,
