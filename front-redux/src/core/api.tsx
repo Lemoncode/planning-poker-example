@@ -21,3 +21,21 @@ export const createSocket = (connectionSetup: ConnectionSetup): Socket => {
   // TODO Add channel (room)
   return ioClient(baseSocketUrl, socketParams.options);
 };
+
+export const promisifiedCreateSocket = (
+  connectionSetup: ConnectionSetup
+): Promise<{ socket?: Socket; error?: Error }> => {
+  const socket = createSocket(connectionSetup);
+
+  return new Promise((resolve, reject) => {
+    socket.on('connect', () => {
+      socket.emit('messages');
+      resolve({ socket });
+    });
+
+    socket.on('connect_error', err => {
+      console.log('connect failed :-(');
+      reject({ error: new Error('ws:connect_failed ') });
+    });
+  });
+};

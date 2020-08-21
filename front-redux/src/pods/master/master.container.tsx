@@ -13,6 +13,7 @@ import { Player, MasterStatus, VoteResult } from './master.vm';
 import { AddNewPlayer, userVoted } from './master.business';
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalState } from 'core/reducers';
+import { ConnectMasterAction } from './actions';
 
 const usePlayerCollection = () => {
   const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);
@@ -62,8 +63,9 @@ export const MasterContainer = () => {
   const nickname = useSelector(
     (state: GlobalState) => state.profileState.nickname
   );
-
+  const profileInfo = useSelector((state: GlobalState) => state.profileState);
   const room = useSelector((state: GlobalState) => state.profileState.room);
+  const dispatch = useDispatch();
 
   const socketContext = React.useContext(SocketContext);
   const authContext = React.useContext(AuthContext);
@@ -86,6 +88,14 @@ export const MasterContainer = () => {
   } = usePlayerCollection();
 
   React.useEffect(() => {
+    dispatch(
+      ConnectMasterAction({
+        user: profileInfo.nickname,
+        isMaster: profileInfo.isMaster,
+        room: profileInfo.room,
+      })
+    );
+    /*
     // TODO: Error handling
     // Connect to the socket
     //const nickname = authContext.nickname;
@@ -132,6 +142,8 @@ export const MasterContainer = () => {
     // later on we can control that handling the sockets
     // responses (add spinner, and show entering, succeeded,
     // or error)
+
+    */
   }, []);
 
   const handleSetStoryTitle = (title: string) => {
