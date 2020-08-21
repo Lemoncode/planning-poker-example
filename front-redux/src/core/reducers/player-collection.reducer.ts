@@ -9,17 +9,19 @@ interface Player {
 
 export type PlayerCollectionState = Player[];
 
-const createDefaultState = (): PlayerCollectionState => [];
+const createDefaultState = (): PlayerCollectionState[] => [];
 
 export const playerCollectionReducer = (
   state: PlayerCollectionState = createDefaultState(),
   action: ActionBase
-) => {
+): PlayerCollectionState => {
   switch (action.type) {
     case actionIds.ADD_NEW_PLAYER:
       return handleAddPLayer(state, action.payload);
     case actionIds.RESET_VOTED_FLAG_ON_EVERY_PLAYER:
       return handleResetVotedFlagOnEveryPlayer(state);
+    case actionIds.RESET_VOTE_VALUE_ON_EVERY_PLAYER:
+      return handleResetVoteValueOnEveryPlayer(state);
   }
 
   return state;
@@ -37,10 +39,19 @@ const handleAddPLayer = (
   },
 ];
 
+// TODO: This to reset actions should we joined
 const handleResetVotedFlagOnEveryPlayer = (
   state: PlayerCollectionState
 ): PlayerCollectionState =>
   state.map(player => ({
     ...player,
     voted: false,
+  }));
+
+const handleResetVoteValueOnEveryPlayer = (
+  state: PlayerCollectionState
+): PlayerCollectionState =>
+  state.map(player => ({
+    ...player,
+    vote: '',
   }));

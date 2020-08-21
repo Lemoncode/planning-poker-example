@@ -6,7 +6,12 @@ export const addPlayer = (nickname: string): ActionBase => ({
   payload: nickname,
 });
 
-export const resetAllVotes = (): ActionBase => ({
+export const resetAllVotedFlags = (): ActionBase => ({
   type: actionIds.RESET_VOTED_FLAG_ON_EVERY_PLAYER,
+  payload: null,
+});
+
+export const resetAllVotesValues = (): ActionBase => ({
+  type: actionIds.RESET_VOTE_VALUE_ON_EVERY_PLAYER,
   payload: null,
 });

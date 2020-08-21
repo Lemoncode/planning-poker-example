@@ -13,54 +13,9 @@ import { Player, MasterStatus, VoteResult } from './master.vm';
 import { AddNewPlayer, userVoted } from './master.business';
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalState } from 'core/reducers';
+import { selectVoteCollectionResult } from './master.selectors';
 import { ConnectMasterAction } from './master.actions';
-import { resetAllVotes } from 'core/actions';
-
-/*
-const usePlayerCollection = () => {
-  const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);
-  const playerCollectionRef = React.useRef<Player[]>([]);
-
-  const updatePlayerCollection = (newPlayerCollection: Player[]) => {
-    setPlayerCollection(newPlayerCollection);
-    playerCollectionRef.current = newPlayerCollection;
-  };
-
-  const resetVotedFlagOnEveryPlayer = () => {
-    const wipedVotedPlayerCollection = playerCollectionRef.current.map(
-      item => ({ ...item, voted: false })
-    );
-    updatePlayerCollection(wipedVotedPlayerCollection);
-  };
-
-  return {
-    playerCollection,
-    playerCollectionRef,
-    updatePlayerCollection,
-    resetVotedFlagOnEveryPlayer,
-  };
-};
-*/
-
-const useVoteCollectionResult = () => {
-  const [voteCollectionResult, setVoteCollectionResult] = React.useState<
-    VoteResult[]
-  >([]);
-
-  const resetValueOnVoteCollection = () => {
-    const wipedVoteCollection = voteCollectionResult.map(item => ({
-      ...item,
-      vote: '',
-    }));
-    setVoteCollectionResult(wipedVoteCollection);
-  };
-
-  return {
-    voteCollectionResult,
-    setVoteCollectionResult,
-    resetValueOnVoteCollection,
-  };
-};
+import { resetAllVotedFlags, resetAllVotesValues } from 'core/actions';
 
 export const MasterContainer = () => {
   const nickname = useSelector(
@@ -68,19 +23,23 @@ export const MasterContainer = () => {
   );
   const profileInfo = useSelector((state: GlobalState) => state.profileState);
   const room = useSelector((state: GlobalState) => state.profileState.room);
+
+  // TODO We should two selectors map to VM and VotedCollection should
+  // not have vote field (or refactor needed)
   const playerCollection = useSelector(
     (state: GlobalState) => state.playerCollectionState
   );
+  const voteCollectionResult = useSelector(selectVoteCollectionResult);
   const dispatch = useDispatch();
 
   const socketContext = React.useContext(SocketContext);
   const authContext = React.useContext(AuthContext);
   const params = useParams(); // TODO: Type this
-  const {
+  /*const {
     voteCollectionResult,
     setVoteCollectionResult,
     resetValueOnVoteCollection,
-  } = useVoteCollectionResult();
+  } = useVoteCollectionResult();*/
   const [masterStatus, SetMasterStatus] = React.useState<MasterStatus>(
     MasterStatus.INITIALIZING
   );
@@ -95,19 +54,10 @@ export const MasterContainer = () => {
         room: profileInfo.room,
       })
     );
-    /*
-    // TODO: Error handling
-    // Connect to the socket
-    //const nickname = authContext.nickname;
-    const socket = createSocket({
-      user: nickname,
-      room,
-      isMaster: true,
-    });
-    socketContext.setSocket(socket);
 
     SetMasterStatus(MasterStatus.CREATING_STORY);
 
+    /*
     socket.on(SocketOuputMessageLiteral.MESSAGE, msg => {
       console.log(msg);
       if (msg.type) {
@@ -142,7 +92,6 @@ export const MasterContainer = () => {
     // later on we can control that handling the sockets
     // responses (add spinner, and show entering, succeeded,
     // or error)
-
     */
   }, []);
 
@@ -178,8 +127,8 @@ export const MasterContainer = () => {
   const handleMoveToNextStory = () => {
     // Reset values, extract this, to business or hook
     setStoryTitle('');
-    resetValueOnVoteCollection();
-    dispatch(resetAllVotes());
+    dispatch(resetAllVotesValues());
+    dispatch(resetAllVotedFlags());
 
     SetMasterStatus(MasterStatus.CREATING_STORY);
   };
