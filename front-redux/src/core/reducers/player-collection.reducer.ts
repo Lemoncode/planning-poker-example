@@ -16,8 +16,10 @@ export const playerCollectionReducer = (
   action: ActionBase
 ) => {
   switch (action.type) {
-    case actionIds.ADD_PLAYER:
+    case actionIds.ADD_NEW_PLAYER:
       return handleAddPLayer(state, action.payload);
+    case actionIds.RESET_VOTED_FLAG_ON_EVERY_PLAYER:
+      return handleResetVotedFlagOnEveryPlayer(state);
   }
 
   return state;
@@ -34,3 +36,11 @@ const handleAddPLayer = (
     vote: '',
   },
 ];
+
+const handleResetVotedFlagOnEveryPlayer = (
+  state: PlayerCollectionState
+): PlayerCollectionState =>
+  state.map(player => ({
+    ...player,
+    voted: false,
+  }));

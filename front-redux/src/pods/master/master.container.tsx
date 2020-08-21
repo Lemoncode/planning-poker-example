@@ -13,8 +13,10 @@ import { Player, MasterStatus, VoteResult } from './master.vm';
 import { AddNewPlayer, userVoted } from './master.business';
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalState } from 'core/reducers';
-import { ConnectMasterAction } from './actions';
+import { ConnectMasterAction } from './master.actions';
+import { resetAllVotes } from 'core/actions';
 
+/*
 const usePlayerCollection = () => {
   const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);
   const playerCollectionRef = React.useRef<Player[]>([]);
@@ -38,6 +40,7 @@ const usePlayerCollection = () => {
     resetVotedFlagOnEveryPlayer,
   };
 };
+*/
 
 const useVoteCollectionResult = () => {
   const [voteCollectionResult, setVoteCollectionResult] = React.useState<
@@ -65,6 +68,9 @@ export const MasterContainer = () => {
   );
   const profileInfo = useSelector((state: GlobalState) => state.profileState);
   const room = useSelector((state: GlobalState) => state.profileState.room);
+  const playerCollection = useSelector(
+    (state: GlobalState) => state.playerCollectionState
+  );
   const dispatch = useDispatch();
 
   const socketContext = React.useContext(SocketContext);
@@ -80,12 +86,6 @@ export const MasterContainer = () => {
   );
   const [masterVoted, setMasterVoted] = React.useState(false);
   const [storyTitle, setStoryTitle] = React.useState('');
-  const {
-    playerCollection,
-    playerCollectionRef,
-    updatePlayerCollection,
-    resetVotedFlagOnEveryPlayer,
-  } = usePlayerCollection();
 
   React.useEffect(() => {
     dispatch(
@@ -179,7 +179,7 @@ export const MasterContainer = () => {
     // Reset values, extract this, to business or hook
     setStoryTitle('');
     resetValueOnVoteCollection();
-    resetVotedFlagOnEveryPlayer();
+    dispatch(resetAllVotes());
 
     SetMasterStatus(MasterStatus.CREATING_STORY);
   };

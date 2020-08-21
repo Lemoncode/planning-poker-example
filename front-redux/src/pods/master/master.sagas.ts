@@ -1,13 +1,14 @@
 import { eventChannel } from 'redux-saga';
 import { all, call, fork, put, take, cancel } from 'redux-saga/effects';
 import { actionIds } from 'core/actions';
-import { podMasterActionIds } from './actions';
+import { podMasterActionIds } from './master.actions';
 import {
   ActionBase,
   promisifiedCreateSocket,
   SocketOuputMessageLiteral,
   SocketInputMessageTypes,
 } from 'core';
+import { addPlayer } from 'core/actions';
 
 function subscribe(socket) {
   return eventChannel(emit => {
@@ -18,12 +19,7 @@ function subscribe(socket) {
 
         switch (type) {
           case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
-            /*const newPlayerCollection = AddNewPlayer(
-              playerCollectionRef.current,
-              payload
-            );
-
-            updatePlayerCollection(newPlayerCollection);*/
+            emit(addPlayer(payload));
             break;
           case SocketInputMessageTypes.NOTIFY_USER_VOTED:
             /*const updatedPlayerList = userVoted(
