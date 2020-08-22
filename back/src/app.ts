@@ -84,7 +84,7 @@ io.on('connection', function (socket: Socket) {
 
   socket.on('message', function (message: any) {
     console.log(message);
-    if (message.type) {
+    if (message && message.type) {
       const outputMessageCollection: Action[] = processInputMessage(
         socketInfo,
         message

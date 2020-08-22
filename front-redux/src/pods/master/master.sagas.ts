@@ -8,7 +8,12 @@ import {
   SocketOuputMessageLiteral,
   SocketInputMessageTypes,
 } from 'core';
-import { addPlayer, userVoted } from 'core/actions';
+import {
+  addPlayerAction,
+  userVotedAction,
+  voteTimeIsOverAction,
+  showVotingResults,
+} from 'core/actions';
 
 function subscribe(socket) {
   return eventChannel(emit => {
@@ -19,29 +24,19 @@ function subscribe(socket) {
 
         switch (type) {
           case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
-            emit(addPlayer(payload));
+            emit(addPlayerAction(payload));
             break;
           case SocketInputMessageTypes.NOTIFY_USER_VOTED:
-            emit(userVoted(payload));
-            /*const updatedPlayerList = userVoted(
-              playerCollectionRef.current,
-              payload
-            );
-            updatePlayerCollection(updatedPlayerList);*/
+            emit(userVotedAction(payload));
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
-            //setVoteCollectionResult(msg.payload);
+            emit(showVotingResults(payload));
             break;
         }
       }
     });
 
-    /*socket.on('message', (message: ApiModel.SimpleMessage) => {
-      emit(onMessageReceived(mapSimpleMessageFromApiToStore(message)));
-    });
-    socket.on('messages', (messageList: ApiModel.Message[]) => {
-      emit(onMessageListReceived(mapMessagesFromApiToStore(messageList)));
-    });
+    /*
     socket.on('disconnect', e => {
       // TODO: handle
     });

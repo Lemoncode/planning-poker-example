@@ -24,10 +24,23 @@ export const playerCollectionReducer = (
       return handleResetVoteValueOnEveryPlayer(state);
     case actionIds.USER_VOTED:
       return handleUserVoted(state, action.payload);
+    case actionIds.SHOW_VOTING_RESULTS:
+      return handleShowVotingResults(state, action.payload);
   }
 
   return state;
 };
+
+// TODO: type voteCollection
+const handleShowVotingResults = (
+  state: PlayerCollectionState,
+  voteCollection: any[]
+): PlayerCollectionState =>
+  voteCollection.map(voteResult => ({
+    nickname: voteResult.nickname,
+    voted: voteResult.vote !== '',
+    vote: voteResult.vote,
+  }));
 
 const handleUserVoted = (state: PlayerCollectionState, nickname: string) =>
   state.map(user =>

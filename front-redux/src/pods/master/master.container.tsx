@@ -17,8 +17,12 @@ import { selectVoteCollectionResult } from './master.selectors';
 import {
   ConnectMasterAction,
   SendCreateStoryMessageToServerAction,
+  voteTimeIsOverAction,
 } from './master.actions';
-import { resetAllVotedFlags, resetAllVotesValues } from 'core/actions';
+import {
+  resetAllVotedFlagsAction,
+  resetAllVotesValuesAction,
+} from 'core/actions';
 
 export const MasterContainer = () => {
   const nickname = useSelector(
@@ -38,11 +42,6 @@ export const MasterContainer = () => {
   const socketContext = React.useContext(SocketContext);
   const authContext = React.useContext(AuthContext);
   const params = useParams(); // TODO: Type this
-  /*const {
-    voteCollectionResult,
-    setVoteCollectionResult,
-    resetValueOnVoteCollection,
-  } = useVoteCollectionResult();*/
   const [masterStatus, SetMasterStatus] = React.useState<MasterStatus>(
     MasterStatus.INITIALIZING
   );
@@ -96,11 +95,6 @@ export const MasterContainer = () => {
     dispatch(SendCreateStoryMessageToServerAction(title));
 
     SetMasterStatus(MasterStatus.VOTING_IN_PROGRESS);
-    /*
-    socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
-      type: SocketOuputMessageTypes.CREATE_STORY,
-      payload: title,
-    });*/
   };
 
   const handleMasterVoteChosen = (vote: string) => {
@@ -115,17 +109,14 @@ export const MasterContainer = () => {
   const handleFinishVoting = () => {
     console.log('finished voting...');
     SetMasterStatus(MasterStatus.SHOWING_RESULTS);
-    socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
-      type: SocketOuputMessageTypes.END_VOTE_TIME,
-      payload: null,
-    });
+    dispatch(voteTimeIsOverAction());
   };
 
   const handleMoveToNextStory = () => {
     // Reset values, extract this, to business or hook
     setStoryTitle('');
-    dispatch(resetAllVotesValues());
-    dispatch(resetAllVotedFlags());
+    dispatch(resetAllVotesValuesAction());
+    dispatch(resetAllVotedFlagsAction());
 
     SetMasterStatus(MasterStatus.CREATING_STORY);
   };
