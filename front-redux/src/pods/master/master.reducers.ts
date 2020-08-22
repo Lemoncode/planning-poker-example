@@ -24,7 +24,7 @@ export const masterPlanningPokerReducer = (
     case podMasterActionIds.SEND_MESSAGE_MASTER:
       return handleSendMessageMaster(state, action.payload);
     // TODO unify all cleanup in one action
-    case actionIds.RESET_VOTE_VALUE_ON_EVERY_PLAYER:
+    case actionIds.CLEANUP_BEFORE_MOVING_TO_NEXT_STORY:
       return {
         ...state,
         status: MasterStatus.CREATING_STORY,

@@ -13,9 +13,8 @@ import {
   masterVotedAction,
 } from './master.actions';
 import {
-  resetAllVotedFlagsAction,
-  resetAllVotesValuesAction,
   setStoryTitle,
+  cleanupBeforeMovingToNextStoryAction,
 } from 'core/actions';
 
 const useProps = () => {
@@ -77,14 +76,7 @@ const useHandlers = () => {
   };
 
   const handleMoveToNextStory = () => {
-    // We could just have single action MOVE_TO_NEXT_STORY_CLEANUP
-    // were all the affected reducers are listening and perform
-    // this cleanup in one go
-    // May we store story title in a reducer? on the current session
-    // current story
-    dispatch(setStoryTitle(''));
-    dispatch(resetAllVotesValuesAction());
-    dispatch(resetAllVotedFlagsAction());
+    dispatch(cleanupBeforeMovingToNextStoryAction());
   };
 
   return {

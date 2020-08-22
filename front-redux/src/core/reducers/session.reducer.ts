@@ -26,10 +26,17 @@ export const sessionReducer = (
       return handleSetRoom(state, action.payload);
     case actionIds.SET_STORY_TITLE:
       return handleSetStoryTitle(state, action.payload);
+    case actionIds.CLEANUP_BEFORE_MOVING_TO_NEXT_STORY:
+      return handleCleanupBeforeMovingToNextStory(state);
   }
 
   return state;
 };
+
+const handleCleanupBeforeMovingToNextStory = (
+  state: SessionState,
+): SessionState => ({ ...state, story: '' });
+
 
 const handleSetStoryTitle = (
   state: SessionState,

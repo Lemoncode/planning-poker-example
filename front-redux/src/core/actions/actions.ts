@@ -13,13 +13,8 @@ export const serverInformsUserHasVotedAction = (
   payload: nickname,
 });
 
-export const resetAllVotedFlagsAction = (): ActionBase => ({
-  type: actionIds.RESET_VOTED_FLAG_ON_EVERY_PLAYER,
-  payload: null,
-});
-
-export const resetAllVotesValuesAction = (): ActionBase => ({
-  type: actionIds.RESET_VOTE_VALUE_ON_EVERY_PLAYER,
+export const cleanupBeforeMovingToNextStoryAction = (): ActionBase => ({
+  type: actionIds.CLEANUP_BEFORE_MOVING_TO_NEXT_STORY,
   payload: null,
 });
 

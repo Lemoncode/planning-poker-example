@@ -18,10 +18,8 @@ export const playerCollectionReducer = (
   switch (action.type) {
     case actionIds.ADD_NEW_PLAYER:
       return handleAddPLayer(state, action.payload);
-    case actionIds.RESET_VOTED_FLAG_ON_EVERY_PLAYER:
-      return handleResetVotedFlagOnEveryPlayer(state);
-    case actionIds.RESET_VOTE_VALUE_ON_EVERY_PLAYER:
-      return handleResetVoteValueOnEveryPlayer(state);
+    case actionIds.CLEANUP_BEFORE_MOVING_TO_NEXT_STORY:
+      return handleCleanupBeforeMovingToNextStory(state);
     case actionIds.SERVER_INFORMS_USER_HAS_VOTED_ACTION:
       return handleUserVoted(state, action.payload);
     case actionIds.SHOW_VOTING_RESULTS:
@@ -65,18 +63,11 @@ const handleAddPLayer = (
 ];
 
 // TODO: This to reset actions should we joined
-const handleResetVotedFlagOnEveryPlayer = (
+const handleCleanupBeforeMovingToNextStory = (
   state: PlayerCollectionState
 ): PlayerCollectionState =>
   state.map(player => ({
     ...player,
     voted: false,
-  }));
-
-const handleResetVoteValueOnEveryPlayer = (
-  state: PlayerCollectionState
-): PlayerCollectionState =>
-  state.map(player => ({
-    ...player,
     vote: '',
   }));
