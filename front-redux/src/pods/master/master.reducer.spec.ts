@@ -8,7 +8,7 @@ import {
   SendCreateStoryMessageToServerAction,
   voteTimeIsOverAction,
 } from './master.actions';
-import { resetAllVotesValuesAction } from 'core/actions';
+import { cleanupBeforeMovingToNextStoryAction } from 'core/actions';
 import { MasterStatus } from './master.const';
 
 // TODO: configure Jest Debug testing
@@ -72,7 +72,7 @@ describe('masterPlanningPokerReducer', () => {
     };
 
     // TODO: Unify all reset actions maybe createNewStory action
-    const action: ActionBase = resetAllVotesValuesAction();
+    const action: ActionBase = cleanupBeforeMovingToNextStoryAction();
 
     // Act
     const newState = masterPlanningPokerReducer(previousState, action);

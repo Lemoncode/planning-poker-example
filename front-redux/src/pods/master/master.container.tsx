@@ -18,11 +18,9 @@ import {
 } from 'core/actions';
 
 const useProps = () => {
-  const nickname = useSelector(
-    (state: GlobalState) => state.sessionState.nickname
+  const { nickname, isMaster, room, story: storyTitle } = useSelector(
+    (state: GlobalState) => state.sessionState
   );
-  const profileInfo = useSelector((state: GlobalState) => state.sessionState);
-  const room = useSelector((state: GlobalState) => state.sessionState.room);
 
   // TODO We should two selectors map to VM and VotedCollection should
   // not have vote field (or refactor needed)
@@ -32,23 +30,14 @@ const useProps = () => {
   const voteCollectionResult = useSelector(selectVoteCollectionResult);
 
   // TODO: move this to reselect, build short cuts
-  const masterStatus = useSelector(
-    (state: GlobalState) => state.masterPodState.masterPlanningPokerState.status
-  );
-
-  const masterVoted = useSelector(
-    (state: GlobalState) =>
-      state.masterPodState.masterPlanningPokerState.masterVoted
-  );
-
-  const storyTitle = useSelector(
-    (state: GlobalState) => state.sessionState.story
+  const { status: masterStatus, masterVoted } = useSelector(
+    (state: GlobalState) => state.masterPodState.masterPlanningPokerState
   );
 
   return {
     nickname,
-    profileInfo,
     room,
+    isMaster,
     playerCollection,
     voteCollectionResult,
     masterStatus,
@@ -91,8 +80,8 @@ const useHandlers = () => {
 export const MasterContainer = () => {
   const {
     nickname,
-    profileInfo,
     room,
+    isMaster,
     playerCollection,
     voteCollectionResult,
     masterStatus,
@@ -111,9 +100,9 @@ export const MasterContainer = () => {
   React.useEffect(() => {
     dispatch(
       ConnectMasterAction({
-        user: profileInfo.nickname,
-        isMaster: profileInfo.isMaster,
-        room: profileInfo.room,
+        user: nickname,
+        isMaster: isMaster,
+        room: room,
       })
     );
   }, []);
