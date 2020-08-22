@@ -10,8 +10,7 @@ import {
 } from 'core';
 import {
   addPlayerAction,
-  userVotedAction,
-  voteTimeIsOverAction,
+  serverInformsUserHasVotedAction,
   showVotingResults,
 } from 'core/actions';
 
@@ -27,7 +26,7 @@ function subscribe(socket) {
             emit(addPlayerAction(payload));
             break;
           case SocketInputMessageTypes.NOTIFY_USER_VOTED:
-            emit(userVotedAction(payload));
+            emit(serverInformsUserHasVotedAction(payload));
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
             emit(showVotingResults(payload));

@@ -18,6 +18,7 @@ import {
   ConnectMasterAction,
   SendCreateStoryMessageToServerAction,
   voteTimeIsOverAction,
+  masterVotesAction,
 } from './master.actions';
 import {
   resetAllVotedFlagsAction,
@@ -58,35 +59,6 @@ export const MasterContainer = () => {
     );
 
     SetMasterStatus(MasterStatus.CREATING_STORY);
-
-    /*
-    socket.on(SocketOuputMessageLiteral.MESSAGE, msg => {
-      console.log(msg);
-      if (msg.type) {
-        const { type, payload } = msg;
-
-        switch (type) {
-          case SocketInputMessageTypes.NOTIFY_USER_VOTED:
-            const updatedPlayerList = userVoted(
-              playerCollectionRef.current,
-              payload
-            );
-            updatePlayerCollection(updatedPlayerList);
-            break;
-          case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
-            setVoteCollectionResult(msg.payload);
-            break;
-        }
-      }
-    });
-
-    // TODO we are assuming all goes fine
-    // plus time lapse between room is assigned
-    // and connection established has no colllision
-    // later on we can control that handling the sockets
-    // responses (add spinner, and show entering, succeeded,
-    // or error)
-    */
   }, []);
 
   const handleSetStoryTitle = (title: string) => {
@@ -99,11 +71,7 @@ export const MasterContainer = () => {
 
   const handleMasterVoteChosen = (vote: string) => {
     setMasterVoted(true);
-    // Send messsage to server informing about the vote
-    socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
-      type: SocketOuputMessageTypes.USER_VOTED,
-      payload: vote,
-    });
+    dispatch(masterVotesAction(vote));
   };
 
   const handleFinishVoting = () => {

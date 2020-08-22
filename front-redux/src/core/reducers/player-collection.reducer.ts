@@ -22,7 +22,7 @@ export const playerCollectionReducer = (
       return handleResetVotedFlagOnEveryPlayer(state);
     case actionIds.RESET_VOTE_VALUE_ON_EVERY_PLAYER:
       return handleResetVoteValueOnEveryPlayer(state);
-    case actionIds.USER_VOTED:
+    case actionIds.SERVER_INFORMS_USER_HAS_VOTED_ACTION:
       return handleUserVoted(state, action.payload);
     case actionIds.SHOW_VOTING_RESULTS:
       return handleShowVotingResults(state, action.payload);

@@ -6,8 +6,10 @@ export const addPlayerAction = (nickname: string): ActionBase => ({
   payload: nickname,
 });
 
-export const userVotedAction = (nickname: string): ActionBase => ({
-  type: actionIds.USER_VOTED,
+export const serverInformsUserHasVotedAction = (
+  nickname: string
+): ActionBase => ({
+  type: actionIds.SERVER_INFORMS_USER_HAS_VOTED_ACTION,
   payload: nickname,
 });
 
@@ -21,8 +23,7 @@ export const resetAllVotesValuesAction = (): ActionBase => ({
   payload: null,
 });
 
-
-export const showVotingResults = (votingResults) : ActionBase => ({
+export const showVotingResults = (votingResults): ActionBase => ({
   type: actionIds.SHOW_VOTING_RESULTS,
   payload: votingResults,
-})
+});
