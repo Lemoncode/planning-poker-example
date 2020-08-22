@@ -1,16 +1,6 @@
 import * as React from 'react';
-import { createSocket } from 'core';
-import {
-  AuthContext,
-  SocketContext,
-  SocketInputMessageTypes,
-  SocketOuputMessageLiteral,
-  SocketOuputMessageTypes,
-} from 'core';
-import { useParams } from 'react-router-dom';
 import { MasterComponent } from './master.component';
 import { Player, MasterStatus, VoteResult } from './master.vm';
-import { AddNewPlayer, userVoted } from './master.business';
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalState } from 'core/reducers';
 import { selectVoteCollectionResult } from './master.selectors';
@@ -40,12 +30,11 @@ export const MasterContainer = () => {
   const voteCollectionResult = useSelector(selectVoteCollectionResult);
   const dispatch = useDispatch();
 
-  const socketContext = React.useContext(SocketContext);
-  const authContext = React.useContext(AuthContext);
-  const params = useParams(); // TODO: Type this
   const [masterStatus, SetMasterStatus] = React.useState<MasterStatus>(
     MasterStatus.INITIALIZING
   );
+
+  // TODO: not sure if worth to move it to redux state
   const [masterVoted, setMasterVoted] = React.useState(false);
   const [storyTitle, setStoryTitle] = React.useState('');
 
@@ -75,13 +64,16 @@ export const MasterContainer = () => {
   };
 
   const handleFinishVoting = () => {
-    console.log('finished voting...');
     SetMasterStatus(MasterStatus.SHOWING_RESULTS);
     dispatch(voteTimeIsOverAction());
   };
 
   const handleMoveToNextStory = () => {
-    // Reset values, extract this, to business or hook
+    // We could just have single action MOVE_TO_NEXT_STORY_CLEANUP
+    // were all the affected reducers are listening and perform
+    // this cleanup in one go
+    // May we store story title in a reducer? on the current session
+    // current story
     setStoryTitle('');
     dispatch(resetAllVotesValuesAction());
     dispatch(resetAllVotedFlagsAction());
