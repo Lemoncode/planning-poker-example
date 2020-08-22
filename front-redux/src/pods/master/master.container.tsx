@@ -15,7 +15,7 @@ import {
   resetAllVotesValuesAction,
 } from 'core/actions';
 
-export const MasterContainer = () => {
+const useProps = () => {
   const nickname = useSelector(
     (state: GlobalState) => state.profileState.nickname
   );
@@ -28,6 +28,25 @@ export const MasterContainer = () => {
     (state: GlobalState) => state.playerCollectionState
   );
   const voteCollectionResult = useSelector(selectVoteCollectionResult);
+
+  return {
+    nickname,
+    profileInfo,
+    room,
+    playerCollection,
+    voteCollectionResult,
+  };
+};
+
+export const MasterContainer = () => {
+  const {
+    nickname,
+    profileInfo,
+    room,
+    playerCollection,
+    voteCollectionResult,
+  } = useProps();
+  
   const dispatch = useDispatch();
 
   const [masterStatus, SetMasterStatus] = React.useState<MasterStatus>(
