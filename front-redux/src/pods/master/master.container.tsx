@@ -30,12 +30,18 @@ const useProps = () => {
   );
   const voteCollectionResult = useSelector(selectVoteCollectionResult);
 
+  // TODO: move this to reselect, build short cuts
+  const masterStatus = useSelector(
+    (state: GlobalState) => state.masterPodState.masterPlanningPokerState.status
+  );
+
   return {
     nickname,
     profileInfo,
     room,
     playerCollection,
     voteCollectionResult,
+    masterStatus,
   };
 };
 
@@ -46,13 +52,10 @@ export const MasterContainer = () => {
     room,
     playerCollection,
     voteCollectionResult,
+    masterStatus,
   } = useProps();
 
   const dispatch = useDispatch();
-
-  const [masterStatus, SetMasterStatus] = React.useState<MasterStatus>(
-    MasterStatus.INITIALIZING
-  );
 
   // TODO: not sure if worth to move it to redux state
   const [masterVoted, setMasterVoted] = React.useState(false);
@@ -66,16 +69,12 @@ export const MasterContainer = () => {
         room: profileInfo.room,
       })
     );
-
-    SetMasterStatus(MasterStatus.CREATING_STORY);
   }, []);
 
   const handleSetStoryTitle = (title: string) => {
     setMasterVoted(false);
     setStoryTitle(title);
     dispatch(SendCreateStoryMessageToServerAction(title));
-
-    SetMasterStatus(MasterStatus.VOTING_IN_PROGRESS);
   };
 
   const handleMasterVoteChosen = (vote: string) => {
@@ -84,7 +83,6 @@ export const MasterContainer = () => {
   };
 
   const handleFinishVoting = () => {
-    SetMasterStatus(MasterStatus.SHOWING_RESULTS);
     dispatch(voteTimeIsOverAction());
   };
 
@@ -97,8 +95,6 @@ export const MasterContainer = () => {
     setStoryTitle('');
     dispatch(resetAllVotesValuesAction());
     dispatch(resetAllVotedFlagsAction());
-
-    SetMasterStatus(MasterStatus.CREATING_STORY);
   };
 
   return (
