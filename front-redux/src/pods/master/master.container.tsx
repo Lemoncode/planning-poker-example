@@ -58,29 +58,8 @@ const useProps = () => {
   };
 };
 
-export const MasterContainer = () => {
-  const {
-    nickname,
-    profileInfo,
-    room,
-    playerCollection,
-    voteCollectionResult,
-    masterStatus,
-    masterVoted,
-    storyTitle,
-  } = useProps();
-
+const useHandlers = () => {
   const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    dispatch(
-      ConnectMasterAction({
-        user: profileInfo.nickname,
-        isMaster: profileInfo.isMaster,
-        room: profileInfo.room,
-      })
-    );
-  }, []);
 
   const handleSetStoryTitle = (title: string) => {
     dispatch(setStoryTitle(title));
@@ -107,6 +86,45 @@ export const MasterContainer = () => {
     dispatch(resetAllVotesValuesAction());
     dispatch(resetAllVotedFlagsAction());
   };
+
+  return {
+    dispatch,
+    handleSetStoryTitle,
+    handleMasterVoteChosen,
+    handleFinishVoting,
+    handleMoveToNextStory,
+  };
+};
+
+export const MasterContainer = () => {
+  const {
+    nickname,
+    profileInfo,
+    room,
+    playerCollection,
+    voteCollectionResult,
+    masterStatus,
+    masterVoted,
+    storyTitle,
+  } = useProps();
+
+  const {
+    dispatch,
+    handleSetStoryTitle,
+    handleMasterVoteChosen,
+    handleFinishVoting,
+    handleMoveToNextStory,
+  } = useHandlers();
+
+  React.useEffect(() => {
+    dispatch(
+      ConnectMasterAction({
+        user: profileInfo.nickname,
+        isMaster: profileInfo.isMaster,
+        room: profileInfo.room,
+      })
+    );
+  }, []);
 
   return (
     <MasterComponent
