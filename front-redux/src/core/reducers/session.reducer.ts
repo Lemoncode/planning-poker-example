@@ -1,20 +1,22 @@
 import { ActionBase } from '../base';
 import { actionIds } from '../actions';
 
-export interface ProfileState {
+export interface SessionState {
   nickname: string;
   isMaster: boolean;
   room: string;
+  story: string;
 }
 
-const createDefaultState = (): ProfileState => ({
+const createDefaultState = (): SessionState => ({
   nickname: '',
   isMaster: false,
   room: '',
+  story: '',
 });
 
-export const profileReducer = (
-  state: ProfileState = createDefaultState(),
+export const sessionReducer = (
+  state: SessionState = createDefaultState(),
   action: ActionBase
 ) => {
   switch (action.type) {
@@ -22,22 +24,29 @@ export const profileReducer = (
       return handleSetMasterNickname(state, action.payload);
     case actionIds.ROOM_REQUEST_COMPLETED:
       return handleSetRoom(state, action.payload);
+    case actionIds.SET_STORY_TITLE:
+      return handleSetStoryTitle(state, action.payload);
   }
 
   return state;
 };
 
+const handleSetStoryTitle = (
+  state: SessionState,
+  story: string
+): SessionState => ({ ...state, story });
+
 // TODO: Enhance payload typing
 const handleSetMasterNickname = (
-  state: ProfileState,
+  state: SessionState,
   nickname: string
-): ProfileState => ({
+): SessionState => ({
   ...state,
   nickname,
   isMaster: true,
 });
 
-const handleSetRoom = (state: ProfileState, room: string): ProfileState => ({
+const handleSetRoom = (state: SessionState, room: string): SessionState => ({
   ...state,
   room,
 });

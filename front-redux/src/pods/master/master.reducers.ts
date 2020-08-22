@@ -6,10 +6,12 @@ import { combineReducers } from 'redux';
 
 export interface MasterPlanningPokerState {
   status: MasterStatus;
+  masterVoted: boolean;
 }
 
 const createDefaultMasterPlanningPokerState = () => ({
   status: MasterStatus.INITIALIZING,
+  masterVoted: false,
 });
 
 export const masterPlanningPokerReducer = (
@@ -23,7 +25,13 @@ export const masterPlanningPokerReducer = (
       return handleSendMessageMaster(state, action.payload);
     // TODO unify all cleanup in one action
     case actionIds.RESET_VOTE_VALUE_ON_EVERY_PLAYER:
-      return { ...state, status: MasterStatus.CREATING_STORY };
+      return {
+        ...state,
+        status: MasterStatus.CREATING_STORY,
+        masterVoted: false,
+      };
+    case podMasterActionIds.MASTER_VOTED:
+      return { ...state, masterVoted: true };
   }
 
   return state;

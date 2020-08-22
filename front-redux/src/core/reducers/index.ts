@@ -1,4 +1,4 @@
-import { ProfileState, profileReducer } from './profile.reducer';
+import { SessionState, sessionReducer } from './session.reducer';
 import { MasterPodState, masterPodReducers } from 'pods';
 
 import {
@@ -8,13 +8,13 @@ import {
 import { combineReducers } from 'redux';
 
 export interface GlobalState {
-  profileState: ProfileState;
+  sessionState: SessionState;
   playerCollectionState: PlayerCollectionState;
   masterPodState: MasterPodState;
 }
 
 export const globalReducers = combineReducers<GlobalState>({
-  profileState: profileReducer,
+  sessionState: sessionReducer,
   playerCollectionState: playerCollectionReducer,
   masterPodState: masterPodReducers,
 });

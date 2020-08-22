@@ -27,3 +27,8 @@ export const showVotingResults = (votingResults): ActionBase => ({
   type: actionIds.SHOW_VOTING_RESULTS,
   payload: votingResults,
 });
+
+export const setStoryTitle = (title: string): ActionBase => ({
+  type: actionIds.SET_STORY_TITLE,
+  payload: title,
+});

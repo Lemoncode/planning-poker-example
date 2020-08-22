@@ -6,7 +6,7 @@ export const podMasterActionIds = {
   CONNECT_MASTER: `${prefix}[0] MASTER CONNECTS TO SOCKET.`,
   DISCONNECT_MASTER: `${prefix}[1] Disconnect socket`,
   SEND_MESSAGE_MASTER: `${prefix}[2] Master player sends a message to the server`,
-  MASTER_VOTES: `${prefix}[3] Master votes, send vote to server`,
+  MASTER_VOTED: `${prefix}[3] Master Voted`,
 };
 
 export const ConnectMasterAction = (
@@ -29,4 +29,9 @@ export const voteTimeIsOverAction = (): ActionBase => ({
 export const masterVotesAction = (vote: string): ActionBase => ({
   type: podMasterActionIds.SEND_MESSAGE_MASTER,
   payload: { type: SocketOuputMessageTypes.USER_VOTED, payload: vote },
+});
+
+export const masterVotedAction = (): ActionBase => ({
+  type: podMasterActionIds.MASTER_VOTED,
+  payload: null,
 });

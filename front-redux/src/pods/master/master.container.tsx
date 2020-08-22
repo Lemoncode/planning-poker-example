@@ -10,18 +10,20 @@ import {
   SendCreateStoryMessageToServerAction,
   voteTimeIsOverAction,
   masterVotesAction,
+  masterVotedAction,
 } from './master.actions';
 import {
   resetAllVotedFlagsAction,
   resetAllVotesValuesAction,
+  setStoryTitle,
 } from 'core/actions';
 
 const useProps = () => {
   const nickname = useSelector(
-    (state: GlobalState) => state.profileState.nickname
+    (state: GlobalState) => state.sessionState.nickname
   );
-  const profileInfo = useSelector((state: GlobalState) => state.profileState);
-  const room = useSelector((state: GlobalState) => state.profileState.room);
+  const profileInfo = useSelector((state: GlobalState) => state.sessionState);
+  const room = useSelector((state: GlobalState) => state.sessionState.room);
 
   // TODO We should two selectors map to VM and VotedCollection should
   // not have vote field (or refactor needed)
@@ -35,6 +37,15 @@ const useProps = () => {
     (state: GlobalState) => state.masterPodState.masterPlanningPokerState.status
   );
 
+  const masterVoted = useSelector(
+    (state: GlobalState) =>
+      state.masterPodState.masterPlanningPokerState.masterVoted
+  );
+
+  const storyTitle = useSelector(
+    (state: GlobalState) => state.sessionState.story
+  );
+
   return {
     nickname,
     profileInfo,
@@ -42,6 +53,8 @@ const useProps = () => {
     playerCollection,
     voteCollectionResult,
     masterStatus,
+    masterVoted,
+    storyTitle,
   };
 };
 
@@ -53,13 +66,11 @@ export const MasterContainer = () => {
     playerCollection,
     voteCollectionResult,
     masterStatus,
+    masterVoted,
+    storyTitle,
   } = useProps();
 
   const dispatch = useDispatch();
-
-  // TODO: not sure if worth to move it to redux state
-  const [masterVoted, setMasterVoted] = React.useState(false);
-  const [storyTitle, setStoryTitle] = React.useState('');
 
   React.useEffect(() => {
     dispatch(
@@ -72,13 +83,13 @@ export const MasterContainer = () => {
   }, []);
 
   const handleSetStoryTitle = (title: string) => {
-    setMasterVoted(false);
-    setStoryTitle(title);
+    dispatch(setStoryTitle(title));
     dispatch(SendCreateStoryMessageToServerAction(title));
   };
 
   const handleMasterVoteChosen = (vote: string) => {
-    setMasterVoted(true);
+    // Unify?
+    dispatch(masterVotedAction());
     dispatch(masterVotesAction(vote));
   };
 
@@ -92,7 +103,7 @@ export const MasterContainer = () => {
     // this cleanup in one go
     // May we store story title in a reducer? on the current session
     // current story
-    setStoryTitle('');
+    dispatch(setStoryTitle(''));
     dispatch(resetAllVotesValuesAction());
     dispatch(resetAllVotedFlagsAction());
   };

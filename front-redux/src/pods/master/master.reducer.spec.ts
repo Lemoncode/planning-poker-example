@@ -34,6 +34,7 @@ describe('masterPlanningPokerReducer', () => {
     // Arrange
     const previousState: MasterPlanningPokerState = {
       status: MasterStatus.CREATING_STORY,
+      masterVoted: false,
     };
 
     // TODO: Discussion, should we rely on this action creator?
@@ -51,6 +52,7 @@ describe('masterPlanningPokerReducer', () => {
     // Arrange
     const previousState: MasterPlanningPokerState = {
       status: MasterStatus.VOTING_IN_PROGRESS,
+      masterVoted: false,
     };
 
     // TODO: Discussion, should we rely on this action creator?
@@ -66,6 +68,7 @@ describe('masterPlanningPokerReducer', () => {
     // Arrange
     const previousState: MasterPlanningPokerState = {
       status: MasterStatus.SHOWING_RESULTS,
+      masterVoted: false,
     };
 
     // TODO: Unify all reset actions maybe createNewStory action
