@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { MasterComponent } from './master.component';
-import { Player, MasterStatus, VoteResult } from './master.vm';
+import { Player, VoteResult } from './master.vm';
+import { MasterStatus } from './master.const';
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalState } from 'core/reducers';
 import { selectVoteCollectionResult } from './master.selectors';
@@ -46,7 +47,7 @@ export const MasterContainer = () => {
     playerCollection,
     voteCollectionResult,
   } = useProps();
-  
+
   const dispatch = useDispatch();
 
   const [masterStatus, SetMasterStatus] = React.useState<MasterStatus>(

@@ -1,0 +1,6 @@
+export enum MasterStatus {
+  INITIALIZING,
+  CREATING_STORY,
+  VOTING_IN_PROGRESS,
+  SHOWING_RESULTS,
+}

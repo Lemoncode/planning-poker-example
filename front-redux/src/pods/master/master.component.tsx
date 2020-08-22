@@ -8,7 +8,8 @@ import {
   VotingInProgress,
   ShowVotingResults,
 } from './components';
-import { Player, MasterStatus, VoteResult } from './master.vm';
+import { Player, VoteResult } from './master.vm';
+import { MasterStatus } from './master.const';
 import { VoteOptionsComponent } from 'common-app/components';
 
 interface Props {
