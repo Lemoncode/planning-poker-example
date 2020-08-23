@@ -20,11 +20,15 @@ import { ConnectionStatus, VoteResult } from './player.vm';
 import { setProfileInfo } from 'core/actions';
 
 const useProps = () => {
-  const { nickname, room } = useSelector(
+  const { nickname, room, story } = useSelector(
     (state: GlobalState) => state.sessionState
   );
 
-  return { room, nickname };
+  const playerStatus = useSelector(
+    (state: GlobalState) => state.playerPodState.playerPlanningPokerState.status
+  );
+
+  return { room, nickname, playerStatus, story };
 };
 
 const useHandlers = () => {
@@ -36,7 +40,7 @@ const useHandlers = () => {
 };
 
 export const PlayerContainer = () => {
-  const { room } = useProps();
+  const { room, playerStatus, story } = useProps();
   const { dispatch } = useHandlers();
 
   const authContext = React.useContext(AuthContext);
@@ -45,18 +49,17 @@ export const PlayerContainer = () => {
   // TODO: type this.
   const params = useParams();
 
-  const [story, setStory] = React.useState('');
   const [vote, setVote] = React.useState('');
   const [voteCollectionResult, setVoteCollectionresult] = React.useState<
     VoteResult[]
   >([]);
-  const [playerStatus, SetplayerStatus] = React.useState<PlayerStatus>(
+  /*const [playerStatus, SetplayerStatus] = React.useState<PlayerStatus>(
     PlayerStatus.NOT_CONNECTED
-  );
+  );*/
 
   const handleConnect = nickname => {
     // TODO: move to redux state
-    SetplayerStatus(PlayerStatus.CONNECTION_IN_PROGRESS);
+    //SetplayerStatus(PlayerStatus.CONNECTION_IN_PROGRESS);
 
     // TODO: move to redux state
     const room = params['room'];
@@ -74,33 +77,11 @@ export const PlayerContainer = () => {
     );
 
     /*
-    SetplayerStatus(PlayerStatus.CONNECTION_IN_PROGRESS);
-    authContext.setNickname(nickname);
-
-    const room = params['room'];
-
-    // No Error handling here
-    // connection maybe refused, e.g. room is not valid
-    // or nickname is already in use in that room
-    // TODO: fix this
-    const socket: Socket = createSocket({
-      user: nickname,
-      room,
-      isMaster: false,
-    });
-
-    socketContext.setSocket(socket);
-
-    setRoom(room);
 
     socket.on('message', msg => {
       console.log(msg);
       if (msg.type) {
         switch (msg.type) {
-          case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
-            //alert('Connection established !!!');
-            SetplayerStatus(PlayerStatus.WAITING_FOR_STORY);
-            break;
           case SocketInputMessageTypes.NEW_STORY:
             //alert('new Story !!');
             setStory(msg.payload);
@@ -132,7 +113,7 @@ export const PlayerContainer = () => {
 
   const handleVoteChosen = (vote: string) => {
     setVote(vote);
-    SetplayerStatus(PlayerStatus.VOTING_CLOSED);
+    //SetplayerStatus(PlayerStatus.VOTING_CLOSED);
 
     // Send messsage to server informing about the vote
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {

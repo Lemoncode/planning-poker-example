@@ -8,7 +8,7 @@ export interface PlayerPlanningPokerState {
   status: PlayerStatus;
 }
 
-const createDefaultMasterPlanningPokerState = () : PlayerPlanningPokerState => ({
+const createDefaultMasterPlanningPokerState = (): PlayerPlanningPokerState => ({
   status: PlayerStatus.NOT_CONNECTED,
 });
 
@@ -17,8 +17,12 @@ export const playerPlanningPokerReducer = (
   action: ActionBase
 ): PlayerPlanningPokerState => {
   switch (action.type) {
+    case podPlayerActionIds.CONNECT_PLAYER:
+      return { ...state, status: PlayerStatus.CONNECTION_IN_PROGRESS };
     case podPlayerActionIds.PLAYER_SUCCESSFULLY_CONNECTED:
-      return { ...state, status: PlayerStatus.CONNECTED };
+      return { ...state, status: PlayerStatus.WAITING_FOR_STORY };
+    case actionIds.SET_STORY_TITLE:
+      return { ...state, status: PlayerStatus.VOTING_IN_PROGRESS };
   }
 
   return state;

@@ -7,7 +7,7 @@ import {
   SocketOuputMessageLiteral,
   SocketInputMessageTypes,
 } from 'core';
-import { showVotingResults } from 'core/actions';
+import { showVotingResults, setStoryTitle } from 'core/actions';
 import { podPlayerActionIds, playerSuccessfulyConnectedAction } from './player.actions';
 
 
@@ -22,6 +22,10 @@ function subscribe(socket) {
           case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
             emit(playerSuccessfulyConnectedAction());
             break;
+          case SocketInputMessageTypes.NEW_STORY:
+            emit(setStoryTitle(payload))
+            break;
+
         }
       }
     });
