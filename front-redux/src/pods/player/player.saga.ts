@@ -8,11 +8,57 @@ import {
   SocketInputMessageTypes,
 } from 'core';
 import { showVotingResults } from 'core/actions';
-import { podPlayerActionIds } from './player.actions';
+import { podPlayerActionIds, playerSuccessfulyConnectedAction } from './player.actions';
+
+
+function subscribe(socket) {
+  return eventChannel(emit => {
+    socket.on(SocketOuputMessageLiteral.MESSAGE, msg => {
+      console.log(`Socket Msg received in Saga: ${msg}`);
+      if (msg.type) {
+        const { type, payload } = msg;
+
+        switch (type) {
+          case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
+            emit(playerSuccessfulyConnectedAction());
+            break;
+        }
+      }
+    });
+
+    /*
+    socket.on('disconnect', e => {
+      // TODO: handle
+    });
+    socket.on('error', error => {
+      // TODO: handle
+      console.log('Error while trying to connect, TODO: proper handle of this event');
+    });*/
+
+    return () => {};
+  });
+}
+
+
+function* read(socket) {
+  const channel = yield call(subscribe, socket);
+  while (true) {
+    let action = yield take(channel);
+    yield put(action);
+  }
+}
+
+
+function* write(socket) {
+  while (true) {
+    const { payload } = yield take(podPlayerActionIds.SEND_MESSAGE_PLAYER);
+    socket.emit(SocketOuputMessageLiteral.MESSAGE, payload);
+  }
+}
 
 function* handleIO(socket) {
-  //  yield fork(read, socket);
-  //  yield fork(write, socket);
+  yield fork(read, socket);
+  yield fork(write, socket);
 }
 
 function* flow() {

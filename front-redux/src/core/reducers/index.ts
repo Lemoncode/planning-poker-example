@@ -1,5 +1,10 @@
 import { SessionState, sessionReducer } from './session.reducer';
-import { MasterPodState, masterPodReducers } from 'pods';
+import {
+  MasterPodState,
+  masterPodReducers,
+  PlayerPodState,
+  playerPodReducers,
+} from 'pods';
 
 import {
   PlayerCollectionState,
@@ -11,10 +16,12 @@ export interface GlobalState {
   sessionState: SessionState;
   playerCollectionState: PlayerCollectionState;
   masterPodState: MasterPodState;
+  playerPodState: PlayerPodState;
 }
 
 export const globalReducers = combineReducers<GlobalState>({
   sessionState: sessionReducer,
   playerCollectionState: playerCollectionReducer,
   masterPodState: masterPodReducers,
+  playerPodState: playerPodReducers,
 });

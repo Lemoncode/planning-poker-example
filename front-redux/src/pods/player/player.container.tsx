@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 import { createSocket } from 'core';
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalState } from 'core/reducers';
-import { ConnectPlayerAction } from './player.actions';
+import { connectPlayerAction } from './player.actions';
+import { PlayerStatus } from './player.const';
 
 import {
   AuthContext,
@@ -15,7 +16,7 @@ import {
   SocketOuputMessageTypes,
 } from 'core';
 import SocketIOClient, { Socket } from 'socket.io';
-import { ConnectionStatus, PlayerStatus, VoteResult } from './player.vm';
+import { ConnectionStatus, VoteResult } from './player.vm';
 import { setProfileInfo } from 'core/actions';
 
 const useProps = () => {
@@ -35,7 +36,7 @@ const useHandlers = () => {
 };
 
 export const PlayerContainer = () => {
-  const {room} = useProps();
+  const { room } = useProps();
   const { dispatch } = useHandlers();
 
   const authContext = React.useContext(AuthContext);
@@ -65,7 +66,7 @@ export const PlayerContainer = () => {
     // the other way around
     dispatch(setProfileInfo({ nickname, room, isMaster: false }));
     dispatch(
-      ConnectPlayerAction({
+      connectPlayerAction({
         user: nickname,
         room,
         isMaster: false,
