@@ -26,6 +26,8 @@ export const sessionReducer = (
       return handleSetRoom(state, action.payload);
     case actionIds.SET_STORY_TITLE:
       return handleSetStoryTitle(state, action.payload);
+    case actionIds.SET_PROFILE_INFO:
+      return handleSetProfileInfo(state, action.payload);
     case actionIds.CLEANUP_BEFORE_MOVING_TO_NEXT_STORY:
       return handleCleanupBeforeMovingToNextStory(state);
   }
@@ -33,10 +35,19 @@ export const sessionReducer = (
   return state;
 };
 
-const handleCleanupBeforeMovingToNextStory = (
+const handleSetProfileInfo = (
   state: SessionState,
-): SessionState => ({ ...state, story: '' });
+  { nickname, room, isMaster }
+): SessionState => ({
+  ...state,
+  nickname,
+  room,
+  isMaster,
+});
 
+const handleCleanupBeforeMovingToNextStory = (
+  state: SessionState
+): SessionState => ({ ...state, story: '' });
 
 const handleSetStoryTitle = (
   state: SessionState,

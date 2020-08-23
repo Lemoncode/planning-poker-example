@@ -9,4 +9,5 @@ export const actionIds = {
   SERVER_INFORMS_USER_HAS_VOTED_ACTION: `${prefix}[6] A given user has voted - no value is informed here`,
   SHOW_VOTING_RESULTS: `${prefix}[8] Server provides with a list of players and voting results`,
   SET_STORY_TITLE: `${prefix}[9] Set Story Title`,
+  SET_PROFILE_INFO: `${prefix}[10] Set nickname, room, isMaster flag`,
 };

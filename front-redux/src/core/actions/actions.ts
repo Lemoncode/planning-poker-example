@@ -27,3 +27,13 @@ export const setStoryTitle = (title: string): ActionBase => ({
   type: actionIds.SET_STORY_TITLE,
   payload: title,
 });
+
+interface ProfileInfo {
+  nickname: string;
+  room: string;
+  isMaster: boolean;
+}
+export const setProfileInfo = (profileInfo: ProfileInfo): ActionBase => ({
+  type: actionIds.SET_PROFILE_INFO,
+  payload: profileInfo,
+});

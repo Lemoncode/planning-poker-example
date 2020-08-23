@@ -2,6 +2,10 @@ import * as React from 'react';
 import { PlayerComponent } from './player.component';
 import { useParams } from 'react-router-dom';
 import { createSocket } from 'core';
+import { useSelector, useDispatch } from 'react-redux';
+import { GlobalState } from 'core/reducers';
+import { ConnectPlayerAction } from './player.actions';
+
 import {
   AuthContext,
   SocketErrorTypes,
@@ -12,14 +16,33 @@ import {
 } from 'core';
 import SocketIOClient, { Socket } from 'socket.io';
 import { ConnectionStatus, PlayerStatus, VoteResult } from './player.vm';
+import { setProfileInfo } from 'core/actions';
+
+const useProps = () => {
+  const { nickname, room } = useSelector(
+    (state: GlobalState) => state.sessionState
+  );
+
+  return { room, nickname };
+};
+
+const useHandlers = () => {
+  const dispatch = useDispatch();
+
+  return {
+    dispatch,
+  };
+};
 
 export const PlayerContainer = () => {
+  const {room} = useProps();
+  const { dispatch } = useHandlers();
+
   const authContext = React.useContext(AuthContext);
   const socketContext = React.useContext(SocketContext);
 
   // TODO: type this.
   const params = useParams();
-  const [room, setRoom] = React.useState('');
 
   const [story, setStory] = React.useState('');
   const [vote, setVote] = React.useState('');
@@ -31,10 +54,30 @@ export const PlayerContainer = () => {
   );
 
   const handleConnect = nickname => {
+    // TODO: move to redux state
+    SetplayerStatus(PlayerStatus.CONNECTION_IN_PROGRESS);
+
+    // TODO: move to redux state
+    const room = params['room'];
+
+    // Maybe we could just use one action for both, but then we
+    // have to import connectPlayer into global reducer or
+    // the other way around
+    dispatch(setProfileInfo({ nickname, room, isMaster: false }));
+    dispatch(
+      ConnectPlayerAction({
+        user: nickname,
+        room,
+        isMaster: false,
+      })
+    );
+
+    /*
     SetplayerStatus(PlayerStatus.CONNECTION_IN_PROGRESS);
     authContext.setNickname(nickname);
 
     const room = params['room'];
+
     // No Error handling here
     // connection maybe refused, e.g. room is not valid
     // or nickname is already in use in that room
@@ -82,7 +125,7 @@ export const PlayerContainer = () => {
       }
       console.log(msg);
     });
-
+    */
     // TODO close socket on navgiate away (use effect return)
   };
 

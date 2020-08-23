@@ -4,12 +4,17 @@ import { globalReducers } from 'core/reducers';
 import { all, fork } from 'redux-saga/effects';
 import { createSessionPodRootSaga } from 'pods/create-session';
 import { masterPodRootSagas } from 'pods/master';
+import { playerPodRootSagas } from 'pods/player';
 
 const sagaMiddleware = createSagaMiddleware();
 
 // Group here all pods sagas
 const rootSaga = function* root() {
-  yield all([fork(createSessionPodRootSaga), fork(masterPodRootSagas)]);
+  yield all([
+    fork(createSessionPodRootSaga),
+    fork(masterPodRootSagas),
+    fork(playerPodRootSagas),
+  ]);
 };
 
 const composeEnhancer =
