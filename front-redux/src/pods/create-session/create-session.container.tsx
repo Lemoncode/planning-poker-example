@@ -3,7 +3,6 @@ import { CreateSessionComponent } from './create-session.component';
 import { useHistory } from 'react-router-dom';
 import { createRoom } from './create-session.api';
 import { routes } from 'core/router';
-import { AuthContext } from 'core';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   roomRequestStartAction,
