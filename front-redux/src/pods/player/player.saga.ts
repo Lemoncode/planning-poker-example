@@ -25,7 +25,8 @@ function subscribe(socket) {
           case SocketInputMessageTypes.NEW_STORY:
             emit(setStoryTitle(payload))
             break;
-
+          case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
+            emit(showVotingResults(payload))
         }
       }
     });

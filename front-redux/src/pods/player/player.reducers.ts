@@ -1,7 +1,7 @@
 import { PlayerStatus } from './player.const';
 import { ActionBase, SocketOuputMessageTypes } from 'core';
 import { actionIds } from 'core/actions';
-import { podPlayerActionIds } from './player.actions';
+import { podPlayerActionIds, playerVotesAction } from './player.actions';
 import { combineReducers } from 'redux';
 
 export interface PlayerPlanningPokerState {
@@ -25,6 +25,8 @@ export const playerPlanningPokerReducer = (
       return { ...state, status: PlayerStatus.VOTING_IN_PROGRESS };
     case podPlayerActionIds.SEND_MESSAGE_PLAYER:
       return handleSendMessagePlayer(state, action.payload);
+    case actionIds.SHOW_VOTING_RESULTS:
+      return { ...state, status: PlayerStatus.SHOW_RESULTS };
   }
 
   return state;
@@ -40,8 +42,8 @@ const handleSendMessagePlayer = (
     switch (message.type) {
       case SocketOuputMessageTypes.USER_VOTED:
         return { ...state, status: PlayerStatus.VOTING_CLOSED };
-      /* case SocketOuputMessageTypes.END_VOTE_TIME:
-        return { ...state, status: MasterStatus.SHOWING_RESULTS };*/
+      case SocketOuputMessageTypes.END_VOTE_TIME:
+        return { ...state, status: PlayerStatus.SHOW_RESULTS };
     }
   }
 

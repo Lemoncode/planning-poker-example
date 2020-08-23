@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { GlobalState } from 'core/reducers';
 import { connectPlayerAction, playerVotesAction } from './player.actions';
 import { PlayerStatus } from './player.const';
-
 import {
   AuthContext,
   SocketErrorTypes,
@@ -18,6 +17,7 @@ import {
 import SocketIOClient, { Socket } from 'socket.io';
 import { ConnectionStatus, VoteResult } from './player.vm';
 import { setProfileInfo } from 'core/actions';
+import { selectVoteCollectionResult } from './player.selector';
 
 const useProps = () => {
   const { nickname, room, story } = useSelector(
@@ -28,7 +28,9 @@ const useProps = () => {
     (state: GlobalState) => state.playerPodState.playerPlanningPokerState.status
   );
 
-  return { room, nickname, playerStatus, story };
+  const voteCollectionResult = useSelector(selectVoteCollectionResult);
+
+  return { room, nickname, playerStatus, story, voteCollectionResult };
 };
 
 const useHandlers = () => {
@@ -40,7 +42,7 @@ const useHandlers = () => {
 };
 
 export const PlayerContainer = () => {
-  const { room, playerStatus, story } = useProps();
+  const { room, playerStatus, story, voteCollectionResult } = useProps();
   const { dispatch } = useHandlers();
 
   const authContext = React.useContext(AuthContext);
@@ -49,10 +51,9 @@ export const PlayerContainer = () => {
   // TODO: type this.
   const params = useParams();
 
+  // Likely we could remove vote/setVote or move it to reducer
+  // I think is not in use by children components
   const [vote, setVote] = React.useState('');
-  const [voteCollectionResult, setVoteCollectionresult] = React.useState<
-    VoteResult[]
-  >([]);
 
   const handleConnect = nickname => {
     // TODO: move to redux state
