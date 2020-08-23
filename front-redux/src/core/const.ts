@@ -19,6 +19,7 @@ export const SocketErrorTypes = {
 
 export const SocketOuputMessageLiteral = {
   MESSAGE: 'message',
+  ERROR: 'error-app',
 };
 
 export const SocketOuputMessageTypes = {

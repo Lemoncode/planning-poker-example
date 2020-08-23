@@ -6,10 +6,12 @@ import { combineReducers } from 'redux';
 
 export interface PlayerPlanningPokerState {
   status: PlayerStatus;
+  nicknameInUse: boolean;
 }
 
 const createDefaultMasterPlanningPokerState = (): PlayerPlanningPokerState => ({
   status: PlayerStatus.NOT_CONNECTED,
+  nicknameInUse: false,
 });
 
 export const playerPlanningPokerReducer = (
@@ -27,6 +29,12 @@ export const playerPlanningPokerReducer = (
       return handleSendMessagePlayer(state, action.payload);
     case actionIds.SHOW_VOTING_RESULTS:
       return { ...state, status: PlayerStatus.SHOW_RESULTS };
+    case podPlayerActionIds.DISCONNECT_PLAYER:
+      return { ...state, status: PlayerStatus.NOT_CONNECTED };
+    case podPlayerActionIds.NOTIFY_NICKNAME_IN_USE:
+      return { ...state, nicknameInUse: true };
+    case podPlayerActionIds.HIDE_NICKNAME_INUSE_NOTIFICATION:
+      return { ...state, nicknameInUse: false };
   }
 
   return state;

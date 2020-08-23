@@ -6,10 +6,16 @@ import {
   promisifiedCreateSocket,
   SocketOuputMessageLiteral,
   SocketInputMessageTypes,
+  SocketErrorTypes,
 } from 'core';
 import { showVotingResults, setStoryTitle } from 'core/actions';
-import { podPlayerActionIds, playerSuccessfulyConnectedAction } from './player.actions';
-
+import {
+  podPlayerActionIds,
+  playerSuccessfulyConnectedAction,
+  disconnectPlayerAction,
+  notifyNickNameInUse
+  
+} from './player.actions';
 
 function subscribe(socket) {
   return eventChannel(emit => {
@@ -23,10 +29,24 @@ function subscribe(socket) {
             emit(playerSuccessfulyConnectedAction());
             break;
           case SocketInputMessageTypes.NEW_STORY:
-            emit(setStoryTitle(payload))
+            emit(setStoryTitle(payload));
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
-            emit(showVotingResults(payload))
+            emit(showVotingResults(payload));
+        }
+      }
+    });
+
+    socket.on(SocketOuputMessageLiteral.ERROR, msg => {
+      console.log(`Socket Msg received in Saga: ${msg}`);
+      if (msg.type) {
+        const { type, payload } = msg;
+
+        switch (type) {
+          case SocketErrorTypes.NICKNAME_ALREADY_IN_USE:
+            emit(notifyNickNameInUse())
+            emit(disconnectPlayerAction());
+            break;
         }
       }
     });
@@ -44,7 +64,6 @@ function subscribe(socket) {
   });
 }
 
-
 function* read(socket) {
   const channel = yield call(subscribe, socket);
   while (true) {
@@ -52,7 +71,6 @@ function* read(socket) {
     yield put(action);
   }
 }
-
 
 function* write(socket) {
   while (true) {

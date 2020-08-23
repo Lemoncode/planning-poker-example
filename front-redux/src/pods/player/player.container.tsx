@@ -4,7 +4,11 @@ import { useParams } from 'react-router-dom';
 import { createSocket } from 'core';
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalState } from 'core/reducers';
-import { connectPlayerAction, playerVotesAction } from './player.actions';
+import {
+  connectPlayerAction,
+  playerVotesAction,
+  hideNickNameInUseNotification,
+} from './player.actions';
 import { PlayerStatus } from './player.const';
 import {
   AuthContext,
@@ -24,13 +28,20 @@ const useProps = () => {
     (state: GlobalState) => state.sessionState
   );
 
-  const playerStatus = useSelector(
-    (state: GlobalState) => state.playerPodState.playerPlanningPokerState.status
+  const { status: playerStatus, nicknameInUse } = useSelector(
+    (state: GlobalState) => state.playerPodState.playerPlanningPokerState
   );
 
   const voteCollectionResult = useSelector(selectVoteCollectionResult);
 
-  return { room, nickname, playerStatus, story, voteCollectionResult };
+  return {
+    room,
+    nickname,
+    playerStatus,
+    nicknameInUse,
+    story,
+    voteCollectionResult,
+  };
 };
 
 const useHandlers = () => {
@@ -42,7 +53,13 @@ const useHandlers = () => {
 };
 
 export const PlayerContainer = () => {
-  const { room, playerStatus, story, voteCollectionResult } = useProps();
+  const {
+    room,
+    playerStatus,
+    story,
+    voteCollectionResult,
+    nicknameInUse,
+  } = useProps();
   const { dispatch } = useHandlers();
 
   const authContext = React.useContext(AuthContext);
@@ -54,6 +71,13 @@ export const PlayerContainer = () => {
   // Likely we could remove vote/setVote or move it to reducer
   // I think is not in use by children components
   const [vote, setVote] = React.useState('');
+
+  React.useEffect(() => {
+    if (nicknameInUse) {
+      dispatch(hideNickNameInUseNotification());
+      alert('nick name in use, try with another nick name');
+    }
+  }, [nicknameInUse]);
 
   const handleConnect = nickname => {
     // TODO: move to redux state
@@ -75,19 +99,6 @@ export const PlayerContainer = () => {
     );
 
     /*
-
-    socket.on('message', msg => {
-      console.log(msg);
-      if (msg.type) {
-        switch (msg.type) {
-          case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
-            setVoteCollectionresult(msg.payload);
-            SetplayerStatus(PlayerStatus.SHOW_RESULTS);
-            break;
-        }
-      }
-    });
-
     socket.on('error-app', msg => {
       if (msg.type) {
         switch (msg.type) {
