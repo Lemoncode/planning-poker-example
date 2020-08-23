@@ -21,3 +21,8 @@ export const playerSuccessfulyConnectedAction = () => ({
   type: podPlayerActionIds.PLAYER_SUCCESSFULLY_CONNECTED,
   payload: null,
 });
+
+export const playerVotesAction = (vote: string): ActionBase => ({
+  type: podPlayerActionIds.SEND_MESSAGE_PLAYER,
+  payload: { type: SocketOuputMessageTypes.USER_VOTED, payload: vote },
+});

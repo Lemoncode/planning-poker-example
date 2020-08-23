@@ -23,6 +23,8 @@ export const playerPlanningPokerReducer = (
       return { ...state, status: PlayerStatus.WAITING_FOR_STORY };
     case actionIds.SET_STORY_TITLE:
       return { ...state, status: PlayerStatus.VOTING_IN_PROGRESS };
+    case podPlayerActionIds.SEND_MESSAGE_PLAYER:
+      return handleSendMessagePlayer(state, action.payload);
   }
 
   return state;
@@ -35,13 +37,12 @@ const handleSendMessagePlayer = (
 ): PlayerPlanningPokerState => {
   // TODO: consider using lodash get here
   if (message && message.type) {
-    /*
     switch (message.type) {
-      case SocketOuputMessageTypes.CREATE_STORY:
-        return { ...state, status: MasterStatus.VOTING_IN_PROGRESS };
-      case SocketOuputMessageTypes.END_VOTE_TIME:
-        return { ...state, status: MasterStatus.SHOWING_RESULTS };
-    }*/
+      case SocketOuputMessageTypes.USER_VOTED:
+        return { ...state, status: PlayerStatus.VOTING_CLOSED };
+      /* case SocketOuputMessageTypes.END_VOTE_TIME:
+        return { ...state, status: MasterStatus.SHOWING_RESULTS };*/
+    }
   }
 
   return state;

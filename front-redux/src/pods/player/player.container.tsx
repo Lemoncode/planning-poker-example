@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { createSocket } from 'core';
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalState } from 'core/reducers';
-import { connectPlayerAction } from './player.actions';
+import { connectPlayerAction, playerVotesAction } from './player.actions';
 import { PlayerStatus } from './player.const';
 
 import {
@@ -53,9 +53,6 @@ export const PlayerContainer = () => {
   const [voteCollectionResult, setVoteCollectionresult] = React.useState<
     VoteResult[]
   >([]);
-  /*const [playerStatus, SetplayerStatus] = React.useState<PlayerStatus>(
-    PlayerStatus.NOT_CONNECTED
-  );*/
 
   const handleConnect = nickname => {
     // TODO: move to redux state
@@ -82,11 +79,6 @@ export const PlayerContainer = () => {
       console.log(msg);
       if (msg.type) {
         switch (msg.type) {
-          case SocketInputMessageTypes.NEW_STORY:
-            //alert('new Story !!');
-            setStory(msg.payload);
-            SetplayerStatus(PlayerStatus.VOTING_IN_PROGRESS);
-            break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
             setVoteCollectionresult(msg.payload);
             SetplayerStatus(PlayerStatus.SHOW_RESULTS);
@@ -112,14 +104,7 @@ export const PlayerContainer = () => {
   };
 
   const handleVoteChosen = (vote: string) => {
-    setVote(vote);
-    //SetplayerStatus(PlayerStatus.VOTING_CLOSED);
-
-    // Send messsage to server informing about the vote
-    socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
-      type: SocketOuputMessageTypes.USER_VOTED,
-      payload: vote,
-    });
+    dispatch(playerVotesAction(vote));
   };
 
   return (
