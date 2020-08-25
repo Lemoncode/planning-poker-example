@@ -4,41 +4,53 @@ import { Theme } from './theme.vm';
 
 const defaultTheme = createMuiTheme();
 
+const varColors = {
+  yellowLemon: '#d9d900',
+  yellowLemonLight: '#f2fedc',
+  yellowLemonDark: '#a7ab00',
+  brownLemon: '#242415',
+  green: '#008c86',
+  greenDark: '#334b49',
+  greenLight: '#95b1ae',
+  blue: '#2f4858',
+  grey1: '#e6e6e6',
+  grey2: '#b3b3b3',
+  grey3: '#a5a5a5',
+};
+
 export const theme: Theme = merge(defaultTheme, {
   palette: {
     primary: {
-      main: '#008c86',
-      light: '#95b1ae',
-      dark: '#334b49',
+      main: varColors.green,
+      light: varColors.greenLight,
+      dark: varColors.greenDark,
     },
     secondary: {
-      main: '#d9d900',
-      light: '#f2fedc',
-      dark: '#a7ab00',
+      main: varColors.yellowLemon,
+      light: varColors.yellowLemonLight,
+      dark: varColors.yellowLemonDark,
     },
     text: {
-      primary: '#e6e6e6',
-      secondary: '#b3b3b3',
-      disabled: '#a5a5a5',
-      hint: '#a5a5a5',
+      primary: varColors.grey1,
+      secondary: varColors.grey2,
+      disabled: varColors.grey3,
     },
     common: {
-      black: '#d242415',
+      black: '#000000',
       white: '#ffffff',
     },
     info: {
-      main: '#2f4858',
-    },
-    table: {
-      header: {
-        main: '#2f4858',
-        contrastText: '#f2f2f2',
-      },
-      row: {
-        main: '#e6e6e6',
-        contrastText: '#242415',
-      },
+      main: varColors.blue,
     },
   },
-  typography: {},
+  typography: {
+    h4: {
+      color: varColors.brownLemon,
+    },
+  },
+  breakpoints: {
+    values: {
+      md: 667,
+    },
+  },
 } as Theme);
