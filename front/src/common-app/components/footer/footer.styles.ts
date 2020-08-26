@@ -2,18 +2,17 @@ import { css } from 'emotion';
 import { theme } from 'core/theme';
 
 export const footer = css`
-  display: grid;
-  grid-template-columns: 1fr;
-  justify-items: center;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
+  grid-area: foot;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
   min-width: 320px;
 `;
 
 export const imgFooter = css`
   max-width: 140px;
   padding: 2% 0;
+  align-self: center;
 
   ${theme.breakpoints.down('sm')} {
     max-width: 80px;
@@ -26,7 +25,8 @@ export const menuFooter = css`
   display: flex;
   width: 100%;
   justify-content: center;
-  padding: 2% 0;
+  align-self: center;
+  padding: 0;
 
   ${theme.breakpoints.down('sm')} {
     font-size: 0.6rem;
@@ -47,6 +47,7 @@ export const copyFooter = css`
   font-size: 0.6rem;
   color: ${theme.palette.text.disabled};
   padding: 2%;
+  align-self: flex-end;
 
   ${theme.breakpoints.down('sm')} {
     font-size: 0.4rem;

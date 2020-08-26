@@ -27,7 +27,7 @@ export const CreateSessionComponent: React.FunctionComponent<Props> = props => {
             onChange={e => setNickname(e.target.value)}
           />
           <Button
-            className={classes.formItem}
+            className={`${classes.formItem} ${classes.button}`}
             variant="contained"
             color="primary"
             onClick={e => onCreateSession(nickname)}

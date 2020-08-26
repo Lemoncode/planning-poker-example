@@ -9,6 +9,7 @@ export const background = css`
   height: 100vh;
   top: 0;
   margin: 0;
+  z-index: -1000;
   ${theme.breakpoints.up('sm')} {
     background: url(./src/assets/fondo-tablet.jpg) no-repeat center center;
     background-size: cover;
@@ -21,10 +22,13 @@ export const background = css`
 
 export const root = css`
   display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  margin-top: 2rem;
-  position: relative;
-  justify-items: center;
+  grid-auto-flow: row;
+  grid-template-rows: 1fr 3fr 1fr;
+  grid-template-columns: 100%;
+  grid-template-areas:
+    'head'
+    'main'
+    'foot';
+  height: 100vh;
   min-width: 320px;
 `;
