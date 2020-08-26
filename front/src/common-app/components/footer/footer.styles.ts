@@ -12,14 +12,11 @@ export const footer = css`
 `;
 
 export const imgFooter = css`
-  max-width: 160px;
+  max-width: 140px;
   padding: 2% 0;
 
-  /* ${theme.breakpoints.down('md')} {
-    max-width: 100px;
-  } */
   ${theme.breakpoints.down('sm')} {
-    max-width: 90px;
+    max-width: 80px;
   }
 `;
 
@@ -31,9 +28,6 @@ export const menuFooter = css`
   justify-content: center;
   padding: 2% 0;
 
-  /* ${theme.breakpoints.down('md')} {
-    font-size: 0.7rem;
-  } */
   ${theme.breakpoints.down('sm')} {
     font-size: 0.6rem;
   }
@@ -54,9 +48,6 @@ export const copyFooter = css`
   color: ${theme.palette.text.disabled};
   padding: 2%;
 
-  /* ${theme.breakpoints.down('md')} {
-    font-size: 0.5rem;
-  } */
   ${theme.breakpoints.down('sm')} {
     font-size: 0.4rem;
   }

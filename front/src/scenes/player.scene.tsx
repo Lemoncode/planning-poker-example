@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { PlayerContainer } from 'pods/player';
-import { CenteredLayout } from 'layout';
-import { Header, Footer } from 'common-app/components';
+import { AppLayout } from 'layout';
 
 export const PlayerScene = () => {
   return (
-    <CenteredLayout>
-      <Header />
+    <AppLayout>
       <PlayerContainer />
-      <Footer />
-    </CenteredLayout>
+    </AppLayout>
   );
 };

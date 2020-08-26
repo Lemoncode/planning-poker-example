@@ -8,7 +8,7 @@ export const logoContainer = css`
 
 export const logo = css`
   width: 100%;
-  max-width: 150px;
+  max-width: 130px;
   margin: 0 auto;
   display: block;
 

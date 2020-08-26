@@ -1,14 +1,11 @@
 import React from 'react';
 import { CreateSessionContainer } from 'pods/create-session';
-import { CenteredLayout } from 'layout';
-import { Header, Footer } from 'common-app/components';
+import { AppLayout } from 'layout';
 
 export const CreateSessionScene: React.FC = () => {
   return (
-    <CenteredLayout>
-      <Header />
+    <AppLayout>
       <CreateSessionContainer />
-      <Footer />
-    </CenteredLayout>
+    </AppLayout>
   );
 };
