@@ -1,6 +1,8 @@
 import * as React from 'react';
+import * as classes from './master.component.styles';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { appBaseUrl } from 'core';
 import {
   DefineStoryComponent,
@@ -10,6 +12,8 @@ import {
 } from './components';
 import { Player, MasterStatus, VoteResult } from './master.vm';
 import { VoteOptionsComponent } from 'common-app/components';
+import { Divider } from '@material-ui/core';
+import { button } from 'pods/create-session/create-session.styles';
 
 interface Props {
   room: string;
@@ -66,17 +70,21 @@ export const MasterComponent: React.FC<Props> = props => {
   }
 
   return (
-    <>
-      <Typography variant="h3">
-        Share this link to let other participants join the session:
+    <div className={classes.container}>
+      <Divider variant="middle" />
+      <Typography className={classes.subtitle} variant="subtitle1">
+        Copy this link to the players that are going to join this poker planning
+        session
       </Typography>
-
-      <Typography variant="h3">{`${appBaseUrl}/#/player/${room}`}</Typography>
-
-      {showComponentBasedOnMasterStatus(masterStatus)}
-      {room ? (
-        <PlayersConnectedComponent playerCollection={playerCollection} />
-      ) : null}
-    </>
+      <div className={classes.urlContainer}>
+        <input type="text" value={`${appBaseUrl}/#/player/${room}`} disabled />
+        <FileCopyIcon
+          className={'copyIcon'}
+          onClick={() => {
+            navigator.clipboard.writeText(`${appBaseUrl}/#/player/${room}`);
+          }}
+        />
+      </div>
+    </div>
   );
 };
