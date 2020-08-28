@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classes from './vote-options.styles';
 import Button from '@material-ui/core/Button';
 import { TShirtVotes } from 'core';
 
@@ -16,13 +17,10 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
         <span>{title}</span>
       </div>
       <div>
-        <Button
-          variant="contained"
-          color="primary"
+        <div
+          className={classes.label}
           onClick={e => onVoteChosen(TShirtVotes.XXL)}
-        >
-          {TShirtVotes.XXL}
-        </Button>
+        ></div>
         <Button
           variant="contained"
           color="primary"

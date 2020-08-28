@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import { VoteResult } from '../master.vm';
+import { TablePlayerComponent } from '../../table-player/table-player.component';
 
 interface Props {
   onMoveToNextStory: () => void;
@@ -12,13 +13,14 @@ export const ShowVotingResults: React.FC<Props> = props => {
   return (
     <>
       <span>Show Voting results</span>
-      <ul>
+      <TablePlayerComponent playersCollection={voteCollectionResult} />
+      {/* <ul>
         {voteCollectionResult.map(({ nickname, vote }) => (
           <li key={nickname}>
             {nickname} - {vote}
           </li>
         ))}
-      </ul>
+      </ul> */}
 
       <Button variant="contained" color="primary" onClick={onMoveToNextStory}>
         Move to next story

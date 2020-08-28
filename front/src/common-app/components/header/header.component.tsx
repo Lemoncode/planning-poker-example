@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, Divider } from '@material-ui/core';
 import * as classes from './header.styles';
 
 interface Props {}
@@ -13,6 +13,7 @@ export const Header: React.FC<Props> = props => {
       <Typography className={classes.title} variant="h4" component="h4">
         T-Shirt Planning Poker
       </Typography>
+      <Divider variant="middle" />
     </header>
   );
 };
