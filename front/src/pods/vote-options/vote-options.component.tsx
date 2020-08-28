@@ -17,10 +17,6 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
         <span>{title}</span>
       </div>
       <div>
-        <div
-          className={classes.label}
-          onClick={e => onVoteChosen(TShirtVotes.XXL)}
-        ></div>
         <Button
           variant="contained"
           color="primary"

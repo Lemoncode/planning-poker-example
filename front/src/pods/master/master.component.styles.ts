@@ -69,6 +69,7 @@ export const urlContainer = css`
     border: 1px solid ${color.grey3};
     padding: 0 2%;
     border-radius: 3px;
+    background: white;
   }
   .copyIcon {
     margin-right: 3%;

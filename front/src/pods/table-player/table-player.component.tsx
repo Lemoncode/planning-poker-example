@@ -83,11 +83,11 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
                   {player.nickname}
                 </TableCell>
                 <TableCell className={'cell'} align="right">
-                  {player.voted ? (
-                    <CheckIcon color={'primary'} />
-                  ) : (
+                  {player.vote === '' ? (
                     <CloseIcon color={'error'} />
-                  )}
+                  ) : player.voted || player.vote ? (
+                    <CheckIcon color={'primary'} />
+                  ) : null}
                 </TableCell>
                 <TableCell className={'cell'} align="right">
                   {player.vote}
