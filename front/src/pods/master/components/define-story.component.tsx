@@ -1,7 +1,9 @@
 import * as React from 'react';
+import * as classes from './define-story.styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { TextareaAutosize } from '@material-ui/core';
 
 interface Props {
   onSubmit: (title: string) => void;
@@ -12,21 +14,25 @@ export const DefineStoryComponent: React.FC<Props> = props => {
   const { onSubmit } = props;
 
   return (
-    <>
-      <Typography variant="h3">User Story:</Typography>
-      <TextField
-        label="Title"
-        margin="normal"
+    <div className={classes.container}>
+      <Typography className={classes.subtitle} variant="subtitle1">
+        Define here you user history and click on start voting
+      </Typography>
+      <TextareaAutosize
+        className={classes.textArea}
+        rowsMin={3}
+        placeholder="Define here..."
         value={title}
         onChange={e => setTitle(e.target.value)}
       />
       <Button
+        className={classes.button}
         variant="contained"
         color="primary"
         onClick={e => onSubmit(title)}
       >
-        send
+        START VOTING
       </Button>
-    </>
+    </div>
   );
 };

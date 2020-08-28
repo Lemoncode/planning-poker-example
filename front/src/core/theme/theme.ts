@@ -29,9 +29,10 @@ export const theme: Theme = merge(defaultTheme, {
       main: varColors.yellowLemon,
       light: varColors.yellowLemonLight,
       dark: varColors.yellowLemonDark,
+      contrastText: varColors.brownLemon,
     },
     text: {
-      primary: varColors.grey1,
+      primary: varColors.brownLemon,
       secondary: varColors.grey2,
       disabled: varColors.grey3,
     },
@@ -42,11 +43,25 @@ export const theme: Theme = merge(defaultTheme, {
     info: {
       main: varColors.blue,
     },
+    varColors: {
+      yellowLemon: varColors.yellowLemon,
+      yellowLemonLight: varColors.yellowLemonLight,
+      yellowLemonDark: varColors.yellowLemonDark,
+      brownLemon: varColors.brownLemon,
+      green: varColors.green,
+      greenDark: varColors.greenDark,
+      greenLight: varColors.greenLight,
+      blue: varColors.blue,
+      grey1: varColors.grey1,
+      grey2: varColors.grey2,
+      grey3: varColors.grey3,
+    },
   },
   typography: {
     h4: {
       color: varColors.brownLemon,
     },
+    fontFamily: 'Roboto, Arial, sans-serif',
   },
   breakpoints: {
     values: {
