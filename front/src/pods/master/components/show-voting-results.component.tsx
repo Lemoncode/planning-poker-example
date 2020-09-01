@@ -14,13 +14,6 @@ export const ShowVotingResults: React.FC<Props> = props => {
     <>
       <span>Show Voting results</span>
       <TablePlayerComponent playersCollection={voteCollectionResult} />
-      {/* <ul>
-        {voteCollectionResult.map(({ nickname, vote }) => (
-          <li key={nickname}>
-            {nickname} - {vote}
-          </li>
-        ))}
-      </ul> */}
 
       <Button variant="contained" color="primary" onClick={onMoveToNextStory}>
         Move to next story

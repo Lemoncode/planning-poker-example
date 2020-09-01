@@ -7,10 +7,13 @@ import {
   SocketOuputMessageLiteral,
   SocketOuputMessageTypes,
 } from 'core';
+import { DefineStoryComponent, ShowVotingResults } from './components';
+import { VoteOptionsComponent } from '../vote-options/vote-options.component';
 import { useParams } from 'react-router-dom';
 import { MasterComponent } from './master.component';
 import { Player, MasterStatus, VoteResult } from './master.vm';
 import { AddNewPlayer, userVoted } from './master.business';
+import { TablePlayerComponent } from 'pods/table-player/table-player.component';
 
 const usePlayerCollection = () => {
   const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);
@@ -167,19 +170,43 @@ export const MasterContainer = () => {
     SetMasterStatus(MasterStatus.CREATING_STORY);
   };
 
+  const showComponentBasedOnMasterStatus = (status: MasterStatus) => {
+    switch (status) {
+      case MasterStatus.INITIALIZING:
+        return null;
+      case MasterStatus.CREATING_STORY:
+        setRoom(room);
+        return <DefineStoryComponent onSubmit={handleSetStoryTitle} />;
+      case MasterStatus.VOTING_IN_PROGRESS:
+        return (
+          <>
+            <VoteOptionsComponent
+              onFinishVoting={handleFinishVoting}
+              onVoteChosen={handleMasterVoteChosen}
+            />
+          </>
+        );
+      case MasterStatus.SHOWING_RESULTS:
+        setRoom('room');
+        return (
+          <>
+            <ShowVotingResults
+              onMoveToNextStory={handleMoveToNextStory}
+              voteCollectionResult={voteCollectionResult}
+            />
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <MasterComponent
       room={room}
-      setRoom={setRoom}
       playerCollection={playerCollection}
-      onSetStoryTitle={handleSetStoryTitle}
       masterStatus={masterStatus}
-      onFinishVoting={handleFinishVoting}
-      onMoveToNextStory={handleMoveToNextStory}
-      onMasterVoteChosen={handleMasterVoteChosen}
-      masterVoted={masterVoted}
-      voteCollectionResult={voteCollectionResult}
-      title={storyTitle}
+      showComponentBasedOnMasterStatus={showComponentBasedOnMasterStatus}
     />
   );
 };

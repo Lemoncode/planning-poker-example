@@ -1,58 +1,62 @@
 import * as React from 'react';
 import * as classes from './vote-options.styles';
-import Button from '@material-ui/core/Button';
 import { TShirtVotes } from 'core';
+import { Button } from '@material-ui/core';
 
 interface Props {
-  title: string;
   onVoteChosen: (vote: string) => void;
+  onFinishVoting: () => void;
 }
 
 export const VoteOptionsComponent: React.FC<Props> = props => {
-  const { onVoteChosen, title } = props;
+  const { onVoteChosen, onFinishVoting } = props;
 
   return (
-    <>
-      <div>
-        <span>{title}</span>
-      </div>
-      <div>
-        <Button
-          variant="contained"
-          color="primary"
+    <div className={classes.container}>
+      <div className={'container-labels'}>
+        <div
+          className={'label xxl'}
+          onClick={e => onVoteChosen(TShirtVotes.XXL)}
+        ></div>
+        <div
+          className={'label xl'}
           onClick={e => onVoteChosen(TShirtVotes.XL)}
-        >
-          {TShirtVotes.XL}
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
+        ></div>
+        <div
+          className={'label l'}
           onClick={e => onVoteChosen(TShirtVotes.L)}
-        >
-          {TShirtVotes.L}
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
+        ></div>
+        <div
+          className={'label m'}
           onClick={e => onVoteChosen(TShirtVotes.M)}
-        >
-          {TShirtVotes.M}
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
+        ></div>
+        <div
+          className={'label s'}
           onClick={e => onVoteChosen(TShirtVotes.S)}
-        >
-          {TShirtVotes.S}
-        </Button>
+        ></div>
+        <div
+          className={'label xs'}
+          onClick={e => onVoteChosen(TShirtVotes.XS)}
+        ></div>
+      </div>
+      <div className={'bottom-container'}>
         <Button
           variant="contained"
           color="primary"
-          onClick={e => onVoteChosen(TShirtVotes.XS)}
+          onClick={e => onFinishVoting()}
+          className={'bottom'}
         >
-          {TShirtVotes.XS}
+          send vote
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={e => onFinishVoting()}
+          className={'bottom'}
+        >
+          Finish Voting
         </Button>
       </div>
-    </>
+    </div>
   );
 };

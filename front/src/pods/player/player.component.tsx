@@ -9,7 +9,7 @@ import {
   ShowVotingResults,
 } from './components';
 
-import { VoteOptionsComponent } from '../vote-options/vote-options.component';
+import { VoteOptionsComponent } from 'pods/vote-options/vote-options.component';
 
 interface Props {
   room: string;
@@ -48,9 +48,7 @@ export const PlayerComponent: React.FC<Props> = props => {
       case PlayerStatus.WAITING_FOR_STORY:
         return <WaitComponent />;
       case PlayerStatus.VOTING_IN_PROGRESS:
-        return (
-          <VoteOptionsComponent onVoteChosen={onVoteChosen} title={title} />
-        );
+        return <VoteOptionsComponent onVoteChosen={onVoteChosen} />;
       case PlayerStatus.VOTING_CLOSED:
         return <span>You voted: {vote} wait for next story</span>;
       case PlayerStatus.SHOW_RESULTS:

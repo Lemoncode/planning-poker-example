@@ -1,7 +1,5 @@
 import * as React from 'react';
 import * as classes from './table-player.styles';
-import { PlayerComponent } from 'pods/player/player.component';
-import { Player, VoteResult } from '../master/master.vm';
 import Typography from '@material-ui/core/Typography';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
