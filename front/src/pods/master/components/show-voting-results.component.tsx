@@ -2,14 +2,15 @@ import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import { VoteResult } from '../master.vm';
 import { TablePlayerComponent } from '../../table-player/table-player.component';
+import {PlayerVotingStatus} from 'core';
 
 interface Props {
   onMoveToNextStory: () => void;
-  voteCollectionResult: VoteResult[];
+  playerVotingStatus: PlayerVotingStatus[];
 }
 
 export const ShowVotingResults: React.FC<Props> = props => {
-  const { onMoveToNextStory, voteCollectionResult } = props;
+  const { onMoveToNextStory, playerVotingStatus: voteCollectionResult } = props;
   return (
     <>
       <span>Show Voting results</span>

@@ -9,15 +9,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
-interface DataPlayers {
-  nickname: string;
-  voted?: boolean;
-  vote?: string;
-}
+import { VoteResult } from 'pods/master/master.vm';
+import { PlayerVotingStatus } from 'core';
 
 interface Props {
-  playersCollection: DataPlayers[];
+  playersCollection: PlayerVotingStatus[];
 }
 
 export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
@@ -42,46 +38,13 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody className={'body'}>
-            <TableRow>
-              <TableCell className={'cell'} component="th" scope="row">
-                Prueba1
-              </TableCell>
-              <TableCell className={'cell'} align="right">
-                <CheckIcon color={'primary'} />
-              </TableCell>
-              <TableCell className={'cell'} align="right">
-                Prueba2
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={'cell'} component="th" scope="row">
-                Prueba1
-              </TableCell>
-              <TableCell className={'cell'} align="right">
-                <CheckIcon color={'primary'} />
-              </TableCell>
-              <TableCell className={'cell'} align="right">
-                Prueba2
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={'cell'} component="th" scope="row">
-                Prueba1
-              </TableCell>
-              <TableCell className={'cell'} align="right">
-                <CheckIcon color={'primary'} />
-              </TableCell>
-              <TableCell className={'cell'} align="right">
-                Prueba2
-              </TableCell>
-            </TableRow>
             {playersCollection.map(player => (
               <TableRow key={player.nickname}>
                 <TableCell className={'cell'} component="th" scope="row">
                   {player.nickname}
                 </TableCell>
                 <TableCell className={'cell'} align="right">
-                  {player.vote === '' ? (
+                  {player.voted === false ? (
                     <CloseIcon color={'error'} />
                   ) : player.voted || player.vote ? (
                     <CheckIcon color={'primary'} />

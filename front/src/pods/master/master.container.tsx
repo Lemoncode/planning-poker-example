@@ -94,6 +94,10 @@ export const MasterContainer = () => {
     socketContext.setSocket(socket);
 
     setRoom(room);
+
+    // Set Master as first player in the room
+    updatePlayerCollection([{ nickname, voted: false }]);
+
     SetMasterStatus(MasterStatus.CREATING_STORY);
 
     socket.on(SocketOuputMessageLiteral.MESSAGE, msg => {
@@ -170,43 +174,18 @@ export const MasterContainer = () => {
     SetMasterStatus(MasterStatus.CREATING_STORY);
   };
 
-  const showComponentBasedOnMasterStatus = (status: MasterStatus) => {
-    switch (status) {
-      case MasterStatus.INITIALIZING:
-        return null;
-      case MasterStatus.CREATING_STORY:
-        setRoom(room);
-        return <DefineStoryComponent onSubmit={handleSetStoryTitle} />;
-      case MasterStatus.VOTING_IN_PROGRESS:
-        return (
-          <>
-            <VoteOptionsComponent
-              onFinishVoting={handleFinishVoting}
-              onVoteChosen={handleMasterVoteChosen}
-            />
-          </>
-        );
-      case MasterStatus.SHOWING_RESULTS:
-        setRoom('room');
-        return (
-          <>
-            <ShowVotingResults
-              onMoveToNextStory={handleMoveToNextStory}
-              voteCollectionResult={voteCollectionResult}
-            />
-          </>
-        );
-      default:
-        return null;
-    }
-  };
-
   return (
     <MasterComponent
       room={room}
       playerCollection={playerCollection}
+      onSetStoryTitle={handleSetStoryTitle}
       masterStatus={masterStatus}
-      showComponentBasedOnMasterStatus={showComponentBasedOnMasterStatus}
+      onFinishVoting={handleFinishVoting}
+      onMoveToNextStory={handleMoveToNextStory}
+      onMasterVoteChosen={handleMasterVoteChosen}
+      masterVoted={masterVoted}
+      voteCollectionResult={voteCollectionResult}
+      title={storyTitle}
     />
   );
 };

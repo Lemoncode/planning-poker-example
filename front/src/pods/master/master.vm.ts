@@ -14,3 +14,5 @@ export interface VoteResult {
   nickname: string;
   vote: string;
 }
+
+

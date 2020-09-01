@@ -5,7 +5,7 @@ import { Button } from '@material-ui/core';
 
 interface Props {
   onVoteChosen: (vote: string) => void;
-  onFinishVoting: () => void;
+  onFinishVoting?: () => void;
 }
 
 export const VoteOptionsComponent: React.FC<Props> = props => {
