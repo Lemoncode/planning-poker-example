@@ -1,7 +1,5 @@
 import * as React from 'react';
 import * as classes from './table-player.styles';
-import { PlayerComponent } from 'pods/player/player.component';
-import { Player, VoteResult } from '../master/master.vm';
 import Typography from '@material-ui/core/Typography';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
@@ -27,10 +25,10 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
 
   return (
     <div className={classes.container}>
-      <Typography className={classes.subtitle} variant="h6">
+      <Typography className={'subtitle'} variant="h6">
         Players connected:
       </Typography>
-      <TableContainer className={classes.table}>
+      <TableContainer className={'table'}>
         <Table aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -44,39 +42,6 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody className={'body'}>
-            <TableRow>
-              <TableCell className={'cell'} component="th" scope="row">
-                Prueba1
-              </TableCell>
-              <TableCell className={'cell'} align="right">
-                <CheckIcon color={'primary'} />
-              </TableCell>
-              <TableCell className={'cell'} align="right">
-                Prueba2
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={'cell'} component="th" scope="row">
-                Prueba1
-              </TableCell>
-              <TableCell className={'cell'} align="right">
-                <CheckIcon color={'primary'} />
-              </TableCell>
-              <TableCell className={'cell'} align="right">
-                Prueba2
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={'cell'} component="th" scope="row">
-                Prueba1
-              </TableCell>
-              <TableCell className={'cell'} align="right">
-                <CheckIcon color={'primary'} />
-              </TableCell>
-              <TableCell className={'cell'} align="right">
-                Prueba2
-              </TableCell>
-            </TableRow>
             {playersCollection.map(player => (
               <TableRow key={player.nickname}>
                 <TableCell className={'cell'} component="th" scope="row">
