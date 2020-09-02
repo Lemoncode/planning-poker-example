@@ -9,7 +9,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { VoteResult } from 'pods/master/master.vm';
 import { PlayerVotingStatus } from 'core';
 
 interface Props {
@@ -21,16 +20,16 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
 
   return (
     <div className={classes.container}>
-      <Typography className={classes.subtitle} variant="h6">
-        Players connected:
+      <Typography className={'subtitle'} variant="h6">
+        Table players:
       </Typography>
-      <TableContainer className={classes.table}>
+      <TableContainer className={'table'}>
         <Table aria-label="customized table">
           <TableHead>
             <TableRow>
-              <TableCell className={'head cell'}>Players</TableCell>
+              <TableCell className={'head cell'}>Players connected</TableCell>
               <TableCell className={'head cell'} align="right">
-                Status
+                Status Vote
               </TableCell>
               <TableCell className={'head cell'} align="right">
                 Result
@@ -44,11 +43,11 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
                   {player.nickname}
                 </TableCell>
                 <TableCell className={'cell'} align="right">
-                  {player.voted === false ? (
-                    <CloseIcon color={'error'} />
-                  ) : player.voted || player.vote ? (
+                  {player.voted ? (
                     <CheckIcon color={'primary'} />
-                  ) : null}
+                  ) : (
+                    <CloseIcon color={'error'} />
+                  )}
                 </TableCell>
                 <TableCell className={'cell'} align="right">
                   {player.vote}

@@ -4,10 +4,11 @@ import { appBaseUrl } from 'core';
 import { Player, MasterStatus, VoteResult } from './master.vm';
 import { TablePlayerComponent } from 'pods/table-player/table-player.component';
 import { CopySessionLinkComponent } from './components/copy-session-link.component';
-import { DefineStoryComponent, ShowVotingResults } from './components';
+import { DefineStoryComponent } from './components';
 // TODO: Move this to common-app
-import { VoteOptionsComponent } from 'pods/vote-options';
+import { VoteOptionsContainer } from 'pods/vote-options';
 import { PlayerVotingStatus } from 'core';
+import { Button, Divider } from '@material-ui/core';
 
 interface Props {
   room: string;
@@ -57,28 +58,61 @@ export const MasterComponent: React.FC<Props> = props => {
     setPlayerVotingStatus(statusCollection);
   }, [playerCollection, voteCollectionResult]);
 
+  const bottonFinishVoting: JSX.Element = (
+    <Button
+      variant="contained"
+      color="secondary"
+      onClick={e => onFinishVoting()}
+      className={'bottom'}
+    >
+      Finish Voting
+    </Button>
+  );
+
   const showComponentBasedOnMasterStatus = (status: MasterStatus) => {
     switch (status) {
       case MasterStatus.INITIALIZING:
         return null;
       case MasterStatus.CREATING_STORY:
-        return <DefineStoryComponent onSubmit={onSetStoryTitle} />;
+        return (
+          <>
+            <DefineStoryComponent onSubmit={onSetStoryTitle} />
+            {room ? (
+              <TablePlayerComponent playersCollection={playerVotingStatus} />
+            ) : null}
+          </>
+        );
       case MasterStatus.VOTING_IN_PROGRESS:
         return (
           <>
-            <VoteOptionsComponent
-              onFinishVoting={onFinishVoting}
-              onVoteChosen={onMasterVoteChosen}
-            />
+            <div className={'container-component'}>
+              <TablePlayerComponent playersCollection={playerVotingStatus} />
+            </div>
+            <div className={'container-component'}>
+              {title ? <h3 className={'subtitle'}>Story:</h3> : null}
+              {title ? <p className={'story'}>{title}</p> : null}
+            </div>
+            <div className={'container-component'}>
+              <VoteOptionsContainer
+                bottonFinishVoting={bottonFinishVoting}
+                onVoteChosen={onMasterVoteChosen}
+                votedStatus={masterVoted}
+              />
+            </div>
           </>
         );
       case MasterStatus.SHOWING_RESULTS:
         return (
           <>
-            <ShowVotingResults
-              onMoveToNextStory={onMoveToNextStory}
-              playerVotingStatus={playerVotingStatus}
-            />
+            <span>Show Voting results</span>
+            <TablePlayerComponent playersCollection={playerVotingStatus} />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={onMoveToNextStory}
+            >
+              Move to next story
+            </Button>
           </>
         );
       default:
@@ -89,19 +123,12 @@ export const MasterComponent: React.FC<Props> = props => {
   return (
     <>
       <div className={classes.container}>
-        {/* <div className={'left-container'}> */}
-        <CopySessionLinkComponent url={`${appBaseUrl}/#/player/${room}`} />
-        <div className={classes.component}>
-          {showComponentBasedOnMasterStatus(masterStatus)}
-        </div>
-        {/* </div> */}
-
-        {room ? (
-          <div className={classes.table}>
-            {' '}
-            <TablePlayerComponent playersCollection={playerVotingStatus} />
+        <div className={'left-container'}>
+          <CopySessionLinkComponent url={`${appBaseUrl}/#/player/${room}`} />
+          <div className={classes.component}>
+            {showComponentBasedOnMasterStatus(masterStatus)}
           </div>
-        ) : null}
+        </div>
       </div>
     </>
   );

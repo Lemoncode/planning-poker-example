@@ -6,17 +6,14 @@ const color = theme.palette.varColors;
 export const container = css`
   display: flex;
   flex-flow: column;
-
-  .title {
-    color: red;
-  }
+  padding: 5% 0;
 
   .container-labels {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
     width: auto;
-    margin: 5% 0;
+    margin: 0;
 
     ${theme.breakpoints.up('md')} {
       flex-flow: row;
@@ -25,50 +22,140 @@ export const container = css`
     .label {
       cursor: pointer;
       width: 30%;
-      height: auto;
-      margin: 3% 0;
+      min-height: 220px;
+      max-width: 128px;
+      margin: 3% 0 0;
+      color: red;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      flex-flow: column;
+      padding: 0;
+      background-image: url('./src/assets/label-white.png');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 100% auto;
+      color: ${theme.palette.varColors.brownLemon};
+
+      :hover {
+        background-image: url('./src/assets/label-red.png');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 100% auto;
+        color: ${theme.palette.varColors.grey1};
+        transition: background-image 0.2s ease-in;
+        -moz-transition: background-image 0.2s ease-in;
+      }
 
       ${theme.breakpoints.up('md')} {
+        /* width: 100%; */
+
+        min-height: 274px;
+      }
+
+      h1,
+      h2 {
+        padding: 0;
+        margin: 0;
         width: 100%;
+        text-align: center;
+        font-family: ${theme.typography.fontFamily};
+        text-shadow: 1px 1px 3px grey;
       }
-    }
-    .xxl {
-      content: url('./src/assets/xxl-white.png');
-      :hover {
-        content: url('./src/assets/xxl-red.png');
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 500;
+        letter-spacing: 0.08rem;
+        position: relative;
+        top: 1%;
+
+        ${theme.breakpoints.down('md')} {
+          font-size: 2.1rem;
+        }
+        ${theme.breakpoints.up('lg')} {
+          font-size: 1.9rem;
+        }
       }
-    }
-    .xl {
-      content: url('./src/assets/xl-white.png');
-      :hover {
-        content: url('./src/assets/xl-red.png');
-      }
-    }
-    .l {
-      content: url('./src/assets/l-white.png');
-      :hover {
-        content: url('./src/assets/l-red.png');
-      }
-    }
-    .m {
-      content: url('./src/assets/m-white.png');
-      :hover {
-        content: url('./src/assets/m-red.png');
-      }
-    }
-    .s {
-      content: url('./src/assets/s-white.png');
-      :hover {
-        content: url('./src/assets/s-red.png');
-      }
-    }
-    .xs {
-      content: url('./src/assets/xs-white.png');
-      :hover {
-        content: url('./src/assets/xs-red.png');
+      h2 {
+        font-size: 1.7rem;
+        font-weight: 100;
+        letter-spacing: 0.32rem;
+        position: relative;
+        top: -2%;
+        left: 1%;
+        ${theme.breakpoints.down('md')} {
+          font-size: 1.5rem;
+        }
+        ${theme.breakpoints.up('lg')} {
+          font-size: 1.3rem;
+        }
       }
     }
   }
+
+  .active-label {
+    cursor: pointer;
+    width: 30%;
+    min-height: 220px;
+    max-width: 128px;
+    margin: 3% 0 0;
+    color: red;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-flow: column;
+    padding: 0;
+    background-image: url('./src/assets/label-red.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% auto;
+    color: ${theme.palette.varColors.grey1};
+
+    ${theme.breakpoints.up('md')} {
+      /* width: 100%; */
+
+      min-height: 274px;
+    }
+
+    h1,
+    h2 {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      text-align: center;
+      font-family: ${theme.typography.fontFamily};
+      text-shadow: 1px 1px 3px grey;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 500;
+      letter-spacing: 0.08rem;
+      position: relative;
+      top: 1%;
+
+      ${theme.breakpoints.down('md')} {
+        font-size: 2.1rem;
+      }
+      ${theme.breakpoints.up('lg')} {
+        font-size: 1.9rem;
+      }
+    }
+    h2 {
+      font-size: 1.7rem;
+      font-weight: 100;
+      letter-spacing: 0.32rem;
+      position: relative;
+      top: -2%;
+      left: 1%;
+      ${theme.breakpoints.down('md')} {
+        font-size: 1.5rem;
+      }
+      ${theme.breakpoints.up('lg')} {
+        font-size: 1.3rem;
+      }
+    }
+  }
+
   .bottom-container {
     display: flex;
     flex-flow: column;

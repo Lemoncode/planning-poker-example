@@ -7,13 +7,10 @@ import {
   SocketOuputMessageLiteral,
   SocketOuputMessageTypes,
 } from 'core';
-import { DefineStoryComponent, ShowVotingResults } from './components';
-import { VoteOptionsComponent } from '../vote-options/vote-options.component';
 import { useParams } from 'react-router-dom';
 import { MasterComponent } from './master.component';
 import { Player, MasterStatus, VoteResult } from './master.vm';
 import { AddNewPlayer, userVoted } from './master.business';
-import { TablePlayerComponent } from 'pods/table-player/table-player.component';
 
 const usePlayerCollection = () => {
   const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);

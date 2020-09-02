@@ -5,57 +5,95 @@ import { Button } from '@material-ui/core';
 
 interface Props {
   onVoteChosen: (vote: string) => void;
-  onFinishVoting?: () => void;
+  bottonFinishVoting?: JSX.Element;
+  activeLabel: (event: React.MouseEvent) => void;
+  votedStatus: boolean;
 }
 
 export const VoteOptionsComponent: React.FC<Props> = props => {
-  const { onVoteChosen, onFinishVoting } = props;
+  const { onVoteChosen, activeLabel, votedStatus, bottonFinishVoting } = props;
+  const [voteChosen, setVoteChose] = React.useState('');
 
   return (
     <div className={classes.container}>
+      <h3 className={'subtitle'}>Select and send vote</h3>
+      {votedStatus ? <h2>Your vote: </h2> : null}
       <div className={'container-labels'}>
         <div
-          className={'label xxl'}
-          onClick={e => onVoteChosen(TShirtVotes.XXL)}
-        ></div>
+          className={'label'}
+          onClick={event => {
+            setVoteChose(TShirtVotes.XXL);
+            activeLabel(event);
+          }}
+        >
+          <h1>XXL</h1>
+          <h2>SIZE</h2>
+        </div>
         <div
-          className={'label xl'}
-          onClick={e => onVoteChosen(TShirtVotes.XL)}
-        ></div>
+          className={'label'}
+          onClick={event => {
+            setVoteChose(TShirtVotes.XL);
+            activeLabel(event);
+          }}
+        >
+          <h1>XL</h1>
+          <h2>SIZE</h2>
+        </div>
         <div
-          className={'label l'}
-          onClick={e => onVoteChosen(TShirtVotes.L)}
-        ></div>
+          className={'label'}
+          onClick={event => {
+            setVoteChose(TShirtVotes.L);
+            activeLabel(event);
+          }}
+        >
+          <h1>L</h1>
+          <h2>SIZE</h2>
+        </div>
         <div
-          className={'label m'}
-          onClick={e => onVoteChosen(TShirtVotes.M)}
-        ></div>
+          className={'label'}
+          onClick={event => {
+            setVoteChose(TShirtVotes.M);
+            activeLabel(event);
+          }}
+        >
+          <h1>M</h1>
+          <h2>SIZE</h2>
+        </div>
         <div
-          className={'label s'}
-          onClick={e => onVoteChosen(TShirtVotes.S)}
-        ></div>
+          className={'label'}
+          onClick={event => {
+            setVoteChose(TShirtVotes.S);
+            activeLabel(event);
+          }}
+        >
+          <h1>S</h1>
+          <h2>SIZE</h2>
+        </div>
         <div
-          className={'label xs'}
-          onClick={e => onVoteChosen(TShirtVotes.XS)}
-        ></div>
+          className={'label'}
+          onClick={event => {
+            setVoteChose(TShirtVotes.XS);
+            activeLabel(event);
+          }}
+        >
+          <h1>XS</h1>
+          <h2>SIZE</h2>
+        </div>
       </div>
       <div className={'bottom-container'}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={e => onFinishVoting()}
-          className={'bottom'}
-        >
-          send vote
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={e => onFinishVoting()}
-          className={'bottom'}
-        >
-          Finish Voting
-        </Button>
+        {votedStatus ? (
+          undefined
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={e => onVoteChosen(voteChosen)}
+            className={'bottom'}
+          >
+            send vote
+          </Button>
+        )}
+        {bottonFinishVoting}
       </div>
     </div>
   );
