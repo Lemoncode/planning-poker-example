@@ -9,7 +9,7 @@ import {
   ShowVotingResults,
 } from './components';
 
-import { VoteOptionsComponent } from 'common-app/components';
+import { VoteOptionsComponent } from '../vote-options/vote-options.component';
 
 interface Props {
   room: string;

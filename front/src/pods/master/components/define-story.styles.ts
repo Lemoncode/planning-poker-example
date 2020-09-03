@@ -16,9 +16,6 @@ export const subtitle = css`
   padding-top: 3%;
   font-size: 0.9rem;
   line-height: 1.3rem;
-
-  ${theme.breakpoints.down('sm')} {
-  }
 `;
 
 export const textArea = css`

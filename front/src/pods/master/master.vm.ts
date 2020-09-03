@@ -13,4 +13,4 @@ export enum MasterStatus {
 export interface VoteResult {
   nickname: string;
   vote: string;
- }
+}

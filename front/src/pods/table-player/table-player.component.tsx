@@ -1,8 +1,8 @@
 import * as React from 'react';
-import * as classes from './players-connected.styles';
-import { PlayerComponent } from 'pods/player/player.component';
-import { Player } from '../master.vm';
+import * as classes from './table-player.styles';
 import Typography from '@material-ui/core/Typography';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,19 +10,25 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-interface Props {
-  playerCollection: Player[];
+interface DataPlayers {
+  nickname: string;
+  voted?: boolean;
+  vote?: string;
 }
 
-export const PlayersConnectedComponent: React.FC<Props> = (props: Props) => {
-  const { playerCollection } = props;
+interface Props {
+  playersCollection: DataPlayers[];
+}
+
+export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
+  const { playersCollection } = props;
 
   return (
     <div className={classes.container}>
-      <Typography className={classes.subtitle} variant="h6">
+      <Typography className={'subtitle'} variant="h6">
         Players connected:
       </Typography>
-      <TableContainer className={classes.table}>
+      <TableContainer className={'table'}>
         <Table aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -35,14 +41,21 @@ export const PlayersConnectedComponent: React.FC<Props> = (props: Props) => {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {playerCollection.map(player => (
-              <TableRow className={'body'} key={player.nickname}>
+          <TableBody className={'body'}>
+            {playersCollection.map(player => (
+              <TableRow key={player.nickname}>
                 <TableCell className={'cell'} component="th" scope="row">
                   {player.nickname}
                 </TableCell>
                 <TableCell className={'cell'} align="right">
-                  {player.voted}
+                  {player.vote === '' ? (
+                    <CloseIcon color={'error'} />
+                  ) : player.voted || player.vote ? (
+                    <CheckIcon color={'primary'} />
+                  ) : null}
+                </TableCell>
+                <TableCell className={'cell'} align="right">
+                  {player.vote}
                 </TableCell>
               </TableRow>
             ))}

@@ -170,6 +170,7 @@ export const MasterContainer = () => {
   return (
     <MasterComponent
       room={room}
+      setRoom={setRoom}
       playerCollection={playerCollection}
       onSetStoryTitle={handleSetStoryTitle}
       masterStatus={masterStatus}

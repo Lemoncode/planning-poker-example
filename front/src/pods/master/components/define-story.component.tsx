@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as classes from './define-story.styles';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { TextareaAutosize } from '@material-ui/core';
 
