@@ -6,29 +6,42 @@ const color = theme.palette.varColors;
 export const container = css`
   grid-area: main;
   width: 100%;
-  padding: 7%;
+  padding: 1% 7%;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-content: center;
-  /* border: 1px solid yellowgreen; */
+  justify-self: center;
   font-size: 1rem;
+
+  .title {
+    font-weight: 300;
+    color: ${color.grey1};
+    text-align: center;
+    margin: 0;
+    background: rgba(36, 36, 21, 0.3);
+    border-radius: 3px;
+    padding: 3%;
+  }
 
   .subtitle {
     font-weight: 300;
-    color: ${color.grey1};
+    color: ${color.greenLight};
     font-size: 0.9rem;
     line-height: 1.3rem;
     margin: 0;
   }
 
   .container-component {
-    border: 1px solid red;
+    padding: 10% 0 0;
+    margin: 0;
+    width: 100%;
+    display: block;
   }
 
   .story {
-    color: ${theme.palette.varColors.grey1};
-    border: 1px dashed ${theme.palette.varColors.greenDark};
+    color: ${color.grey1};
+    border: 1px dashed ${color.yellowLemonDark};
     background: rgba(36, 36, 21, 0.3);
     border-radius: 3px;
     padding: 3%;
@@ -39,25 +52,53 @@ export const container = css`
 
   ${theme.breakpoints.up('lg')} {
     display: grid;
-    grid-template-areas: 'left right';
-    grid-auto-flow: row;
-    grid-template-rows: 1fr;
+    grid-template-areas:
+      'left right'
+      'left2 right'
+      'left3 right';
     grid-template-columns: 1fr 1fr;
-    grid-gap: 5%;
-  }
-  .left-container {
-    ${theme.breakpoints.up('lg')} {
+    grid-gap: 0 13%;
+
+    .left-container {
       grid-area: left;
-      align-self: end;
-      border: 1px solid red;
+      display: flex;
     }
+    .right-container {
+      grid-area: right;
+    }
+    .left-container2 {
+      grid-area: left2;
+      display: flex;
+    }
+    .right-container2 {
+      grid-area: right2;
+    }
+    .left-container3 {
+      grid-area: left3;
+      display: flex;
+    }
+    .right-container3 {
+      grid-area: right3;
+    }
+  }
+
+  ${theme.breakpoints.up('xl')} {
+    padding: 1% 2%;
+    width: 75%;
+    grid-gap: 0 20%;
   }
 `;
 
-export const component = css``;
+export const button = css`
+  width: 100%;
+  margin: 2% auto;
 
-export const table = css`
-  ${theme.breakpoints.up('lg')} {
-    grid-area: right;
+  :hover {
+    background: ${color.greenLight};
+    color: ${color.brownLemon};
+  }
+
+  ${theme.breakpoints.up('md')} {
+    width: 50%;
   }
 `;

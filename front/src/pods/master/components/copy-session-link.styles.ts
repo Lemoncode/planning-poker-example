@@ -6,7 +6,6 @@ const color = theme.palette.varColors;
 export const urlContainer = css`
   display: flex;
   flex-flow: column;
-  padding: 2% 0;
 
   ${theme.breakpoints.up('lg')} {
     grid-area: left;
@@ -15,10 +14,10 @@ export const urlContainer = css`
 
   .subtitle {
     font-weight: 300;
-    color: ${color.grey1};
-    padding-top: 3%;
+    color: ${color.greenLight};
     font-size: 0.9rem;
     line-height: 1.3rem;
+
     ${theme.breakpoints.up('lg')} {
       padding: 0 0 3%;
     }
@@ -28,22 +27,25 @@ export const urlContainer = css`
     display: flex;
     justify-content: space-between;
     align-content: center;
-    padding: 3% 0;
+    margin-top: 3%;
   }
 
   input {
     width: 80%;
     border: 1px solid ${color.grey3};
-    padding: 0 2%;
+    background: rgba(36, 36, 21, 0.3);
+    color: ${color.grey2};
+    font-weight: 100;
+    padding: 2%;
     border-radius: 3px;
-    background: white;
   }
   .copyIcon {
     margin-right: 3%;
     color: ${color.grey1};
     cursor: pointer;
     :hover {
-      color: ${color.grey2};
+      color: ${color.yellowLemon};
+      transform: scale(1.3);
     }
   }
 `;

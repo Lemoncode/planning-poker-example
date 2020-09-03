@@ -5,22 +5,29 @@ import { Button } from '@material-ui/core';
 
 interface Props {
   onVoteChosen: (vote: string) => void;
-  bottonFinishVoting?: JSX.Element;
+  buttonFinishVoting?: JSX.Element;
   activeLabel: (event: React.MouseEvent) => void;
   votedStatus: boolean;
 }
 
 export const VoteOptionsComponent: React.FC<Props> = props => {
-  const { onVoteChosen, activeLabel, votedStatus, bottonFinishVoting } = props;
+  const { onVoteChosen, activeLabel, votedStatus, buttonFinishVoting } = props;
   const [voteChosen, setVoteChose] = React.useState('');
 
   return (
     <div className={classes.container}>
-      <h3 className={'subtitle'}>Select and send vote</h3>
-      {votedStatus ? <h2>Your vote: </h2> : null}
-      <div className={'container-labels'}>
+      {votedStatus ? null : (
+        <h3 className={'subtitle'}>Select and send vote</h3>
+      )}
+
+      {votedStatus ? (
+        <h3 className={'subtitle subtitle2'}>
+          Your vote: <span className={'subtitle2'}>{voteChosen}</span>
+        </h3>
+      ) : null}
+      <div className={classes.contanierLabels}>
         <div
-          className={'label'}
+          className={classes.label}
           onClick={event => {
             setVoteChose(TShirtVotes.XXL);
             activeLabel(event);
@@ -30,7 +37,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
           <h2>SIZE</h2>
         </div>
         <div
-          className={'label'}
+          className={classes.label}
           onClick={event => {
             setVoteChose(TShirtVotes.XL);
             activeLabel(event);
@@ -40,7 +47,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
           <h2>SIZE</h2>
         </div>
         <div
-          className={'label'}
+          className={classes.label}
           onClick={event => {
             setVoteChose(TShirtVotes.L);
             activeLabel(event);
@@ -50,7 +57,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
           <h2>SIZE</h2>
         </div>
         <div
-          className={'label'}
+          className={classes.label}
           onClick={event => {
             setVoteChose(TShirtVotes.M);
             activeLabel(event);
@@ -60,7 +67,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
           <h2>SIZE</h2>
         </div>
         <div
-          className={'label'}
+          className={classes.label}
           onClick={event => {
             setVoteChose(TShirtVotes.S);
             activeLabel(event);
@@ -70,7 +77,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
           <h2>SIZE</h2>
         </div>
         <div
-          className={'label'}
+          className={classes.label}
           onClick={event => {
             setVoteChose(TShirtVotes.XS);
             activeLabel(event);
@@ -80,20 +87,24 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
           <h2>SIZE</h2>
         </div>
       </div>
-      <div className={'bottom-container'}>
+      <div className={'button-container'}>
         {votedStatus ? (
           undefined
         ) : (
           <Button
             variant="contained"
             color="primary"
-            onClick={e => onVoteChosen(voteChosen)}
-            className={'bottom'}
+            onClick={e =>
+              voteChosen !== ''
+                ? onVoteChosen(voteChosen)
+                : alert('Select label')
+            }
+            className={'button'}
           >
             send vote
           </Button>
         )}
-        {bottonFinishVoting}
+        {buttonFinishVoting}
       </div>
     </div>
   );

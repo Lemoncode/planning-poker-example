@@ -6,168 +6,32 @@ const color = theme.palette.varColors;
 export const container = css`
   display: flex;
   flex-flow: column;
-  padding: 5% 0;
 
-  .container-labels {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    width: auto;
+  .subtitle {
+    font-weight: 300;
+    color: ${color.grey1};
+    font-size: 0.9rem;
+    line-height: 1.3rem;
     margin: 0;
-
-    ${theme.breakpoints.up('md')} {
-      flex-flow: row;
-    }
-
-    .label {
-      cursor: pointer;
-      width: 30%;
-      min-height: 220px;
-      max-width: 128px;
-      margin: 3% 0 0;
-      color: red;
-      display: flex;
-      justify-content: center;
-      align-content: center;
-      flex-flow: column;
-      padding: 0;
-      background-image: url('./src/assets/label-white.png');
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: 100% auto;
-      color: ${theme.palette.varColors.brownLemon};
-
-      :hover {
-        background-image: url('./src/assets/label-red.png');
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 100% auto;
-        color: ${theme.palette.varColors.grey1};
-        transition: background-image 0.2s ease-in;
-        -moz-transition: background-image 0.2s ease-in;
-      }
-
-      ${theme.breakpoints.up('md')} {
-        /* width: 100%; */
-
-        min-height: 274px;
-      }
-
-      h1,
-      h2 {
-        padding: 0;
-        margin: 0;
-        width: 100%;
-        text-align: center;
-        font-family: ${theme.typography.fontFamily};
-        text-shadow: 1px 1px 3px grey;
-      }
-      h1 {
-        font-size: 2.5rem;
-        font-weight: 500;
-        letter-spacing: 0.08rem;
-        position: relative;
-        top: 1%;
-
-        ${theme.breakpoints.down('md')} {
-          font-size: 2.1rem;
-        }
-        ${theme.breakpoints.up('lg')} {
-          font-size: 1.9rem;
-        }
-      }
-      h2 {
-        font-size: 1.7rem;
-        font-weight: 100;
-        letter-spacing: 0.32rem;
-        position: relative;
-        top: -2%;
-        left: 1%;
-        ${theme.breakpoints.down('md')} {
-          font-size: 1.5rem;
-        }
-        ${theme.breakpoints.up('lg')} {
-          font-size: 1.3rem;
-        }
-      }
-    }
+  }
+  .subtitle2 {
+    font-size: 1.2rem;
+    font-weight: 500;
   }
 
-  .active-label {
-    cursor: pointer;
-    width: 30%;
-    min-height: 220px;
-    max-width: 128px;
-    margin: 3% 0 0;
-    color: red;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    flex-flow: column;
-    padding: 0;
-    background-image: url('./src/assets/label-red.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 100% auto;
-    color: ${theme.palette.varColors.grey1};
-
-    ${theme.breakpoints.up('md')} {
-      /* width: 100%; */
-
-      min-height: 274px;
-    }
-
-    h1,
-    h2 {
-      padding: 0;
-      margin: 0;
-      width: 100%;
-      text-align: center;
-      font-family: ${theme.typography.fontFamily};
-      text-shadow: 1px 1px 3px grey;
-    }
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 500;
-      letter-spacing: 0.08rem;
-      position: relative;
-      top: 1%;
-
-      ${theme.breakpoints.down('md')} {
-        font-size: 2.1rem;
-      }
-      ${theme.breakpoints.up('lg')} {
-        font-size: 1.9rem;
-      }
-    }
-    h2 {
-      font-size: 1.7rem;
-      font-weight: 100;
-      letter-spacing: 0.32rem;
-      position: relative;
-      top: -2%;
-      left: 1%;
-      ${theme.breakpoints.down('md')} {
-        font-size: 1.5rem;
-      }
-      ${theme.breakpoints.up('lg')} {
-        font-size: 1.3rem;
-      }
-    }
-  }
-
-  .bottom-container {
+  .button-container {
     display: flex;
     flex-flow: column;
     justify-content: center;
     width: 100%;
 
-    .bottom {
+    .button {
       width: 100%;
       margin: 2% auto;
 
       :hover {
-        background: ${theme.palette.primary.light};
+        background: ${color.greenLight};
+        color: ${color.brownLemon};
       }
 
       ${theme.breakpoints.up('md')} {
@@ -175,4 +39,118 @@ export const container = css`
       }
     }
   }
+`;
+
+export const contanierLabels = css`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  width: auto;
+  margin: 0;
+
+  ${theme.breakpoints.up('sm')} {
+    flex-flow: row;
+  }
+`;
+
+export const contanierLabelShowVote = css`
+  ${contanierLabels}
+  justify-content: center;
+`;
+
+export const label = css`
+  cursor: pointer;
+  width: 30%;
+  min-height: 220px;
+  max-width: 128px;
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-flow: column;
+  padding: 0;
+  background-image: url('./src/assets/label-white.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% auto;
+  color: ${theme.palette.varColors.brownLemon};
+
+  :hover {
+    background-image: url('./src/assets/label-red.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% auto;
+    color: ${theme.palette.varColors.grey1};
+    transition: background-image 0.2s ease-in;
+    -moz-transition: background-image 0.2s ease-in;
+  }
+
+  ${theme.breakpoints.up('md')} {
+    min-height: 274px;
+  }
+
+  h1,
+  h2 {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+    font-family: ${theme.typography.fontFamily};
+    text-shadow: 1px 1px 3px grey;
+  }
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 500;
+    letter-spacing: 0.08rem;
+    position: relative;
+    top: 1%;
+
+    ${theme.breakpoints.down('md')} {
+      font-size: 2.1rem;
+    }
+    ${theme.breakpoints.up('lg')} {
+      font-size: 1.7rem;
+    }
+    ${theme.breakpoints.up('xl')} {
+      font-size: 1.9rem;
+    }
+  }
+  h2 {
+    font-size: 1.7rem;
+    font-weight: 100;
+    letter-spacing: 0.32rem;
+    position: relative;
+    top: -2%;
+    left: 1%;
+    ${theme.breakpoints.down('md')} {
+      font-size: 1.5rem;
+    }
+    ${theme.breakpoints.up('lg')} {
+      font-size: 1.1rem;
+    }
+    ${theme.breakpoints.up('xl')} {
+      font-size: 1.3rem;
+    }
+  }
+`;
+
+export const activeLabel = css`
+  ${label}
+
+  background-image: url('./src/assets/label-red.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% auto;
+  color: ${theme.palette.varColors.grey1};
+  transform: scale(1.1);
+  transition: transform 100ms linear;
+  margin: 0 2%;
+`;
+
+export const showLabelVote = css`
+  ${activeLabel}
+
+  width: 25%;
+  cursor: default;
+  margin: 3% 0 5%;
 `;

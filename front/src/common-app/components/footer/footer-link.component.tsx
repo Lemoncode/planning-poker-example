@@ -9,8 +9,8 @@ export const FooterLinkComponent: React.FC<Props> = props => {
   const { href, children } = props;
 
   return (
-    <li className={classes.itemMenuFooter}>
-      <a className={classes.linkMenuFooter} href={href}>
+    <li className={'itemMenuFooter'}>
+      <a className={'linkMenuFooter'} href={href}>
         {children}
       </a>
     </li>

@@ -1,8 +1,11 @@
 import { css } from 'emotion';
 import { theme } from 'core/theme';
 
+const color = theme.palette.varColors;
+
 export const background = css`
   background: url(./src/assets/fondo-movil.jpg) no-repeat center center;
+  background-color: ${color.brownLemon};
   background-size: cover;
   position: fixed;
   width: 100vw;

@@ -10,18 +10,18 @@ export const Footer: React.FC<Props> = props => {
   return (
     <footer className={classes.footer}>
       <img
-        className={classes.imgFooter}
+        className={'imgFooter'}
         src="./src/assets/logo-lemon.png"
         alt="lemoncode"
       />
-      <ul className={classes.menuFooter}>
+      <ul className={'menuFooter'}>
         <FooterLinkComponent href="#">Aviso legal</FooterLinkComponent>
 
         <FooterLinkComponent href="#">Privacidad</FooterLinkComponent>
 
         <FooterLinkComponent href="#">Contactar</FooterLinkComponent>
       </ul>
-      <span className={classes.copyFooter}>Create by LEMONCODE © 2020</span>
+      <span className={'copyFooter'}>Create by LEMONCODE © 2020</span>
     </footer>
   );
 };

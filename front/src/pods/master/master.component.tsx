@@ -8,7 +8,7 @@ import { DefineStoryComponent } from './components';
 // TODO: Move this to common-app
 import { VoteOptionsContainer } from 'pods/vote-options';
 import { PlayerVotingStatus } from 'core';
-import { Button, Divider } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 interface Props {
   room: string;
@@ -58,12 +58,12 @@ export const MasterComponent: React.FC<Props> = props => {
     setPlayerVotingStatus(statusCollection);
   }, [playerCollection, voteCollectionResult]);
 
-  const bottonFinishVoting: JSX.Element = (
+  const buttonFinishVoting: JSX.Element = (
     <Button
       variant="contained"
       color="secondary"
       onClick={e => onFinishVoting()}
-      className={'bottom'}
+      className={'button'}
     >
       Finish Voting
     </Button>
@@ -76,25 +76,31 @@ export const MasterComponent: React.FC<Props> = props => {
       case MasterStatus.CREATING_STORY:
         return (
           <>
-            <DefineStoryComponent onSubmit={onSetStoryTitle} />
-            {room ? (
-              <TablePlayerComponent playersCollection={playerVotingStatus} />
-            ) : null}
+            <div className={'container-component left-container2'}>
+              <DefineStoryComponent onSubmit={onSetStoryTitle} />
+            </div>
+            <div className={'container-component right-container'}>
+              {room ? (
+                <TablePlayerComponent playersCollection={playerVotingStatus} />
+              ) : null}
+            </div>
           </>
         );
       case MasterStatus.VOTING_IN_PROGRESS:
         return (
           <>
-            <div className={'container-component'}>
+            <div className={'container-component left-container3'}>
               <TablePlayerComponent playersCollection={playerVotingStatus} />
             </div>
-            <div className={'container-component'}>
-              {title ? <h3 className={'subtitle'}>Story:</h3> : null}
-              {title ? <p className={'story'}>{title}</p> : null}
+            <div className={'left-container2'}>
+              <div className={'container-component'}>
+                {title ? <h3 className={'subtitle'}>Story:</h3> : null}
+                {title ? <p className={'story'}>{title}</p> : null}
+              </div>
             </div>
-            <div className={'container-component'}>
+            <div className={'container-component right-container'}>
               <VoteOptionsContainer
-                bottonFinishVoting={bottonFinishVoting}
+                buttonFinishVoting={buttonFinishVoting}
                 onVoteChosen={onMasterVoteChosen}
                 votedStatus={masterVoted}
               />
@@ -104,15 +110,24 @@ export const MasterComponent: React.FC<Props> = props => {
       case MasterStatus.SHOWING_RESULTS:
         return (
           <>
-            <span>Show Voting results</span>
-            <TablePlayerComponent playersCollection={playerVotingStatus} />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={onMoveToNextStory}
-            >
-              Move to next story
-            </Button>
+            <div className={'right-container'}>
+              <div className={'container-component'}>
+                <h2 className={'title'}>Show voting results</h2>
+              </div>
+              <div className={'container-component'}>
+                <TablePlayerComponent playersCollection={playerVotingStatus} />
+              </div>
+              <div className={'container-component'}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={onMoveToNextStory}
+                  className={classes.button}
+                >
+                  Move to next story
+                </Button>
+              </div>
+            </div>
           </>
         );
       default:
@@ -123,12 +138,11 @@ export const MasterComponent: React.FC<Props> = props => {
   return (
     <>
       <div className={classes.container}>
-        <div className={'left-container'}>
+        <div className={'container-component left-container'}>
           <CopySessionLinkComponent url={`${appBaseUrl}/#/player/${room}`} />
-          <div className={classes.component}>
-            {showComponentBasedOnMasterStatus(masterStatus)}
-          </div>
         </div>
+
+        {showComponentBasedOnMasterStatus(masterStatus)}
       </div>
     </>
   );
