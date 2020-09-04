@@ -12,14 +12,14 @@ export const CopySessionLinkComponent: React.FC<Props> = props => {
 
   return (
     <div className={classes.urlContainer}>
-      <Typography className={'subtitle'} variant="subtitle1">
+      <Typography className={classes.subtitle} variant="subtitle1">
         Copy this link to the players that are going to join this poker planning
         session
       </Typography>
-      <div className={'url'}>
-        <input type="text" value={url} disabled />
+      <div className={classes.url}>
+        <input className={classes.input} type="text" value={url} disabled />
         <FileCopyIcon
-          className={'copyIcon'}
+          className={classes.copyIcon}
           onClick={() => {
             navigator.clipboard.writeText(url);
           }}
