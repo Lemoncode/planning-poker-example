@@ -102,3 +102,31 @@ export const button = css`
     width: 50%;
   }
 `;
+
+export const buttonContainer = css`
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  width: 100%;
+  & > :nth-child(n) {
+    width: 100%;
+    margin: 2% auto;
+    ${theme.breakpoints.up('md')} {
+      width: 75%;
+    }
+  }
+`;
+
+export const finshButton = css`
+  width: 100%;
+  margin: 2% auto;
+
+  &:hover {
+    background: ${color.greenLight};
+    color: ${color.grey1};
+  }
+
+  ${theme.breakpoints.up('md')} {
+    width: 50%;
+  }
+`;

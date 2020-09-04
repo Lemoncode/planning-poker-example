@@ -6,7 +6,7 @@ import { cx } from 'emotion';
 
 interface Props {
   onVoteChosen: (vote: string) => void;
-  buttonFinishVoting?: JSX.Element;
+  buttonFinishVoting?: React.FC;
   votedStatus: boolean;
 }
 
