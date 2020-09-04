@@ -5,8 +5,7 @@ import { Player, MasterStatus, VoteResult } from './master.vm';
 import { TablePlayerComponent } from 'pods/table-player/table-player.component';
 import { CopySessionLinkComponent } from './components/copy-session-link.component';
 import { DefineStoryComponent } from './components';
-// TODO: Move this to common-app
-import { VoteOptionsContainer } from 'pods/vote-options';
+import { VoteOptionsComponent } from 'common-app/components';
 import { PlayerVotingStatus } from 'core';
 import { Button } from '@material-ui/core';
 
@@ -99,7 +98,7 @@ export const MasterComponent: React.FC<Props> = props => {
               </div>
             </div>
             <div className={'container-component right-container'}>
-              <VoteOptionsContainer
+              <VoteOptionsComponent
                 buttonFinishVoting={buttonFinishVoting}
                 onVoteChosen={onMasterVoteChosen}
                 votedStatus={masterVoted}
