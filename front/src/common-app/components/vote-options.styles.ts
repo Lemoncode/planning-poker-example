@@ -3,42 +3,43 @@ import { theme } from 'core/theme';
 
 const color = theme.palette.varColors;
 
+export const subtitle = css`
+  font-weight: 300;
+  color: ${color.grey1};
+  font-size: 0.9rem;
+  line-height: 1.3rem;
+  margin: 0;
+`;
+
+export const subtitle2 = css`
+  font-size: 1.2rem;
+  font-weight: 500;
+`;
+
+export const button = css`
+  &:hover {
+    background: ${color.greenLight};
+    color: ${color.brownLemon};
+  }
+`;
+
+export const buttonContainer = css`
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  width: 100%;
+  & > :nth-child(n) {
+    width: 100%;
+    margin: 2% auto;
+    ${theme.breakpoints.up('md')} {
+      width: 75%;
+    }
+  }
+`;
+
 export const container = css`
   display: flex;
   flex-flow: column;
-
-  .subtitle {
-    font-weight: 300;
-    color: ${color.grey1};
-    font-size: 0.9rem;
-    line-height: 1.3rem;
-    margin: 0;
-  }
-  .subtitle2 {
-    font-size: 1.2rem;
-    font-weight: 500;
-  }
-
-  .button-container {
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    width: 100%;
-
-    .button {
-      width: 100%;
-      margin: 2% auto;
-
-      :hover {
-        background: ${color.greenLight};
-        color: ${color.brownLemon};
-      }
-
-      ${theme.breakpoints.up('md')} {
-        width: 75%;
-      }
-    }
-  }
 `;
 
 export const contanierLabels = css`

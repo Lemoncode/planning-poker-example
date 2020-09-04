@@ -15,14 +15,10 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
   const [voteChosen, setVoteChosen] = React.useState('');
   const [voteActive, setVoteActive] = React.useState('');
 
-  const [voteCollection, setVoteCollection] = React.useState<string[]>([
-    TShirtVotes.XXL,
-    TShirtVotes.XL,
-    TShirtVotes.L,
-    TShirtVotes.M,
-    TShirtVotes.S,
-    TShirtVotes.XS,
-  ]);
+  // https://stackoverflow.com/questions/16174182/typescript-looping-through-a-dictionary
+  const [voteCollection, setVoteCollection] = React.useState<string[]>(
+    Object.keys(TShirtVotes).map(k => TShirtVotes[k])
+  );
 
   const onLocalVoteChosen = voteActive => {
     setVoteCollection([voteActive]);
@@ -35,12 +31,12 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
   return (
     <div className={classes.container}>
       {votedStatus ? null : (
-        <h3 className={'subtitle'}>Select and send vote</h3>
+        <h3 className={classes.subtitle}>Select and send vote</h3>
       )}
 
       {votedStatus ? (
-        <h3 className={'subtitle subtitle2'}>
-          Your vote: <span className={'subtitle2'}>{voteChosen}</span>
+        <h3 className={cx(classes.subtitle, classes.subtitle2)}>
+          Your vote: <span className={classes.subtitle2}>{voteChosen}</span>
         </h3>
       ) : null}
 
@@ -55,7 +51,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
           />
         ))}
       </div>
-      <div className={'button-container'}>
+      <div className={classes.buttonContainer}>
         {votedStatus ? (
           undefined
         ) : (
@@ -67,7 +63,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
                 ? onLocalVoteChosen(voteActive)
                 : alert('Select label')
             }
-            className={'button'}
+            className={classes.button}
           >
             send vote
           </Button>
