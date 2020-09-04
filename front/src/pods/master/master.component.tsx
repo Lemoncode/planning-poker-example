@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { cx } from 'emotion';
 import * as classes from './master.component.styles';
 import { appBaseUrl } from 'core';
 import { Player, MasterStatus, VoteResult } from './master.vm';
@@ -97,7 +98,7 @@ export const MasterComponent: React.FC<Props> = props => {
   return (
     <>
       <div className={classes.container}>
-        <div className={'container-component left-container'}>
+        <div className={cx(classes.containerComponent, classes.leftContainer)}>
           <CopySessionLinkComponent url={`${appBaseUrl}/#/player/${room}`} />
         </div>
 

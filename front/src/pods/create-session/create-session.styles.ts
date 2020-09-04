@@ -12,44 +12,44 @@ export const container = css`
   align-content: center;
   margin-top: 5%;
   padding: 3%;
+`;
 
-  .title {
-    text-align: center;
-    font-weight: 300;
+export const title = css`
+  text-align: center;
+  font-weight: 300;
+  color: ${color.grey1};
+  ${theme.breakpoints.down('sm')} {
+    font-size: 1.3rem;
+  }
+`;
+
+export const formContainer = css`
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  justify-content: center;
+  align-content: center;
+  padding: 6%;
+  align-items: center;
+  ${theme.breakpoints.up('lg')} {
+    padding: 2%;
+  }
+`;
+
+export const formItem = css`
+  max-width: 300px;
+  width: 100%;
+  margin: 2% 0;
+  ${theme.breakpoints.up('lg')} {
+    margin: 1% 0;
+  }
+`;
+
+export const textField = css`
+  border-bottom: 1px solid ${color.grey2};
+
+  input {
     color: ${color.grey1};
-    ${theme.breakpoints.down('sm')} {
-      font-size: 1.3rem;
-    }
-  }
-
-  .formContainer {
-    display: flex;
-    flex-flow: column;
-    width: 100%;
-    justify-content: center;
-    align-content: center;
-    padding: 6%;
-    align-items: center;
-    ${theme.breakpoints.up('lg')} {
-      padding: 2%;
-    }
-  }
-
-  .formItem {
-    max-width: 300px;
-    width: 100%;
-    margin: 2% 0;
-    ${theme.breakpoints.up('lg')} {
-      margin: 1% 0;
-    }
-  }
-
-  .textField {
-    border-bottom: 1px solid ${color.grey2};
-
-    input {
-      color: ${color.grey1};
-    }
   }
 `;
 
