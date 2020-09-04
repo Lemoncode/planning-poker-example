@@ -7,7 +7,6 @@ export const container = css`
   width: 100%;
   display: flex;
   flex-flow: column;
-  /* grid-area: aside; */
 
   .subtitle {
     font-weight: 300;

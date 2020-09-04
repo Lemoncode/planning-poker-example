@@ -21,7 +21,7 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
   return (
     <div className={classes.container}>
       <Typography className={'subtitle'} variant="h6">
-        Table players:
+        Players connected:
       </Typography>
       <TableContainer className={'table'}>
         <Table aria-label="customized table">
