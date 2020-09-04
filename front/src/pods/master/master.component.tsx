@@ -58,86 +58,39 @@ export const MasterComponent: React.FC<Props> = props => {
     setPlayerVotingStatus(statusCollection);
   }, [playerCollection, voteCollectionResult]);
 
-  const buttonFinishVoting: JSX.Element = (
-    <Button
-      variant="contained"
-      color="secondary"
-      onClick={e => onFinishVoting()}
-      className={'button'}
-    >
-      Finish Voting
-    </Button>
-  );
-
   const showComponentBasedOnMasterStatus = (status: MasterStatus) => {
     switch (status) {
       case MasterStatus.INITIALIZING:
         return null;
       case MasterStatus.CREATING_STORY:
         return (
-          <>
-            <div
-              className={cx(classes.containerComponent, classes.leftContainer2)}
-            >
-              <DefineStoryComponent onSubmit={onSetStoryTitle} />
-            </div>
-            <div
-              className={cx(classes.containerComponent, classes.rightContainer)}
-            >
-              {room ? (
-                <TablePlayerComponent playersCollection={playerVotingStatus} />
-              ) : null}
-            </div>
-          </>
+          <CreatingStoryComponent
+            onSetStoryTitle={onSetStoryTitle}
+            playerVotingStatus={playerVotingStatus}
+            room={room}
+          />
         );
+
       case MasterStatus.VOTING_IN_PROGRESS:
         return (
-          <>
-            <div
-              className={cx(classes.containerComponent, classes.leftContainer3)}
-            >
-              <TablePlayerComponent playersCollection={playerVotingStatus} />
-            </div>
-            <div className={classes.leftContainer2}>
-              <div className={classes.containerComponent}>
-                {title ? <h3 className={classes.subtitle}>Story:</h3> : null}
-                {title ? <p className={classes.story}>{title}</p> : null}
-              </div>
-            </div>
-            <div
-              className={cx(classes.containerComponent, classes.rightContainer)}
-            >
-              <VoteOptionsComponent
-                buttonFinishVoting={buttonFinishVoting}
-                onVoteChosen={onMasterVoteChosen}
-                votedStatus={masterVoted}
-              />
-            </div>
-          </>
+          <VotingInProgressComponent
+            onFinishVoting={onFinishVoting}
+            masterVoted={masterVoted}
+            onMasterVoteChosen={onMasterVoteChosen}
+            playerVotingStatus={playerVotingStatus}
+            title={title}
+          />
         );
+
       case MasterStatus.SHOWING_RESULTS:
         return (
-          <>
-            <div className={classes.rightContainer}>
-              <div className={classes.containerComponent}>
-                <h2 className={classes.title}>Show voting results</h2>
-              </div>
-              <div className={classes.containerComponent}>
-                <TablePlayerComponent playersCollection={playerVotingStatus} />
-              </div>
-              <div className={classes.containerComponent}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={onMoveToNextStory}
-                  className={classes.button}
-                >
-                  Move to next story
-                </Button>
-              </div>
-            </div>
-          </>
+          <ShowVotingResultsComponent
+            onMoveToNextStory={onMoveToNextStory}
+            playerVotingStatus={playerVotingStatus}
+            title={title}
+          />
         );
+
       default:
         return null;
     }
@@ -151,6 +104,114 @@ export const MasterComponent: React.FC<Props> = props => {
         </div>
 
         {showComponentBasedOnMasterStatus(masterStatus)}
+      </div>
+    </>
+  );
+};
+
+interface CreatingStoryProps {
+  onSetStoryTitle: (title: string) => void;
+  playerVotingStatus: PlayerVotingStatus[];
+  room: string;
+}
+
+const CreatingStoryComponent: React.FC<CreatingStoryProps> = props => {
+  const { onSetStoryTitle, playerVotingStatus, room } = props;
+  return (
+    <>
+      <div className={cx(classes.containerComponent, classes.leftContainer2)}>
+        <DefineStoryComponent onSubmit={onSetStoryTitle} />
+      </div>
+      <div className={cx(classes.containerComponent, classes.rightContainer)}>
+        {room ? (
+          <TablePlayerComponent playersCollection={playerVotingStatus} />
+        ) : null}
+      </div>
+    </>
+  );
+};
+
+interface VotingInProgressProps {
+  playerVotingStatus: PlayerVotingStatus[];
+  title: string;
+  onMasterVoteChosen: (vote: string) => void;
+  masterVoted: boolean;
+  onFinishVoting: () => void;
+}
+
+const VotingInProgressComponent: React.FC<VotingInProgressProps> = props => {
+  const {
+    playerVotingStatus,
+    title,
+    onMasterVoteChosen,
+    masterVoted,
+    onFinishVoting,
+  } = props;
+
+  return (
+    <>
+      <div className={cx(classes.containerComponent, classes.leftContainer3)}>
+        <TablePlayerComponent playersCollection={playerVotingStatus} />
+      </div>
+      <div className={classes.leftContainer2}>
+        <div className={classes.containerComponent}>
+          {title ? <h3 className={classes.subtitle}>Story:</h3> : null}
+          {title ? <p className={classes.story}>{title}</p> : null}
+        </div>
+      </div>
+      <div className={cx(classes.containerComponent, classes.rightContainer)}>
+        <VoteOptionsComponent
+          onVoteChosen={onMasterVoteChosen}
+          votedStatus={masterVoted}
+        />
+        <div className={classes.buttonContainer}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={e => onFinishVoting()}
+            className={classes.finshButton}
+          >
+            Finish Voting
+          </Button>
+        </div>
+      </div>
+    </>
+  );
+};
+
+interface ShowVotingResultsProps {
+  onMoveToNextStory: () => void;
+  playerVotingStatus: PlayerVotingStatus[];
+  title: string;
+}
+
+const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
+  const { onMoveToNextStory, playerVotingStatus, title } = props;
+  return (
+    <>
+      <div className={classes.leftContainer2}>
+        <div className={classes.containerComponent}>
+          {title ? <h3 className={classes.subtitle}>Story:</h3> : null}
+          {title ? <p className={classes.story}>{title}</p> : null}
+        </div>
+      </div>
+      <div className={classes.rightContainer}>
+        <div className={classes.containerComponent}>
+          <h2 className={classes.title}>Show voting results</h2>
+        </div>
+        <div className={classes.containerComponent}>
+          <TablePlayerComponent playersCollection={playerVotingStatus} />
+        </div>
+        <div className={classes.containerComponent}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onMoveToNextStory}
+            className={classes.button}
+          >
+            Move to next story
+          </Button>
+        </div>
       </div>
     </>
   );
