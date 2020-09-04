@@ -14,42 +14,6 @@ export const container = css`
   justify-self: center;
   font-size: 1rem;
 
-  .title {
-    font-weight: 300;
-    color: ${color.grey1};
-    text-align: center;
-    margin: 0;
-    background: rgba(36, 36, 21, 0.3);
-    border-radius: 3px;
-    padding: 3%;
-  }
-
-  .subtitle {
-    font-weight: 300;
-    color: ${color.greenLight};
-    font-size: 0.9rem;
-    line-height: 1.3rem;
-    margin: 0;
-  }
-
-  .container-component {
-    padding: 10% 0 0;
-    margin: 0;
-    width: 100%;
-    display: block;
-  }
-
-  .story {
-    color: ${color.grey1};
-    border: 1px dashed ${color.yellowLemonDark};
-    background: rgba(36, 36, 21, 0.3);
-    border-radius: 3px;
-    padding: 3%;
-    font-weight: 100;
-    font-size: 0.9rem;
-    margin: 1% 0;
-  }
-
   ${theme.breakpoints.up('lg')} {
     display: grid;
     grid-template-areas:
@@ -58,28 +22,6 @@ export const container = css`
       'left3 right';
     grid-template-columns: 1fr 1fr;
     grid-gap: 0 13%;
-
-    .left-container {
-      grid-area: left;
-      display: flex;
-    }
-    .right-container {
-      grid-area: right;
-    }
-    .left-container2 {
-      grid-area: left2;
-      display: flex;
-    }
-    .right-container2 {
-      grid-area: right2;
-    }
-    .left-container3 {
-      grid-area: left3;
-      display: flex;
-    }
-    .right-container3 {
-      grid-area: right3;
-    }
   }
 
   ${theme.breakpoints.up('xl')} {
@@ -88,12 +30,81 @@ export const container = css`
     grid-gap: 0 20%;
   }
 `;
+export const title = css`
+  font-weight: 300;
+  color: ${color.grey1};
+  text-align: center;
+  margin: 0;
+  background: rgba(36, 36, 21, 0.3);
+  border-radius: 3px;
+  padding: 3%;
+`;
+
+export const subtitle = css`
+  font-weight: 300;
+  color: ${color.greenLight};
+  font-size: 0.9rem;
+  line-height: 1.3rem;
+  margin: 0;
+`;
+
+export const containerComponent = css`
+  padding: 10% 0 0;
+  margin: 0;
+  width: 100%;
+  display: block;
+`;
+
+export const story = css`
+  color: ${color.grey1};
+  border: 1px dashed ${color.yellowLemonDark};
+  background: rgba(36, 36, 21, 0.3);
+  border-radius: 3px;
+  padding: 3%;
+  font-weight: 100;
+  font-size: 0.9rem;
+  margin: 1% 0;
+`;
+
+export const leftContainer = css`
+  ${theme.breakpoints.up('lg')} {
+    grid-area: left;
+    display: flex;
+  }
+`;
+export const leftContainer2 = css`
+  ${theme.breakpoints.up('lg')} {
+    grid-area: left2;
+    display: flex;
+  }
+`;
+export const leftContainer3 = css`
+  ${theme.breakpoints.up('lg')} {
+    grid-area: left3;
+    display: flex;
+  }
+`;
+export const rightContainer = css`
+  ${theme.breakpoints.up('lg')} {
+    grid-area: right;
+  }
+`;
+export const rightContainer2 = css`
+  ${theme.breakpoints.up('lg')} {
+    grid-area: right2;
+  }
+`;
+export const rightContainer3 = css`
+  ${theme.breakpoints.up('lg')} {
+    grid-area: right3;
+  }
+`;
 
 export const button = css`
   width: 100%;
   margin: 2% auto;
 
-  :hover {
+  &:hover {
     background: ${color.greenLight};
     color: ${color.brownLemon};
   }
