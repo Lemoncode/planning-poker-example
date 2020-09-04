@@ -14,6 +14,19 @@ interface Props {
 export const VoteOptionsComponent: React.FC<Props> = props => {
   const { onVoteChosen, activeLabel, votedStatus, buttonFinishVoting } = props;
   const [voteChosen, setVoteChose] = React.useState('');
+  const [voteCollection, setVoteCollection] = React.useState<string[]>([
+    TShirtVotes.XXL,
+    TShirtVotes.XL,
+    TShirtVotes.L,
+    TShirtVotes.M,
+    TShirtVotes.S,
+    TShirtVotes.XS,
+  ]);
+
+  const onLocalVoteChosen = (vote: string) => {
+    setVoteCollection([vote]);
+    onVoteChosen(vote);
+  };
 
   return (
     <div className={classes.container}>
@@ -28,41 +41,14 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
       ) : null}
 
       <div className={classes.contanierLabels}>
-        <CardComponent
-          cardValue={TShirtVotes.XXL}
-          onActivelabel={activeLabel}
-          onVoteChosen={setVoteChose}
-        />
-
-        <CardComponent
-          cardValue={TShirtVotes.XL}
-          onActivelabel={activeLabel}
-          onVoteChosen={setVoteChose}
-        />
-
-        <CardComponent
-          cardValue={TShirtVotes.L}
-          onActivelabel={activeLabel}
-          onVoteChosen={setVoteChose}
-        />
-
-        <CardComponent
-          cardValue={TShirtVotes.M}
-          onActivelabel={activeLabel}
-          onVoteChosen={setVoteChose}
-        />
-
-        <CardComponent
-          cardValue={TShirtVotes.S}
-          onActivelabel={activeLabel}
-          onVoteChosen={setVoteChose}
-        />
-
-        <CardComponent
-          cardValue={TShirtVotes.XS}
-          onActivelabel={activeLabel}
-          onVoteChosen={setVoteChose}
-        />
+        {voteCollection.map(vote => (
+          <CardComponent
+            key={vote}
+            cardValue={vote}
+            onActivelabel={activeLabel}
+            onVoteChosen={setVoteChose}
+          />
+        ))}
       </div>
       <div className={'button-container'}>
         {votedStatus ? (
@@ -73,7 +59,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
             color="primary"
             onClick={e =>
               voteChosen !== ''
-                ? onVoteChosen(voteChosen)
+                ? onLocalVoteChosen(voteChosen)
                 : alert('Select label')
             }
             className={'button'}

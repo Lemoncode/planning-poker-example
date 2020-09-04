@@ -23,9 +23,9 @@ export const VoteOptionsContainer: React.FC<Props> = props => {
 
   React.useEffect(() => {
     if (votedStatus) {
-      document
-        .querySelectorAll(`.${classes.label}`)
-        .forEach(element => element.remove());
+      //      document
+      //        .querySelectorAll(`.${classes.label}`)
+      //        .forEach(element => element.remove());
       document
         .querySelectorAll(`.${classes.contanierLabels}`)
         .forEach(element => {
