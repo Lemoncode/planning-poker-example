@@ -21,24 +21,6 @@ export const VoteOptionsContainer: React.FC<Props> = props => {
     event.currentTarget.classList.add(classes.activeLabel);
   };
 
-  React.useEffect(() => {
-    if (votedStatus) {
-      //      document
-      //        .querySelectorAll(`.${classes.label}`)
-      //        .forEach(element => element.remove());
-      document
-        .querySelectorAll(`.${classes.contanierLabels}`)
-        .forEach(element => {
-          element.classList.remove(classes.contanierLabels);
-          element.classList.add(classes.contanierLabelShowVote);
-        });
-      document.querySelectorAll(`.${classes.activeLabel}`).forEach(element => {
-        element.classList.remove(classes.activeLabel);
-        element.classList.add(classes.showLabelVote);
-      });
-    }
-  }, [votedStatus]);
-
   return (
     <VoteOptionsComponent
       onVoteChosen={onVoteChosen}

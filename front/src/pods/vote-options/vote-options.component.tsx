@@ -28,6 +28,9 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
     onVoteChosen(vote);
   };
 
+  const cardCenterOnVoteChosen = () =>
+    voteCollection.length === 1 ? classes.contanierLabelShowVote : '';
+
   return (
     <div className={classes.container}>
       {votedStatus ? null : (
@@ -40,9 +43,10 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
         </h3>
       ) : null}
 
-      <div className={classes.contanierLabels}>
+      <div className={cx(classes.contanierLabels, cardCenterOnVoteChosen())}>
         {voteCollection.map(vote => (
           <CardComponent
+            userHasVoted={votedStatus}
             key={vote}
             cardValue={vote}
             onActivelabel={activeLabel}
@@ -76,18 +80,20 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
 interface CardProps {
   //currentSelectedValue : string;
   cardValue: string;
-  //votedStatus : boolean;
+  userHasVoted: boolean;
   onVoteChosen: (value: string) => void;
   // TODO: check if we can remove it
   onActivelabel: (e) => void;
 }
 
 const CardComponent: React.FC<CardProps> = props => {
-  const { onVoteChosen, onActivelabel, cardValue } = props;
+  const { onVoteChosen, onActivelabel, cardValue, userHasVoted } = props;
+
+  const styleVotedCard = () => (userHasVoted ? classes.showLabelVote : '');
 
   return (
     <div
-      className={classes.label}
+      className={cx(classes.label, styleVotedCard())}
       onClick={event => {
         onVoteChosen(cardValue);
         onActivelabel(event);
