@@ -13,7 +13,9 @@ interface Props {
 
 export const VoteOptionsComponent: React.FC<Props> = props => {
   const { onVoteChosen, activeLabel, votedStatus, buttonFinishVoting } = props;
-  const [voteChosen, setVoteChose] = React.useState('');
+  const [voteChosen, setVoteChosen] = React.useState('');
+  const [voteActive, setVoteActive] = React.useState('');
+
   const [voteCollection, setVoteCollection] = React.useState<string[]>([
     TShirtVotes.XXL,
     TShirtVotes.XL,
@@ -50,7 +52,8 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
             key={vote}
             cardValue={vote}
             onActivelabel={activeLabel}
-            onVoteChosen={setVoteChose}
+            onVoteSelected={setVoteActive}
+            voteSelected={voteActive}
           />
         ))}
       </div>
@@ -78,24 +81,34 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
 };
 
 interface CardProps {
-  //currentSelectedValue : string;
   cardValue: string;
+  voteSelected: string;
   userHasVoted: boolean;
-  onVoteChosen: (value: string) => void;
+  onVoteSelected: (value: string) => void;
   // TODO: check if we can remove it
   onActivelabel: (e) => void;
 }
 
 const CardComponent: React.FC<CardProps> = props => {
-  const { onVoteChosen, onActivelabel, cardValue, userHasVoted } = props;
+  const {
+    onVoteSelected,
+    onActivelabel,
+    cardValue,
+    userHasVoted,
+    voteSelected,
+  } = props;
 
   const styleVotedCard = () => (userHasVoted ? classes.showLabelVote : '');
 
+  const styleActiveCard = () => {
+    return voteSelected !== cardValue ? classes.label : classes.activeLabel;
+  };
+
   return (
     <div
-      className={cx(classes.label, styleVotedCard())}
+      className={cx(styleActiveCard(), styleVotedCard())}
       onClick={event => {
-        onVoteChosen(cardValue);
+        onVoteSelected(cardValue);
         onActivelabel(event);
       }}
     >
