@@ -7,11 +7,10 @@ export const container = css`
   width: 100%;
   display: flex;
   flex-flow: column;
-  grid-area: aside;
 
   .subtitle {
     font-weight: 300;
-    color: ${color.grey1};
+    color: ${color.greenLight};
     font-size: 0.9rem;
     line-height: 1.3rem;
   }
@@ -35,10 +34,10 @@ export const container = css`
       font-weight: 300;
     }
     .body {
-      background: rgba(255, 255, 255, 0.8);
-      color: ${color.brownLemon};
+      background: ${color.grey1};
+
       tr:nth-child(2n + 1) {
-        background: rgba(230, 230, 230, 0.8);
+        background: rgba(149, 177, 174, 0.6);
       }
     }
   }

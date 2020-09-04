@@ -15,19 +15,19 @@ export const CreateSessionComponent: React.FunctionComponent<Props> = props => {
   return (
     <>
       <div className={classes.container}>
-        <Typography className={classes.title} variant="h5">
+        <Typography className={'title'} variant="h5">
           Enter your name and click on create session
         </Typography>
-        <div className={classes.formContainer}>
+        <div className={'formContainer'}>
           <TextField
-            className={`${classes.formItem} ${classes.textField}`}
+            className={'formItem textField'}
             label="Nickname"
             margin="normal"
             value={nickname}
             onChange={e => setNickname(e.target.value)}
           />
           <Button
-            className={`${classes.formItem} ${classes.button}`}
+            className={`formItem ${classes.button}`}
             variant="contained"
             color="primary"
             onClick={e => onCreateSession(nickname)}

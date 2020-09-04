@@ -63,7 +63,7 @@ export const getNicknameFromConnectionId = (connectionId: string) => {
 
 export const resetVotes = (room: string) => {
   userCollectionSession = userCollectionSession.map((session) =>
-    session.room === room
+    session.room !== room
       ? session
       : {
           ...session,

@@ -14,18 +14,18 @@ export const DefineStoryComponent: React.FC<Props> = props => {
 
   return (
     <div className={classes.container}>
-      <Typography className={classes.subtitle} variant="subtitle1">
+      <Typography className={'subtitle'} variant="subtitle1">
         Define here you user history and click on start voting
       </Typography>
       <TextareaAutosize
-        className={classes.textArea}
+        className={'textArea'}
         rowsMin={3}
         placeholder="Define here..."
         value={title}
         onChange={e => setTitle(e.target.value)}
       />
       <Button
-        className={classes.button}
+        className={`button ${classes.button}`}
         variant="contained"
         color="primary"
         onClick={e => onSubmit(title)}

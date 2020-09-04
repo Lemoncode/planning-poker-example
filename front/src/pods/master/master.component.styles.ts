@@ -6,105 +6,99 @@ const color = theme.palette.varColors;
 export const container = css`
   grid-area: main;
   width: 100%;
-  padding: 7%;
+  padding: 1% 7%;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-content: center;
+  justify-self: center;
+  font-size: 1rem;
 
-  ${theme.breakpoints.up('lg')} {
-    display: grid;
-    grid-template-areas: 'left right';
-    grid-auto-flow: row;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 5%;
-  }
-  .left-container {
-    ${theme.breakpoints.up('lg')} {
-      grid-area: left;
-      align-self: end;
-    }
-  }
-`;
-
-export const component = css``;
-
-export const table = css`
-  ${theme.breakpoints.up('lg')} {
-    grid-area: right;
-  }
-`;
-
-export const urlContainer = css`
-  display: flex;
-  flex-flow: column;
-  padding: 2% 0;
-
-  ${theme.breakpoints.up('lg')} {
-    grid-area: left;
-    align-self: flex-start;
+  .title {
+    font-weight: 300;
+    color: ${color.grey1};
+    text-align: center;
+    margin: 0;
+    background: rgba(36, 36, 21, 0.3);
+    border-radius: 3px;
+    padding: 3%;
   }
 
   .subtitle {
     font-weight: 300;
-    color: ${color.grey1};
-    padding-top: 3%;
+    color: ${color.greenLight};
     font-size: 0.9rem;
     line-height: 1.3rem;
-    ${theme.breakpoints.up('lg')} {
-      padding: 0 0 3%;
+    margin: 0;
+  }
+
+  .container-component {
+    padding: 10% 0 0;
+    margin: 0;
+    width: 100%;
+    display: block;
+  }
+
+  .story {
+    color: ${color.grey1};
+    border: 1px dashed ${color.yellowLemonDark};
+    background: rgba(36, 36, 21, 0.3);
+    border-radius: 3px;
+    padding: 3%;
+    font-weight: 100;
+    font-size: 0.9rem;
+    margin: 1% 0;
+  }
+
+  ${theme.breakpoints.up('lg')} {
+    display: grid;
+    grid-template-areas:
+      'left right'
+      'left2 right'
+      'left3 right';
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0 13%;
+
+    .left-container {
+      grid-area: left;
+      display: flex;
+    }
+    .right-container {
+      grid-area: right;
+    }
+    .left-container2 {
+      grid-area: left2;
+      display: flex;
+    }
+    .right-container2 {
+      grid-area: right2;
+    }
+    .left-container3 {
+      grid-area: left3;
+      display: flex;
+    }
+    .right-container3 {
+      grid-area: right3;
     }
   }
 
-  .url {
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-    padding: 3% 0;
-  }
-
-  input {
-    width: 80%;
-    border: 1px solid ${color.grey3};
-    padding: 0 2%;
-    border-radius: 3px;
-    background: white;
-  }
-  .copyIcon {
-    margin-right: 3%;
-    color: ${color.grey1};
-    cursor: pointer;
+  ${theme.breakpoints.up('xl')} {
+    padding: 1% 2%;
+    width: 75%;
+    grid-gap: 0 20%;
   }
 `;
 
-// export const formContainer = css`
-//   display: flex;
-//   flex-flow: column;
-//   width: 100%;
-//   justify-content: center;
-//   align-content: center;
-//   padding: 6%;
-//   align-items: center;
-//   ${theme.breakpoints.up('lg')} {
-//     padding: 2%;
-//   }
-// `;
+export const button = css`
+  width: 100%;
+  margin: 2% auto;
 
-// export const formItem = css`
-//   max-width: 300px;
-//   width: 100%;
-//   margin: 2% 0;
-//   ${theme.breakpoints.up('lg')} {
-//     margin: 1% 0;
-//   }
-// `;
+  :hover {
+    background: ${color.greenLight};
+    color: ${color.brownLemon};
+  }
 
-// export const textField = css`
-//   border-bottom: 1px solid ${color.blue};
-// `;
-// export const button = css`
-//   :hover {
-//     background: ${theme.palette.primary.light};
-//   }
-// `;
+  ${theme.breakpoints.up('md')} {
+    width: 50%;
+  }
+`;

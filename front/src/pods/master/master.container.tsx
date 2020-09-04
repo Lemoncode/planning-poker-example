@@ -91,6 +91,10 @@ export const MasterContainer = () => {
     socketContext.setSocket(socket);
 
     setRoom(room);
+
+    // Set Master as first player in the room
+    updatePlayerCollection([{ nickname, voted: false }]);
+
     SetMasterStatus(MasterStatus.CREATING_STORY);
 
     socket.on(SocketOuputMessageLiteral.MESSAGE, msg => {
@@ -170,7 +174,6 @@ export const MasterContainer = () => {
   return (
     <MasterComponent
       room={room}
-      setRoom={setRoom}
       playerCollection={playerCollection}
       onSetStoryTitle={handleSetStoryTitle}
       masterStatus={masterStatus}
