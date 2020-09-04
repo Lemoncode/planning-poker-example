@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as classes from './vote-options.styles';
 import { TShirtVotes } from 'core';
 import { Button } from '@material-ui/core';
+import { cx } from 'emotion';
 
 interface Props {
   onVoteChosen: (vote: string) => void;
@@ -25,67 +26,43 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
           Your vote: <span className={'subtitle2'}>{voteChosen}</span>
         </h3>
       ) : null}
+
       <div className={classes.contanierLabels}>
-        <div
-          className={classes.label}
-          onClick={event => {
-            setVoteChose(TShirtVotes.XXL);
-            activeLabel(event);
-          }}
-        >
-          <h1>XXL</h1>
-          <h2>SIZE</h2>
-        </div>
-        <div
-          className={classes.label}
-          onClick={event => {
-            setVoteChose(TShirtVotes.XL);
-            activeLabel(event);
-          }}
-        >
-          <h1>XL</h1>
-          <h2>SIZE</h2>
-        </div>
-        <div
-          className={classes.label}
-          onClick={event => {
-            setVoteChose(TShirtVotes.L);
-            activeLabel(event);
-          }}
-        >
-          <h1>L</h1>
-          <h2>SIZE</h2>
-        </div>
-        <div
-          className={classes.label}
-          onClick={event => {
-            setVoteChose(TShirtVotes.M);
-            activeLabel(event);
-          }}
-        >
-          <h1>M</h1>
-          <h2>SIZE</h2>
-        </div>
-        <div
-          className={classes.label}
-          onClick={event => {
-            setVoteChose(TShirtVotes.S);
-            activeLabel(event);
-          }}
-        >
-          <h1>S</h1>
-          <h2>SIZE</h2>
-        </div>
-        <div
-          className={classes.label}
-          onClick={event => {
-            setVoteChose(TShirtVotes.XS);
-            activeLabel(event);
-          }}
-        >
-          <h1>XS</h1>
-          <h2>SIZE</h2>
-        </div>
+        <CardComponent
+          cardValue={TShirtVotes.XXL}
+          onActivelabel={activeLabel}
+          onVoteChosen={setVoteChose}
+        />
+
+        <CardComponent
+          cardValue={TShirtVotes.XL}
+          onActivelabel={activeLabel}
+          onVoteChosen={setVoteChose}
+        />
+
+        <CardComponent
+          cardValue={TShirtVotes.L}
+          onActivelabel={activeLabel}
+          onVoteChosen={setVoteChose}
+        />
+
+        <CardComponent
+          cardValue={TShirtVotes.M}
+          onActivelabel={activeLabel}
+          onVoteChosen={setVoteChose}
+        />
+
+        <CardComponent
+          cardValue={TShirtVotes.S}
+          onActivelabel={activeLabel}
+          onVoteChosen={setVoteChose}
+        />
+
+        <CardComponent
+          cardValue={TShirtVotes.XS}
+          onActivelabel={activeLabel}
+          onVoteChosen={setVoteChose}
+        />
       </div>
       <div className={'button-container'}>
         {votedStatus ? (
@@ -106,6 +83,32 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
         )}
         {buttonFinishVoting}
       </div>
+    </div>
+  );
+};
+
+interface CardProps {
+  //currentSelectedValue : string;
+  cardValue: string;
+  //votedStatus : boolean;
+  onVoteChosen: (value: string) => void;
+  // TODO: check if we can remove it
+  onActivelabel: (e) => void;
+}
+
+const CardComponent: React.FC<CardProps> = props => {
+  const { onVoteChosen, onActivelabel, cardValue } = props;
+
+  return (
+    <div
+      className={classes.label}
+      onClick={event => {
+        onVoteChosen(cardValue);
+        onActivelabel(event);
+      }}
+    >
+      <h1>{cardValue}</h1>
+      <h2>SIZE</h2>
     </div>
   );
 };
