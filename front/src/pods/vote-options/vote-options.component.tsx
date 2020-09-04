@@ -7,12 +7,11 @@ import { cx } from 'emotion';
 interface Props {
   onVoteChosen: (vote: string) => void;
   buttonFinishVoting?: JSX.Element;
-  activeLabel: (event: React.MouseEvent) => void;
   votedStatus: boolean;
 }
 
 export const VoteOptionsComponent: React.FC<Props> = props => {
-  const { onVoteChosen, activeLabel, votedStatus, buttonFinishVoting } = props;
+  const { onVoteChosen, votedStatus, buttonFinishVoting } = props;
   const [voteChosen, setVoteChosen] = React.useState('');
   const [voteActive, setVoteActive] = React.useState('');
 
@@ -25,9 +24,9 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
     TShirtVotes.XS,
   ]);
 
-  const onLocalVoteChosen = (vote: string) => {
-    setVoteCollection([vote]);
-    onVoteChosen(vote);
+  const onLocalVoteChosen = voteActive => {
+    setVoteCollection([voteActive]);
+    onVoteChosen(voteActive);
   };
 
   const cardCenterOnVoteChosen = () =>
@@ -51,7 +50,6 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
             userHasVoted={votedStatus}
             key={vote}
             cardValue={vote}
-            onActivelabel={activeLabel}
             onVoteSelected={setVoteActive}
             voteSelected={voteActive}
           />
@@ -65,8 +63,8 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
             variant="contained"
             color="primary"
             onClick={e =>
-              voteChosen !== ''
-                ? onLocalVoteChosen(voteChosen)
+              voteActive !== ''
+                ? onLocalVoteChosen(voteActive)
                 : alert('Select label')
             }
             className={'button'}
@@ -85,18 +83,10 @@ interface CardProps {
   voteSelected: string;
   userHasVoted: boolean;
   onVoteSelected: (value: string) => void;
-  // TODO: check if we can remove it
-  onActivelabel: (e) => void;
 }
 
 const CardComponent: React.FC<CardProps> = props => {
-  const {
-    onVoteSelected,
-    onActivelabel,
-    cardValue,
-    userHasVoted,
-    voteSelected,
-  } = props;
+  const { onVoteSelected, cardValue, userHasVoted, voteSelected } = props;
 
   const styleVotedCard = () => (userHasVoted ? classes.showLabelVote : '');
 
@@ -109,7 +99,6 @@ const CardComponent: React.FC<CardProps> = props => {
       className={cx(styleActiveCard(), styleVotedCard())}
       onClick={event => {
         onVoteSelected(cardValue);
-        onActivelabel(event);
       }}
     >
       <h1>{cardValue}</h1>

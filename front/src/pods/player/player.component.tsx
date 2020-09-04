@@ -51,7 +51,6 @@ export const PlayerComponent: React.FC<Props> = props => {
         {/* TODO: Temporary workaround til player is completed*/}
         return <VoteOptionsComponent onVoteChosen={onVoteChosen}
         buttonFinishVoting={<span>In Progress</span>}
-        activeLabel={(e) => console.log('test')}
         votedStatus={false}
         />;
       case PlayerStatus.VOTING_CLOSED:
