@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classes from './master.component.styles';
 import { appBaseUrl } from 'core';
 import { Player, MasterStatus, VoteResult } from './master.vm';
-import { TablePlayerComponent } from 'pods/table-player/table-player.component';
+import { TablePlayerComponent } from 'common-app/components';
 import { CopySessionLinkComponent } from './components/copy-session-link.component';
 import { DefineStoryComponent } from './components';
 import { VoteOptionsComponent } from 'common-app/components';
