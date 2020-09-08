@@ -15,6 +15,6 @@ export enum PlayerStatus {
 }
 
 export interface VoteResult {
- nickname: string;
- vote: string;
+  nickname: string;
+  vote: string;
 }

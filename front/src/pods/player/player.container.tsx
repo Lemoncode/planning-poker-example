@@ -10,8 +10,9 @@ import {
   SocketOuputMessageLiteral,
   SocketOuputMessageTypes,
 } from 'core';
-import SocketIOClient, { Socket } from 'socket.io';
-import { ConnectionStatus, PlayerStatus, VoteResult } from './player.vm';
+import { Socket } from 'socket.io';
+import { PlayerStatus } from './player.vm';
+import { PlayerVotingStatus } from 'core';
 
 export const PlayerContainer = () => {
   const authContext = React.useContext(AuthContext);
@@ -20,18 +21,17 @@ export const PlayerContainer = () => {
   // TODO: type this.
   const params = useParams();
   const [room, setRoom] = React.useState('');
-
+  const [voted, setVoted] = React.useState(false);
   const [story, setStory] = React.useState('');
   const [vote, setVote] = React.useState('');
   const [voteCollectionResult, setVoteCollectionresult] = React.useState<
-    VoteResult[]
+    PlayerVotingStatus[]
   >([]);
   const [playerStatus, SetplayerStatus] = React.useState<PlayerStatus>(
-    PlayerStatus.NOT_CONNECTED
+    PlayerStatus.CONNECTED
   );
 
   const handleConnect = nickname => {
-    SetplayerStatus(PlayerStatus.CONNECTION_IN_PROGRESS);
     authContext.setNickname(nickname);
 
     const room = params['room'];
@@ -59,6 +59,7 @@ export const PlayerContainer = () => {
             break;
           case SocketInputMessageTypes.NEW_STORY:
             //alert('new Story !!');
+            setVoted(false);
             setStory(msg.payload);
             SetplayerStatus(PlayerStatus.VOTING_IN_PROGRESS);
             break;
@@ -76,7 +77,7 @@ export const PlayerContainer = () => {
           case SocketErrorTypes.NICKNAME_ALREADY_IN_USE:
             alert('Please Choose another nickname');
             socket.disconnect();
-            SetplayerStatus(PlayerStatus.NOT_CONNECTED);
+            SetplayerStatus(PlayerStatus.CONNECTED);
             break;
         }
       }
@@ -88,7 +89,8 @@ export const PlayerContainer = () => {
 
   const handleVoteChosen = (vote: string) => {
     setVote(vote);
-    SetplayerStatus(PlayerStatus.VOTING_CLOSED);
+    setVoted(true);
+    SetplayerStatus(PlayerStatus.VOTING_IN_PROGRESS);
 
     // Send messsage to server informing about the vote
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
@@ -98,18 +100,16 @@ export const PlayerContainer = () => {
   };
 
   return (
-    <>
-      <h1>Player Container</h1>
-      <PlayerComponent
-        playerStatus={playerStatus}
-        room={room}
-        onConnect={handleConnect}
-        story={story}
-        vote={vote}
-        onVoteChosen={handleVoteChosen}
-        voteCollectionResult={voteCollectionResult}
-        title={story}
-      />
-    </>
+    <PlayerComponent
+      playerStatus={playerStatus}
+      room={room}
+      onConnect={handleConnect}
+      story={story}
+      vote={vote}
+      voted={voted}
+      onVoteChosen={handleVoteChosen}
+      voteCollectionResult={voteCollectionResult}
+      title={story}
+    />
   );
 };

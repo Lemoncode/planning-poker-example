@@ -1,13 +1,10 @@
 import * as React from 'react';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { PlayerStatus, VoteResult } from './player.vm';
-import {
-  ConnectComponent,
-  WaitComponent,
-  ShowVotingResults,
-} from './components';
+import { cx } from 'emotion';
+import * as classes from './player.component.styles';
+import { TablePlayerComponent } from 'common-app/components';
+import { PlayerStatus } from './player.vm';
+import { PlayerVotingStatus } from 'core';
+import { ConnectComponent, WaitComponent } from './components';
 
 import { VoteOptionsComponent } from 'common-app/components/vote-options.component';
 
@@ -16,9 +13,10 @@ interface Props {
   onConnect: (nickname: string) => void;
   story: string;
   vote: string;
+  voted: boolean;
   onVoteChosen: (vote: string) => void;
   playerStatus: PlayerStatus;
-  voteCollectionResult: VoteResult[];
+  voteCollectionResult: PlayerVotingStatus[];
   title: string;
 }
 
@@ -28,6 +26,7 @@ export const PlayerComponent: React.FC<Props> = props => {
     onConnect,
     story,
     vote,
+    voted,
     onVoteChosen,
     playerStatus,
     voteCollectionResult,
@@ -37,7 +36,7 @@ export const PlayerComponent: React.FC<Props> = props => {
 
   function showComponentBasedonPlayerStatus(status: PlayerStatus) {
     switch (status) {
-      case PlayerStatus.NOT_CONNECTED:
+      case PlayerStatus.CONNECTED:
         return (
           <ConnectComponent
             playerStatus={status}
@@ -48,16 +47,24 @@ export const PlayerComponent: React.FC<Props> = props => {
       case PlayerStatus.WAITING_FOR_STORY:
         return <WaitComponent />;
       case PlayerStatus.VOTING_IN_PROGRESS:
-        {/* TODO: Temporary workaround til player is completed*/}
-        return <VoteOptionsComponent onVoteChosen={onVoteChosen}
-        buttonFinishVoting={<span>In Progress</span>}
-        votedStatus={false}
-        />;
-      case PlayerStatus.VOTING_CLOSED:
-        return <span>You voted: {vote} wait for next story</span>;
+        {
+          /* TODO: Temporary workaround til player is completed*/
+        }
+        return (
+          <VotingInProgressComponent
+            onPlayerVoteChosen={onVoteChosen}
+            playerVoted={voted}
+            title={story}
+            voteCollectionResult={voteCollectionResult}
+          />
+        );
+
       case PlayerStatus.SHOW_RESULTS:
         return (
-          <ShowVotingResults voteCollectionResult={voteCollectionResult} />
+          <ShowVotingResultsComponent
+            title={story}
+            voteCollectionResult={voteCollectionResult}
+          />
         );
       default:
         return null;
@@ -65,4 +72,70 @@ export const PlayerComponent: React.FC<Props> = props => {
   }
 
   return <>{showComponentBasedonPlayerStatus(playerStatus)}</>;
+};
+
+interface VotingInProgressProps {
+  voteCollectionResult: PlayerVotingStatus[];
+  title: string;
+  onPlayerVoteChosen: (vote: string) => void;
+  playerVoted: boolean;
+}
+
+const VotingInProgressComponent: React.FC<VotingInProgressProps> = props => {
+  const {
+    voteCollectionResult,
+    title,
+    onPlayerVoteChosen,
+    playerVoted,
+  } = props;
+
+  return (
+    <div className={classes.container}>
+      <div className={cx(classes.containerComponent, classes.leftContainer2)}>
+        <TablePlayerComponent playersCollection={voteCollectionResult} />
+      </div>
+      <div className={classes.leftContainer}>
+        <div className={classes.containerComponent}>
+          {title ? <h3 className={classes.subtitle}>Story:</h3> : null}
+          {title ? <p className={classes.story}>{title}</p> : null}
+        </div>
+      </div>
+      <div className={cx(classes.containerComponent, classes.rightContainer)}>
+        <VoteOptionsComponent
+          onVoteChosen={onPlayerVoteChosen}
+          votedStatus={playerVoted}
+        />
+      </div>
+    </div>
+  );
+};
+
+interface ShowVotingResultsProps {
+  voteCollectionResult: PlayerVotingStatus[];
+  title: string;
+}
+
+const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
+  const { voteCollectionResult, title } = props;
+  return (
+    <div className={classes.container}>
+      <div className={classes.leftContainer}>
+        <div className={classes.containerComponent}>
+          {title ? <h3 className={classes.subtitle}>Story:</h3> : null}
+          {title ? <p className={classes.story}>{title}</p> : null}
+        </div>
+      </div>
+      <div className={classes.rightContainer}>
+        <div className={classes.containerComponent}>
+          <h2 className={classes.title}>Show voting results</h2>
+        </div>
+        <div className={classes.containerComponent}>
+          <TablePlayerComponent playersCollection={voteCollectionResult} />
+        </div>
+        <div className={classes.containerComponent}>
+          <h2 className={classes.title}>Wait for next story</h2>
+        </div>
+      </div>
+    </div>
+  );
 };
