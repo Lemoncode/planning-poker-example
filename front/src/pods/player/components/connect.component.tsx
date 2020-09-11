@@ -5,7 +5,8 @@ import { Formik } from 'formik';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { PlayerStatus } from 'pods/player/player.vm';
-import { TextFieldComponent, formValidation } from 'common-app/components';
+import { TextFieldComponent } from './text-field.component';
+import { fieldValidation } from 'core';
 
 interface Props {
   room: string;
@@ -24,7 +25,7 @@ export const ConnectComponent: React.FC<Props> = props => {
       <Formik
         onSubmit={() => {}}
         initialValues={{ nickname: 'Neo' }}
-        validate={formValidation.validateForm}
+        validate={fieldValidation.validateForm}
       >
         {props => {
           const { handleChange, values } = props;
