@@ -1,10 +1,10 @@
 import React from 'react';
 import { cx } from 'emotion';
 import * as classes from './create-session.styles';
-import { Formik } from 'formik';
+import { Formik, Form } from 'formik';
 import { Typography, Button } from '@material-ui/core';
-import { fieldValidation } from 'core';
-import { TextFieldComponent } from './text-field.component';
+import { TextFieldComponent } from 'common/components/forms';
+import { formValidation } from './create-session.validation';
 
 interface Props {
   onCreateSession: (nickname: string) => void;
@@ -20,14 +20,14 @@ export const CreateSessionComponent: React.FunctionComponent<Props> = props => {
           Enter your name and click on create session
         </Typography>
         <Formik
-          onSubmit={() => {}}
+          onSubmit={sessionForm => onCreateSession(sessionForm.nickname)}
           initialValues={{ nickname: 'master of puppets' }}
-          validate={fieldValidation.validateForm}
+          validate={formValidation.validateForm}
         >
           {props => {
             const { handleChange, values } = props;
             return (
-              <form onSubmit={() => {}} className={classes.formContainer}>
+              <Form className={classes.formContainer}>
                 <TextFieldComponent
                   name="nickname"
                   label="Nickname"
@@ -39,11 +39,11 @@ export const CreateSessionComponent: React.FunctionComponent<Props> = props => {
                   className={cx(classes.formItem, classes.button)}
                   variant="contained"
                   color="primary"
-                  onClick={e => onCreateSession(values.nickname)}
+                  type="submit"
                 >
                   Create new session
                 </Button>
-              </form>
+              </Form>
             );
           }}
         </Formik>

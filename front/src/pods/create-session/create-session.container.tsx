@@ -14,9 +14,7 @@ export const CreateSessionContainer: React.FunctionComponent = () => {
     try {
       const room = await createRoom();
       authContext.setNickname(nickname);
-      nickname !== ''
-        ? history.push(routes.master(room))
-        : alert('no nickname');
+      history.push(routes.master(room));
     } catch (e) {
       // TODO: Add proper error control
       console.log('captured error: ', e);
