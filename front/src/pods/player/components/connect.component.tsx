@@ -27,15 +27,12 @@ export const ConnectComponent: React.FC<Props> = props => {
         initialValues={{ nickname: 'Neo' }}
         validate={formValidation.validateForm}
       >
-        {props => {
-          const { handleChange, values } = props;
+        {() => {
           return (
             <Form className={classes.formContainer}>
               <TextFieldComponent
                 name="nickname"
                 label="Nickname"
-                value={values.nickname}
-                onChange={handleChange}
                 className={cx(classes.formItem, classes.textField)}
               />
 

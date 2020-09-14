@@ -22,16 +22,13 @@ export const DefineStoryComponent: React.FC<Props> = props => {
         initialValues={{ story: '' }}
         validate={formValidation.validateForm}
       >
-        {props => {
-          const { handleChange, values } = props;
+        {() => {
           return (
             <Form>
               <TextAreaComponent
                 className={classes.textArea}
                 rows={3}
                 placeholder="Define here..."
-                value={values.story}
-                onChange={handleChange}
                 name={'story'}
               />
               <Button
