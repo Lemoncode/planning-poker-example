@@ -17,9 +17,8 @@ export const TextAreaComponent: React.FunctionComponent<TextFieldProps> = props 
       multiline={true}
       type={'TextareaAutosize'}
       variant={'standard'}
-      InputProps={{ error: hasError }}
       error={hasError}
-      helperText={hasError ? 'Story is required' : meta.error}
+      helperText={hasError ? meta.error : ''}
     />
   );
 };

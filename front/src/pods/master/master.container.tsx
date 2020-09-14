@@ -134,17 +134,13 @@ export const MasterContainer = () => {
   }, []);
 
   const handleSetStoryTitle = (title: string) => {
-    if (!!title) {
-      setMasterVoted(false);
-      setStoryTitle(title);
-      SetMasterStatus(MasterStatus.VOTING_IN_PROGRESS);
-      socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
-        type: SocketOuputMessageTypes.CREATE_STORY,
-        payload: title,
-      });
-    } else {
-      alert('Story required');
-    }
+    setMasterVoted(false);
+    setStoryTitle(title);
+    SetMasterStatus(MasterStatus.VOTING_IN_PROGRESS);
+    socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
+      type: SocketOuputMessageTypes.CREATE_STORY,
+      payload: title,
+    });
   };
 
   const handleMasterVoteChosen = (vote: string) => {

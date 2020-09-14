@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { cx } from 'emotion';
-import * as classes from './create-session.styles';
-import { Formik } from 'formik';
+import * as classes from './connect.styles';
+import { Formik, Form } from 'formik';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { PlayerStatus } from 'pods/player/player.vm';
-import { TextFieldComponent } from './text-field.component';
-import { fieldValidation } from 'core';
+import { TextFieldComponent } from 'common';
+import { formValidation } from './connect.validation';
 
 interface Props {
   room: string;
@@ -23,14 +23,14 @@ export const ConnectComponent: React.FC<Props> = props => {
         Join player to poker session: {room}
       </Typography>
       <Formik
-        onSubmit={() => {}}
+        onSubmit={connectForm => onConnect(connectForm.nickname)}
         initialValues={{ nickname: 'Neo' }}
-        validate={fieldValidation.validateForm}
+        validate={formValidation.validateForm}
       >
         {props => {
           const { handleChange, values } = props;
           return (
-            <form onSubmit={() => {}} className={classes.formContainer}>
+            <Form className={classes.formContainer}>
               <TextFieldComponent
                 name="nickname"
                 label="Nickname"
@@ -42,13 +42,13 @@ export const ConnectComponent: React.FC<Props> = props => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={e => onConnect(values.nickname)}
+                type="submit"
                 disabled={playerStatus === PlayerStatus.WAITING_FOR_STORY}
                 className={cx(classes.formItem, classes.button)}
               >
                 Crear nueva sesión
               </Button>
-            </form>
+            </Form>
           );
         }}
       </Formik>

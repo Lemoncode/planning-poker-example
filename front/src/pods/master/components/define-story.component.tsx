@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as classes from './define-story.styles';
 import { Typography, Button } from '@material-ui/core';
-import { Formik } from 'formik';
-import { fieldValidation } from 'core';
-import { TextAreaComponent } from './textArea-field.component';
+import { Formik, Form } from 'formik';
+import { formValidation } from './define-story.validation';
+import { TextAreaComponent } from 'common';
 
 interface Props {
   onSubmit: (story: string) => void;
@@ -18,14 +18,14 @@ export const DefineStoryComponent: React.FC<Props> = props => {
         Define here you user history and click on start voting
       </Typography>
       <Formik
-        onSubmit={() => {}}
+        onSubmit={defineStoryForm => onSubmit(defineStoryForm.story)}
         initialValues={{ story: '' }}
-        validate={fieldValidation.validateForm}
+        validate={formValidation.validateForm}
       >
         {props => {
-          const { handleChange, values, errors } = props;
+          const { handleChange, values } = props;
           return (
-            <form onSubmit={() => {}}>
+            <Form>
               <TextAreaComponent
                 className={classes.textArea}
                 rows={3}
@@ -38,11 +38,11 @@ export const DefineStoryComponent: React.FC<Props> = props => {
                 className={classes.button}
                 variant="contained"
                 color="primary"
-                onClick={e => onSubmit(values.story)}
+                type="submit"
               >
                 START VOTING
               </Button>
-            </form>
+            </Form>
           );
         }}
       </Formik>
