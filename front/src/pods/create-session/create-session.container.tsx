@@ -14,7 +14,6 @@ export const CreateSessionContainer: React.FunctionComponent = () => {
     try {
       const room = await createRoom();
       authContext.setNickname(nickname);
-
       history.push(routes.master(room));
     } catch (e) {
       // TODO: Add proper error control

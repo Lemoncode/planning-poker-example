@@ -25,14 +25,11 @@ export const PlayerComponent: React.FC<Props> = props => {
     room,
     onConnect,
     story,
-    vote,
     voted,
     onVoteChosen,
     playerStatus,
     voteCollectionResult,
-    title,
   } = props;
-  const [nickname, setNickname] = React.useState('Buba');
 
   function showComponentBasedonPlayerStatus(status: PlayerStatus) {
     switch (status) {

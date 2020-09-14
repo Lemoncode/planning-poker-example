@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as classes from './define-story.styles';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { TextareaAutosize } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
+import { Formik, Form } from 'formik';
+import { formValidation } from './define-story.validation';
+import { TextAreaComponent } from 'common';
 
 interface Props {
-  onSubmit: (title: string) => void;
+  onSubmit: (story: string) => void;
 }
 
 export const DefineStoryComponent: React.FC<Props> = props => {
-  const [title, setTitle] = React.useState('');
   const { onSubmit } = props;
 
   return (
@@ -17,21 +17,32 @@ export const DefineStoryComponent: React.FC<Props> = props => {
       <Typography className={classes.subtitle} variant="subtitle1">
         Define here you user history and click on start voting
       </Typography>
-      <TextareaAutosize
-        className={classes.textArea}
-        rowsMin={3}
-        placeholder="Define here..."
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-      />
-      <Button
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        onClick={e => onSubmit(title)}
+      <Formik
+        onSubmit={defineStoryForm => onSubmit(defineStoryForm.story)}
+        initialValues={{ story: '' }}
+        validate={formValidation.validateForm}
       >
-        START VOTING
-      </Button>
+        {() => {
+          return (
+            <Form>
+              <TextAreaComponent
+                className={classes.textArea}
+                rows={3}
+                placeholder="Define here..."
+                name={'story'}
+              />
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                START VOTING
+              </Button>
+            </Form>
+          );
+        }}
+      </Formik>
     </div>
   );
 };
