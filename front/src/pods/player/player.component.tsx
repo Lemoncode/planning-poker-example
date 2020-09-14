@@ -18,6 +18,8 @@ interface Props {
   playerStatus: PlayerStatus;
   voteCollectionResult: PlayerVotingStatus[];
   title: string;
+  showAlert: boolean;
+  setShowAlert: (e: boolean) => void;
 }
 
 export const PlayerComponent: React.FC<Props> = props => {
@@ -29,6 +31,8 @@ export const PlayerComponent: React.FC<Props> = props => {
     onVoteChosen,
     playerStatus,
     voteCollectionResult,
+    showAlert,
+    setShowAlert,
   } = props;
 
   function showComponentBasedonPlayerStatus(status: PlayerStatus) {
@@ -39,6 +43,8 @@ export const PlayerComponent: React.FC<Props> = props => {
             playerStatus={status}
             room={room}
             onConnect={onConnect}
+            showAlert={showAlert}
+            setShowAlert={setShowAlert}
           />
         );
       case PlayerStatus.WAITING_FOR_STORY:

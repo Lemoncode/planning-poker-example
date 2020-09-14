@@ -30,6 +30,7 @@ export const PlayerContainer = () => {
   const [playerStatus, SetplayerStatus] = React.useState<PlayerStatus>(
     PlayerStatus.CONNECTED
   );
+  const [showAlert, setShowAlert] = React.useState<boolean>(false);
 
   const handleConnect = nickname => {
     authContext.setNickname(nickname);
@@ -54,11 +55,11 @@ export const PlayerContainer = () => {
       if (msg.type) {
         switch (msg.type) {
           case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
-            //alert('Connection established !!!');
+            // alert('Connection established !!!');
             SetplayerStatus(PlayerStatus.WAITING_FOR_STORY);
             break;
           case SocketInputMessageTypes.NEW_STORY:
-            //alert('new Story !!');
+            // alert('new Story !!');
             setVoted(false);
             setStory(msg.payload);
             SetplayerStatus(PlayerStatus.VOTING_IN_PROGRESS);
@@ -75,7 +76,7 @@ export const PlayerContainer = () => {
       if (msg.type) {
         switch (msg.type) {
           case SocketErrorTypes.NICKNAME_ALREADY_IN_USE:
-            alert('Please Choose another nickname');
+            setShowAlert(true);
             socket.disconnect();
             SetplayerStatus(PlayerStatus.CONNECTED);
             break;
@@ -110,6 +111,8 @@ export const PlayerContainer = () => {
       onVoteChosen={handleVoteChosen}
       voteCollectionResult={voteCollectionResult}
       title={story}
+      showAlert={showAlert}
+      setShowAlert={setShowAlert}
     />
   );
 };
