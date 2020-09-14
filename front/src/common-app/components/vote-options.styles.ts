@@ -52,6 +52,9 @@ export const contanierLabels = css`
   ${theme.breakpoints.up('sm')} {
     flex-flow: row;
   }
+  @media (min-width: 430px) and (max-width: 599px) {
+    margin: 3% 0;
+  }
 `;
 
 export const contanierLabelShowVote = css`
@@ -84,10 +87,18 @@ export const label = css`
     color: ${theme.palette.varColors.grey1};
     transition: background-image 0.2s ease-in;
     -moz-transition: background-image 0.2s ease-in;
+
+    @media (min-width: 430px) and (max-width: 599px) {
+      background-size: 85% auto;
+    }
   }
 
   ${theme.breakpoints.up('md')} {
     min-height: 274px;
+  }
+
+  @media (min-width: 430px) and (max-width: 599px) {
+    background-size: 85% auto;
   }
 
   h1,
