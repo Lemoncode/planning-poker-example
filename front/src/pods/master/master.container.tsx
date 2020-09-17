@@ -121,7 +121,13 @@ export const MasterContainer = () => {
             updatePlayerCollection(updatedPlayerList);
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
-            setPlayerCollectionVoteResult(msg.payload);
+            // refactor this to a map
+            const playerVoteResults = msg.payload.map(voteResult => ({
+              ...voteResult,
+              voted: !!voteResult.vote,
+            }));
+            // ***
+            setPlayerCollectionVoteResult(playerVoteResults);
             break;
         }
       }
