@@ -3,7 +3,11 @@ import { PlayerVotingStatus } from 'core';
 export const AddNewPlayer = (
   playerCollection: PlayerVotingStatus[],
   nickname: string
-) => [...playerCollection, { nickname, voted: false }];
+): PlayerVotingStatus[] => [
+  ...playerCollection,
+  { nickname, voted: false, vote: '' },
+];
+
 
 export const userVoted = (
   playerCollection: PlayerVotingStatus[],
@@ -14,6 +18,7 @@ export const userVoted = (
       ? {
           ...player,
           voted: true,
+          vote: '',
         }
       : player
   );

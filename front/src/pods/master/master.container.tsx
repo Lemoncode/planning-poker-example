@@ -10,7 +10,7 @@ import {
 } from 'core';
 import { useParams } from 'react-router-dom';
 import { MasterComponent } from './master.component';
-import { Player, MasterStatus, VoteResult } from './master.vm';
+import { MasterStatus, VoteResult } from './master.vm';
 import { AddNewPlayer, userVoted } from './master.business';
 
 const usePlayerCollection = () => {
@@ -26,9 +26,27 @@ const usePlayerCollection = () => {
     playerCollectionRef.current = newPlayerCollection;
   };
 
-  const resetVotedFlagOnEveryPlayer = () => {
+  const setPlayerCollectionVoteResult = (
+    votesResultCollection: VoteResult[]
+  ) => {
+    const PlayerCollectionUpdated = playerCollectionRef.current.map(player => {
+      const voteResult = votesResultCollection.find(
+        voteResult => voteResult.nickname === player.nickname
+      );
+
+      return voteResult
+        ? {
+            ...player,
+            voted: true,
+            vote: player.vote,
+          }
+        : player;
+    });
+  };
+
+  const resetVotedInfoOnEveryPlayer = () => {
     const wipedVotedPlayerCollection = playerCollectionRef.current.map(
-      item => ({ ...item, voted: false })
+      item => ({ ...item, voted: false, vote: '' })
     );
     updatePlayerCollection(wipedVotedPlayerCollection);
   };
@@ -37,27 +55,8 @@ const usePlayerCollection = () => {
     playerCollection,
     playerCollectionRef,
     updatePlayerCollection,
-    resetVotedFlagOnEveryPlayer,
-  };
-};
-
-const useVoteCollectionResult = () => {
-  const [voteCollectionResult, setVoteCollectionResult] = React.useState<
-    VoteResult[]
-  >([]);
-
-  const resetValueOnVoteCollection = () => {
-    const wipedVoteCollection = voteCollectionResult.map(item => ({
-      ...item,
-      vote: '',
-    }));
-    setVoteCollectionResult(wipedVoteCollection);
-  };
-
-  return {
-    voteCollectionResult,
-    setVoteCollectionResult,
-    resetValueOnVoteCollection,
+    resetVotedInfoOnEveryPlayer,
+    setPlayerCollectionVoteResult,
   };
 };
 
@@ -66,11 +65,6 @@ export const MasterContainer = () => {
   const authContext = React.useContext(AuthContext);
   const params = useParams(); // TODO: Type this
   const [room, setRoom] = React.useState('');
-  const {
-    voteCollectionResult,
-    setVoteCollectionResult,
-    resetValueOnVoteCollection,
-  } = useVoteCollectionResult();
   const [masterStatus, SetMasterStatus] = React.useState<MasterStatus>(
     MasterStatus.INITIALIZING
   );
@@ -80,7 +74,8 @@ export const MasterContainer = () => {
     playerCollection,
     playerCollectionRef,
     updatePlayerCollection,
-    resetVotedFlagOnEveryPlayer,
+    resetVotedInfoOnEveryPlayer,
+    setPlayerCollectionVoteResult,
   } = usePlayerCollection();
 
   React.useEffect(() => {
@@ -124,7 +119,7 @@ export const MasterContainer = () => {
             updatePlayerCollection(updatedPlayerList);
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
-            setVoteCollectionResult(msg.payload);
+            setPlayerCollectionVoteResult(msg.payload);
             break;
         }
       }
@@ -170,8 +165,7 @@ export const MasterContainer = () => {
   const handleMoveToNextStory = () => {
     // Reset values, extract this, to business or hook
     setStoryTitle('');
-    resetValueOnVoteCollection();
-    resetVotedFlagOnEveryPlayer();
+    resetVotedInfoOnEveryPlayer();
 
     SetMasterStatus(MasterStatus.CREATING_STORY);
   };
@@ -179,14 +173,13 @@ export const MasterContainer = () => {
   return (
     <MasterComponent
       room={room}
-      playerCollection={playerCollection}
+      playerVotingStatus={playerCollection}
       onSetStoryTitle={handleSetStoryTitle}
       masterStatus={masterStatus}
       onFinishVoting={handleFinishVoting}
       onMoveToNextStory={handleMoveToNextStory}
       onMasterVoteChosen={handleMasterVoteChosen}
       masterVoted={masterVoted}
-      voteCollectionResult={voteCollectionResult}
       title={storyTitle}
     />
   );
