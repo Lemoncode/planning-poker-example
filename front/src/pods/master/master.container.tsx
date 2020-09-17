@@ -94,6 +94,31 @@ export const MasterContainer = () => {
 
     SetMasterStatus(MasterStatus.CREATING_STORY);
 
+    socket.on(SocketOuputMessageLiteral.MESSAGE, msg => {
+      console.log(msg);
+
+      if (msg.type) {
+        const { type, payload } = msg;
+
+        switch (type) {
+          case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
+            setNickname(payload);
+            console.log(`connection-established ${payload}`);
+            break;
+          case SocketInputMessageTypes.NOTIFY_USER_VOTED:
+            setNickname(payload);
+            setVoted(true);
+            console.log(`notify-user ${payload}`);
+            break;
+          case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
+            setNickname(payload.nickname);
+            setVote(payload.vote);
+
+            break;
+        }
+      }
+    });
+
     // TODO we are assuming all goes fine
     // plus time lapse between room is assigned
     // and connection established has no colllision
