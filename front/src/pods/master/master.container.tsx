@@ -38,10 +38,12 @@ const usePlayerCollection = () => {
         ? {
             ...player,
             voted: true,
-            vote: player.vote,
+            vote: voteResult.vote,
           }
         : player;
     });
+
+    updatePlayerCollection(PlayerCollectionUpdated);
   };
 
   const resetVotedInfoOnEveryPlayer = () => {

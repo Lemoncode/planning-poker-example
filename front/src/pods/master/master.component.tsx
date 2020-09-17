@@ -35,24 +35,6 @@ export const MasterComponent: React.FC<Props> = props => {
     title,
   } = props;
 
-  /*
-  React.useEffect(() => {
-    const statusCollection: PlayerVotingStatus[] = playerCollection.map(
-      player => {
-        const playerVoteItem = voteCollectionResult.find(
-          v => v.nickname === player.nickname
-        );
-
-        return {
-          ...player,
-          vote: playerVoteItem ? playerVoteItem.vote : '',
-        };
-      }
-    );
-
-    setPlayerVotingStatus(statusCollection);
-  }, [playerCollection, voteCollectionResult]);
-*/
   const showComponentBasedOnMasterStatus = (status: MasterStatus) => {
     switch (status) {
       case MasterStatus.INITIALIZING:
