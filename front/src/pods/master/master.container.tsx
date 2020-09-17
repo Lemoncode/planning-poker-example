@@ -107,7 +107,7 @@ export const MasterContainer = () => {
             break;
           case SocketInputMessageTypes.NOTIFY_USER_VOTED:
             setNickname(payload);
-            setVoted(true);
+            setVoted(voted);
             console.log(`notify-user ${payload}`);
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
