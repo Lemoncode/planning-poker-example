@@ -6,6 +6,7 @@ import {
   SocketInputMessageTypes,
   SocketOuputMessageLiteral,
   SocketOuputMessageTypes,
+  PlayerVotingStatus,
 } from 'core';
 import { useParams } from 'react-router-dom';
 import { MasterComponent } from './master.component';
@@ -13,10 +14,14 @@ import { Player, MasterStatus, VoteResult } from './master.vm';
 import { AddNewPlayer, userVoted } from './master.business';
 
 const usePlayerCollection = () => {
-  const [playerCollection, setPlayerCollection] = React.useState<Player[]>([]);
-  const playerCollectionRef = React.useRef<Player[]>([]);
+  const [playerCollection, setPlayerCollection] = React.useState<
+    PlayerVotingStatus[]
+  >([]);
+  const playerCollectionRef = React.useRef<PlayerVotingStatus[]>([]);
 
-  const updatePlayerCollection = (newPlayerCollection: Player[]) => {
+  const updatePlayerCollection = (
+    newPlayerCollection: PlayerVotingStatus[]
+  ) => {
     setPlayerCollection(newPlayerCollection);
     playerCollectionRef.current = newPlayerCollection;
   };
@@ -93,7 +98,7 @@ export const MasterContainer = () => {
     setRoom(room);
 
     // Set Master as first player in the room
-    updatePlayerCollection([{ nickname, voted: false }]);
+    updatePlayerCollection([{ nickname, voted: false, vote: '' }]);
 
     SetMasterStatus(MasterStatus.CREATING_STORY);
 

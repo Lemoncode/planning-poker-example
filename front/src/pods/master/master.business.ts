@@ -1,11 +1,14 @@
-import { Player } from './master.vm';
+import { PlayerVotingStatus } from 'core';
 
-export const AddNewPlayer = (playerCollection: Player[], nickname: string) => [
-  ...playerCollection,
-  { nickname, voted: false },
-];
+export const AddNewPlayer = (
+  playerCollection: PlayerVotingStatus[],
+  nickname: string
+) => [...playerCollection, { nickname, voted: false }];
 
-export const userVoted = (playerCollection: Player[], nickname: string) =>
+export const userVoted = (
+  playerCollection: PlayerVotingStatus[],
+  nickname: string
+) =>
   playerCollection.map(player =>
     player.nickname === nickname
       ? {
