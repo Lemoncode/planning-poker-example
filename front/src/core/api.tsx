@@ -1,6 +1,7 @@
 import * as ioClient from 'socket.io-client';
 import { baseSocketUrl } from 'core';
 import SocketIOClient, { Socket } from 'socket.io';
+import { mapFromVmToApi } from './player.mapper';
 
 export interface ConnectionSetup {
   user: string;
@@ -8,12 +9,13 @@ export interface ConnectionSetup {
   isMaster: boolean;
 }
 
-export const createSocket = (connectionSetup: ConnectionSetup): Socket => {
-  const { user, room, isMaster } = connectionSetup;
+export const createSocket = (data): Socket => {
+  const player: ConnectionSetup = mapFromVmToApi(data);
+
   const socketParams = {
     url: baseSocketUrl,
     options: {
-      query: { user, room, isMaster },
+      query: { ...player },
       timeout: 60000,
     },
   };

@@ -89,7 +89,7 @@ const VotingInProgressComponent: React.FC<VotingInProgressProps> = props => {
   return (
     <div className={classes.container}>
       <div className={cx(classes.containerComponent, classes.leftContainer2)}>
-        <TablePlayerComponent playersCollection={voteCollectionResult} />
+        {/* <TablePlayerComponent  /> */}
       </div>
       <div className={classes.leftContainer}>
         <div className={classes.containerComponent}>
@@ -127,7 +127,7 @@ const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
           <h2 className={classes.title}>Show voting results</h2>
         </div>
         <div className={classes.containerComponent}>
-          <TablePlayerComponent playersCollection={voteCollectionResult} />
+          {/* <TablePlayerComponent /> */}
         </div>
         <div className={classes.containerComponent}>
           <h2 className={classes.title}>Wait for next story</h2>

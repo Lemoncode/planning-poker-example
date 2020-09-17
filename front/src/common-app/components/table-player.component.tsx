@@ -10,14 +10,10 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { PlayerVotingStatus } from 'core';
+import { PlayerEntity, PlayersContext } from 'core';
 
-interface Props {
-  playersCollection: PlayerVotingStatus[];
-}
-
-export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
-  const { playersCollection } = props;
+export const TablePlayerComponent: React.FC = () => {
+  const playersContext = React.useContext(PlayersContext);
 
   return (
     <div className={classes.container}>
@@ -46,10 +42,11 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody className={classes.body}>
-            {playersCollection.map(player => (
+            {playersContext.players.map(player => (
               <TableRow key={player.nickname}>
                 <TableCell className={classes.cell} component="th" scope="row">
                   {player.nickname}
+                  {console.log(player)}
                 </TableCell>
                 <TableCell className={classes.cell} align="right">
                   {player.voted ? (

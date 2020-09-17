@@ -2,61 +2,34 @@ import * as React from 'react';
 import { cx } from 'emotion';
 import * as classes from './master.component.styles';
 import { appBaseUrl } from 'core';
-import { Player, MasterStatus, VoteResult } from './master.vm';
+import { MasterStatus } from './master.vm';
 import { TablePlayerComponent } from 'common-app/components';
 import { CopySessionLinkComponent } from './components/copy-session-link.component';
 import { DefineStoryComponent } from './components';
 import { VoteOptionsComponent } from 'common-app/components';
-import { PlayerVotingStatus } from 'core';
+import { PlayersContext, PlayerEntity } from 'core';
 import { Button } from '@material-ui/core';
 
 interface Props {
   room: string;
-  playerCollection: Player[];
   onSetStoryTitle: (title: string) => void;
   masterStatus: MasterStatus;
   onFinishVoting: () => void;
   onMoveToNextStory: () => void;
   onMasterVoteChosen: (vote: string) => void;
-  masterVoted: boolean;
-  voteCollectionResult: VoteResult[];
   title: string;
 }
 
 export const MasterComponent: React.FC<Props> = props => {
-  const [playerVotingStatus, setPlayerVotingStatus] = React.useState<
-    PlayerVotingStatus[]
-  >([]);
-
   const {
     room,
-    playerCollection,
     onSetStoryTitle,
     masterStatus,
     onFinishVoting,
     onMoveToNextStory,
     onMasterVoteChosen,
-    masterVoted,
-    voteCollectionResult,
     title,
   } = props;
-
-  React.useEffect(() => {
-    const statusCollection: PlayerVotingStatus[] = playerCollection.map(
-      player => {
-        const playerVoteItem = voteCollectionResult.find(
-          v => v.nickname === player.nickname
-        );
-
-        return {
-          ...player,
-          vote: playerVoteItem ? playerVoteItem.vote : '',
-        };
-      }
-    );
-
-    setPlayerVotingStatus(statusCollection);
-  }, [playerCollection, voteCollectionResult]);
 
   const showComponentBasedOnMasterStatus = (status: MasterStatus) => {
     switch (status) {
@@ -66,7 +39,6 @@ export const MasterComponent: React.FC<Props> = props => {
         return (
           <CreatingStoryComponent
             onSetStoryTitle={onSetStoryTitle}
-            playerVotingStatus={playerVotingStatus}
             room={room}
           />
         );
@@ -75,9 +47,8 @@ export const MasterComponent: React.FC<Props> = props => {
         return (
           <VotingInProgressComponent
             onFinishVoting={onFinishVoting}
-            masterVoted={masterVoted}
+            masterVoted={false}
             onMasterVoteChosen={onMasterVoteChosen}
-            playerVotingStatus={playerVotingStatus}
             title={title}
           />
         );
@@ -86,7 +57,6 @@ export const MasterComponent: React.FC<Props> = props => {
         return (
           <ShowVotingResultsComponent
             onMoveToNextStory={onMoveToNextStory}
-            playerVotingStatus={playerVotingStatus}
             title={title}
           />
         );
@@ -111,28 +81,24 @@ export const MasterComponent: React.FC<Props> = props => {
 
 interface CreatingStoryProps {
   onSetStoryTitle: (title: string) => void;
-  playerVotingStatus: PlayerVotingStatus[];
   room: string;
 }
 
 const CreatingStoryComponent: React.FC<CreatingStoryProps> = props => {
-  const { onSetStoryTitle, playerVotingStatus, room } = props;
+  const { onSetStoryTitle, room } = props;
   return (
     <>
       <div className={cx(classes.containerComponent, classes.leftContainer2)}>
         <DefineStoryComponent onSubmit={onSetStoryTitle} />
       </div>
       <div className={cx(classes.containerComponent, classes.rightContainer)}>
-        {room ? (
-          <TablePlayerComponent playersCollection={playerVotingStatus} />
-        ) : null}
+        {room ? <TablePlayerComponent /> : null}
       </div>
     </>
   );
 };
 
 interface VotingInProgressProps {
-  playerVotingStatus: PlayerVotingStatus[];
   title: string;
   onMasterVoteChosen: (vote: string) => void;
   masterVoted: boolean;
@@ -140,18 +106,12 @@ interface VotingInProgressProps {
 }
 
 const VotingInProgressComponent: React.FC<VotingInProgressProps> = props => {
-  const {
-    playerVotingStatus,
-    title,
-    onMasterVoteChosen,
-    masterVoted,
-    onFinishVoting,
-  } = props;
+  const { title, onMasterVoteChosen, masterVoted, onFinishVoting } = props;
 
   return (
     <>
       <div className={cx(classes.containerComponent, classes.leftContainer3)}>
-        <TablePlayerComponent playersCollection={playerVotingStatus} />
+        <TablePlayerComponent />
       </div>
       <div className={classes.leftContainer2}>
         <div className={classes.containerComponent}>
@@ -181,12 +141,11 @@ const VotingInProgressComponent: React.FC<VotingInProgressProps> = props => {
 
 interface ShowVotingResultsProps {
   onMoveToNextStory: () => void;
-  playerVotingStatus: PlayerVotingStatus[];
   title: string;
 }
 
 const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
-  const { onMoveToNextStory, playerVotingStatus, title } = props;
+  const { onMoveToNextStory, title } = props;
   return (
     <>
       <div className={classes.leftContainer2}>
@@ -200,7 +159,7 @@ const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
           <h2 className={classes.title}>Show voting results</h2>
         </div>
         <div className={classes.containerComponent}>
-          <TablePlayerComponent playersCollection={playerVotingStatus} />
+          <TablePlayerComponent />
         </div>
         <div className={classes.containerComponent}>
           <Button

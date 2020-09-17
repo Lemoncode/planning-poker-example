@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { PlayerComponent } from './player.component';
 import { useParams } from 'react-router-dom';
-import { createSocket } from 'core';
+import { createSocket, PlayersContext } from 'core';
 import {
   AuthContext,
   SocketErrorTypes,
@@ -17,6 +17,7 @@ import { PlayerVotingStatus } from 'core';
 export const PlayerContainer = () => {
   const authContext = React.useContext(AuthContext);
   const socketContext = React.useContext(SocketContext);
+  const playersContext = React.useContext(PlayersContext);
 
   // TODO: type this.
   const params = useParams();
@@ -46,6 +47,10 @@ export const PlayerContainer = () => {
     });
 
     socketContext.setSocket(socket);
+
+    playersContext.setPlayers([
+      { nickname, room, isMaster: false, voted: false, vote: '' },
+    ]);
 
     setRoom(room);
 
