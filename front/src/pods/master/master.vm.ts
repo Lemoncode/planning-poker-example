@@ -1,7 +1,4 @@
-export interface Player {
-  nickname: string;
-  voted: boolean;
-}
+
 
 export enum MasterStatus {
   INITIALIZING,

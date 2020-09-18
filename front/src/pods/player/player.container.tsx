@@ -64,7 +64,13 @@ export const PlayerContainer = () => {
             SetplayerStatus(PlayerStatus.VOTING_IN_PROGRESS);
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
-            setVoteCollectionresult(msg.payload);
+            // refactor this to a map
+            const playerVoteResults = msg.payload.map(voteResult => ({
+              ...voteResult,
+              voted: !!voteResult.vote,
+            }));
+            // ***
+            setVoteCollectionresult(playerVoteResults);
             SetplayerStatus(PlayerStatus.SHOW_RESULTS);
             break;
         }
@@ -110,6 +116,7 @@ export const PlayerContainer = () => {
       onVoteChosen={handleVoteChosen}
       voteCollectionResult={voteCollectionResult}
       title={story}
+      nickname={authContext.nickname}
     />
   );
 };

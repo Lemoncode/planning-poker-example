@@ -2,7 +2,7 @@ import * as React from 'react';
 import { cx } from 'emotion';
 import * as classes from './master.component.styles';
 import { appBaseUrl } from 'core';
-import { Player, MasterStatus, VoteResult } from './master.vm';
+import { MasterStatus, VoteResult } from './master.vm';
 import { TablePlayerComponent } from 'common-app/components';
 import { CopySessionLinkComponent } from './components/copy-session-link.component';
 import { DefineStoryComponent } from './components';
@@ -12,51 +12,28 @@ import { Button } from '@material-ui/core';
 
 interface Props {
   room: string;
-  playerCollection: Player[];
+  playerVotingStatus: PlayerVotingStatus[];
   onSetStoryTitle: (title: string) => void;
   masterStatus: MasterStatus;
   onFinishVoting: () => void;
   onMoveToNextStory: () => void;
   onMasterVoteChosen: (vote: string) => void;
   masterVoted: boolean;
-  voteCollectionResult: VoteResult[];
   title: string;
 }
 
 export const MasterComponent: React.FC<Props> = props => {
-  const [playerVotingStatus, setPlayerVotingStatus] = React.useState<
-    PlayerVotingStatus[]
-  >([]);
-
   const {
     room,
-    playerCollection,
+    playerVotingStatus,
     onSetStoryTitle,
     masterStatus,
     onFinishVoting,
     onMoveToNextStory,
     onMasterVoteChosen,
     masterVoted,
-    voteCollectionResult,
     title,
   } = props;
-
-  React.useEffect(() => {
-    const statusCollection: PlayerVotingStatus[] = playerCollection.map(
-      player => {
-        const playerVoteItem = voteCollectionResult.find(
-          v => v.nickname === player.nickname
-        );
-
-        return {
-          ...player,
-          vote: playerVoteItem ? playerVoteItem.vote : '',
-        };
-      }
-    );
-
-    setPlayerVotingStatus(statusCollection);
-  }, [playerCollection, voteCollectionResult]);
 
   const showComponentBasedOnMasterStatus = (status: MasterStatus) => {
     switch (status) {
