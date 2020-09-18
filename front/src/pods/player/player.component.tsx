@@ -18,6 +18,7 @@ interface Props {
   playerStatus: PlayerStatus;
   voteCollectionResult: PlayerVotingStatus[];
   title: string;
+  nickname: string;
 }
 
 export const PlayerComponent: React.FC<Props> = props => {
@@ -29,6 +30,7 @@ export const PlayerComponent: React.FC<Props> = props => {
     onVoteChosen,
     playerStatus,
     voteCollectionResult,
+    nickname,
   } = props;
 
   function showComponentBasedonPlayerStatus(status: PlayerStatus) {
@@ -52,7 +54,7 @@ export const PlayerComponent: React.FC<Props> = props => {
             onPlayerVoteChosen={onVoteChosen}
             playerVoted={voted}
             title={story}
-            voteCollectionResult={voteCollectionResult}
+            nickname={nickname}
           />
         );
 
@@ -61,6 +63,7 @@ export const PlayerComponent: React.FC<Props> = props => {
           <ShowVotingResultsComponent
             title={story}
             voteCollectionResult={voteCollectionResult}
+            nickname={nickname}
           />
         );
       default:
@@ -72,28 +75,24 @@ export const PlayerComponent: React.FC<Props> = props => {
 };
 
 interface VotingInProgressProps {
-  voteCollectionResult: PlayerVotingStatus[];
   title: string;
   onPlayerVoteChosen: (vote: string) => void;
   playerVoted: boolean;
+  nickname: string;
 }
 
 const VotingInProgressComponent: React.FC<VotingInProgressProps> = props => {
-  const {
-    voteCollectionResult,
-    title,
-    onPlayerVoteChosen,
-    playerVoted,
-  } = props;
+  const { title, onPlayerVoteChosen, playerVoted, nickname } = props;
 
   return (
     <div className={classes.container}>
-      <div className={cx(classes.containerComponent, classes.leftContainer2)}>
-        <TablePlayerComponent playersCollection={voteCollectionResult} />
-      </div>
       <div className={classes.leftContainer}>
         <div className={classes.containerComponent}>
-          {title ? <h3 className={classes.subtitle}>Story:</h3> : null}
+          {title ? (
+            <h3 className={classes.subtitle}>
+              Hello <b>{nickname}</b>, this is the Story:
+            </h3>
+          ) : null}
           {title ? <p className={classes.story}>{title}</p> : null}
         </div>
       </div>
@@ -110,15 +109,20 @@ const VotingInProgressComponent: React.FC<VotingInProgressProps> = props => {
 interface ShowVotingResultsProps {
   voteCollectionResult: PlayerVotingStatus[];
   title: string;
+  nickname: string;
 }
 
 const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
-  const { voteCollectionResult, title } = props;
+  const { voteCollectionResult, title, nickname } = props;
   return (
     <div className={classes.container}>
       <div className={classes.leftContainer}>
         <div className={classes.containerComponent}>
-          {title ? <h3 className={classes.subtitle}>Story:</h3> : null}
+          {title ? (
+            <h3 className={classes.subtitle}>
+              Hello <b>{nickname}</b>, this is the Story:
+            </h3>
+          ) : null}
           {title ? <p className={classes.story}>{title}</p> : null}
         </div>
       </div>

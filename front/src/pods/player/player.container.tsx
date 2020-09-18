@@ -116,6 +116,7 @@ export const PlayerContainer = () => {
       onVoteChosen={handleVoteChosen}
       voteCollectionResult={voteCollectionResult}
       title={story}
+      nickname={authContext.nickname}
     />
   );
 };

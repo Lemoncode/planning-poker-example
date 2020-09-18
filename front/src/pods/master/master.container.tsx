@@ -33,11 +33,11 @@ const usePlayerCollection = () => {
       const voteResult = votesResultCollection.find(
         voteResult => voteResult.nickname === player.nickname
       );
-
+      const voted = voteResult.vote !== '' ? true : false;
       return voteResult
         ? {
             ...player,
-            voted: true,
+            voted,
             vote: voteResult.vote,
           }
         : player;
@@ -128,6 +128,7 @@ export const MasterContainer = () => {
             }));
             // ***
             setPlayerCollectionVoteResult(playerVoteResults);
+            SetMasterStatus(MasterStatus.SHOWING_RESULTS);
             break;
         }
       }
