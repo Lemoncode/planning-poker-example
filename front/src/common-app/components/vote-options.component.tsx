@@ -3,6 +3,7 @@ import * as classes from './vote-options.styles';
 import { TShirtVotes } from 'core';
 import { Button } from '@material-ui/core';
 import { cx } from 'emotion';
+import { useSnackbarContext, SnackbarComponent } from 'common';
 
 interface Props {
   onVoteChosen: (vote: string) => void;
@@ -20,6 +21,8 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
     Object.keys(TShirtVotes).map(k => TShirtVotes[k])
   );
 
+  const { showMessage } = useSnackbarContext();
+
   const onLocalVoteChosen = voteActive => {
     setVoteCollection([voteActive]);
     onVoteChosen(voteActive);
@@ -30,6 +33,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
 
   return (
     <div className={classes.container}>
+      <SnackbarComponent />
       {votedStatus ? null : (
         <h3 className={classes.subtitle}>Select and send vote</h3>
       )}
@@ -51,6 +55,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
           />
         ))}
       </div>
+
       <div className={classes.buttonContainer}>
         {votedStatus ? (
           undefined
@@ -61,7 +66,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
             onClick={e =>
               voteActive !== ''
                 ? onLocalVoteChosen(voteActive)
-                : alert('Select label')
+                : showMessage('Select label', 'error')
             }
             className={classes.button}
           >
