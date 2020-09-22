@@ -72,7 +72,8 @@ const handleAppendText = (socketInfo: SocketInfo, text: string) => {
 };
 
 const handleShowResults = (socketInfo: SocketInfo, votesCollection: any[]) => {
-  socketInfo.io.emit(SocketOuputMessageLiteral.MESSAGE, {
+  const room = getRoomFromConnectionId(socketInfo.connectionId);
+  socketInfo.io.in(room).emit(SocketOuputMessageLiteral.MESSAGE, {
     type: responseType.SHOW_VOTING_RESULTS,
     payload: votesCollection,
   });
@@ -102,7 +103,8 @@ const handleNotifyConnectionEstablishedMaster = (
 };
 
 const handleNewStory = (socketInfo: SocketInfo, title: string) => {
-  socketInfo.io.emit(SocketOuputMessageLiteral.MESSAGE, {
+  const room = getRoomFromConnectionId(socketInfo.connectionId);
+  socketInfo.io.in(room).emit(SocketOuputMessageLiteral.MESSAGE, {
     type: responseType.NEW_STORY,
     payload: title,
   });
