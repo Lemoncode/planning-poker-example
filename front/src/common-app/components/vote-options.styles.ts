@@ -165,4 +165,8 @@ export const showLabelVote = css`
   width: 25%;
   cursor: default;
   margin: 3% 0 5%;
+
+  @media (min-width: 430px) and (max-width: 700px) {
+    background-size: 85% auto;
+  }
 `;

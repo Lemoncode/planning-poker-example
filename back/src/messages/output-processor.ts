@@ -57,7 +57,18 @@ export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
     case OutputMessageTypes.NICKNAME_ALREADY_IN_USE:
       handleNickNameAlreadyInUse(socketInfo, connectionId);
       break;
+    case OutputMessageTypes.APPEND_TEXT:
+      handleAppendText(socketInfo, action.payload);
+      break;
   }
+};
+
+const handleAppendText = (socketInfo: SocketInfo, text: string) => {
+  const room = getRoomFromConnectionId(socketInfo.connectionId);
+  socketInfo.io.in(room).emit(SocketOuputMessageLiteral.MESSAGE, {
+    type: responseType.APPEND_TEXT,
+    payload: text,
+  });
 };
 
 const handleShowResults = (socketInfo: SocketInfo, votesCollection: any[]) => {
