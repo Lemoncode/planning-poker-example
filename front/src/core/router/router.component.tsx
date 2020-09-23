@@ -9,7 +9,7 @@ export const RouterComponent: React.FunctionComponent = () => {
       <Switch>
         <Route
           exact={true}
-          path={switchRoutes.root}
+          path={switchRoutes.session}
           component={CreateSessionScene}
         />
         <Route

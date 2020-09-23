@@ -17,6 +17,7 @@ module.exports = merge.strategy({
   },
   entry: {
     app: hotReloadingEntries,
+    main: hotReloadingEntries,
   },
   output: {
     path: helpers.resolveFromRootPath('dist'),
