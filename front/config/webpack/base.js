@@ -18,8 +18,7 @@ module.exports = merge(
       extensions: ['.js', '.ts', '.tsx'],
     },
     entry: {
-      main: ['regenerator-runtime/runtime', './index.ts'],
-      app: ['regenerator-runtime/runtime', './create-session.tsx'],
+      app: ['regenerator-runtime/runtime', './index.tsx'],
     },
     module: {
       rules: [
@@ -48,11 +47,6 @@ module.exports = merge(
         favicon: 'assets/favicon.ico',
         filename: 'index.html',
         template: 'index.html',
-      }),
-      new HtmlWebpackPlugin({
-        favicon: 'assets/favicon.ico',
-        filename: 'create-session.html',
-        template: 'create-session.html',
       }),
     ],
   }
