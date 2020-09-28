@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { switchRoutes } from './routes';
 import { CreateSessionScene, MasterScene, PlayerScene } from 'scenes';
 
@@ -8,7 +8,7 @@ export const RouterComponent: React.FunctionComponent = () => {
     <Router>
       <Switch>
         <Route
-          exact={true}
+          exact={false}
           path={switchRoutes.root}
           component={CreateSessionScene}
         />
