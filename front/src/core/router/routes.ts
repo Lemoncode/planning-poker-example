@@ -2,14 +2,12 @@ import { generatePath } from 'react-router-dom';
 
 interface SwitchRoutes {
   root: string;
-  session: string;
   player: string;
   master: string;
 }
 
 export const switchRoutes: SwitchRoutes = {
   root: '/',
-  session: '/create-session',
   player: '/player/:room',
   master: '/master/:room',
 };
