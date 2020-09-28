@@ -20,7 +20,7 @@ module.exports = merge.strategy({
   },
   output: {
     path: helpers.resolveFromRootPath('dist'),
-    filename: 'app/[name].js',
+    filename: '[name].js',
   },
   devServer: {
     inline: true,

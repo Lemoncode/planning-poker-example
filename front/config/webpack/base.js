@@ -47,7 +47,7 @@ module.exports = merge(
       new HtmlWebpackPlugin({
         favicon: 'assets/favicon.ico',
         template: 'index.html',
-        filename: './app/index.html',
+        filename: './app.html',
       }),
       // new HtmlWebpackPlugin({
       //   template: 'public/index.html',
