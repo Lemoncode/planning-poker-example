@@ -49,15 +49,16 @@ module.exports = merge(
         template: 'index.html',
         filename: './app/index.html',
       }),
-      new HtmlWebpackPlugin({
-        template: 'public/index.html',
-        filename: 'index.html',
-      }),
+      // new HtmlWebpackPlugin({
+      //   template: 'public/index.html',
+      //   filename: 'index.html',
+      // }),
       new CopyPlugin({
         patterns: [
-          { from: 'public/about.html', to: 'about.html' },
-          { from: 'public/styles.css', to: 'styles.css' },
-          { from: 'assets', to: 'app/src/assets' },
+          { from: '../static/index.html', to: 'index.html' },
+          { from: '../static/about.html', to: 'about.html' },
+          { from: '../static/styles.css', to: 'styles.css' },
+          { from: 'assets', to: 'assets' },
         ],
       }),
     ],
