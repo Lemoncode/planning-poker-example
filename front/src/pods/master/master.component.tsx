@@ -77,7 +77,7 @@ export const MasterComponent: React.FC<Props> = props => {
     <>
       <div className={classes.container}>
         <div className={cx(classes.containerComponent, classes.leftContainer)}>
-          <CopySessionLinkComponent url={`${appBaseUrl}/#/player/${room}`} />
+          <CopySessionLinkComponent url={`${appBaseUrl}#/player/${room}`} />
         </div>
 
         {showComponentBasedOnMasterStatus(masterStatus)}

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { switchRoutes } from './routes';
 import { CreateSessionScene, MasterScene, PlayerScene } from 'scenes';
+import { TramRounded } from '@material-ui/icons';
 
 export const RouterComponent: React.FunctionComponent = () => {
   return (

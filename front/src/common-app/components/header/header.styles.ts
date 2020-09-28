@@ -8,7 +8,7 @@ export const logoContainer = css`
   display: flex;
   flex-flow: column;
   background-color: ${color.grey1};
-  background-image: url('./src/assets/img-back-header.png');
+  background-image: url('./assets/img-back-header.png');
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position-y: center;
