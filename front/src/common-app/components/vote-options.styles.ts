@@ -73,14 +73,14 @@ export const label = css`
   align-content: center;
   flex-flow: column;
   padding: 0;
-  background-image: url('./src/assets/label-white.png');
+  background-image: url('./assets/label-white.png');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% auto;
   color: ${theme.palette.varColors.brownLemon};
 
   :hover {
-    background-image: url('./src/assets/label-red.png');
+    background-image: url('./assets/label-red.png');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100% auto;
@@ -149,7 +149,7 @@ export const label = css`
 export const activeLabel = css`
   ${label}
 
-  background-image: url('./src/assets/label-red.png');
+  background-image: url('./assets/label-red.png');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% auto;

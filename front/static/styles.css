@@ -6,7 +6,7 @@
   font-size: 1rem;
 }
 .container {
-  background-image: url(src/assets/fondo-landing-desktop.jpg);
+  background-image: url(./assets/fondo-landing-desktop.jpg);
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
