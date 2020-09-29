@@ -8,67 +8,79 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="container"></div>
-    <div class="component">
-      <header class="logo">
-        <img class="img-logo" src="src/assets/logo.png" alt="logo T-Shirt" />
-        <h1 class="txt-logo">T-Shirt Planning Poker</h1>
-      </header>
-    </div>
-    <div class="component">
-      <h2 class="title">T-Shirt Planning Poker is a free online tool</h2>
-    </div>
-    <div class="component">
-      <p class="txt">
-        Using T-Shirt sizes in our Scrum poker session, allows us to remove
-        analisys parallisis and build consensus estimates.
-      </p>
-    </div>
-    <div class="component">
-      <div class="txt list">
-        <h4 class="header-list">Get Started in five simple steps:</h4>
-        <ol class="body-list">
-          <li class="item-list">
-            Choose a name for the ‘master’ player and hit on create session.
-          </li>
-          <li class="item-list">
-            A session link will be generated, copy it and share it with the rest
-            of attendees.
-          </li>
-          <li class="item-list">
-            Create your story and hit hte start voting button.
-          </li>
-          <li class="item-list">Attendees will emit their votes.</li>
-          <li class="item-list">
-            Once all attendees has voted, click on finish voting and results
-          </li>
-        </ol>
+    <div class="background"></div>
+    <div class="container">
+      <div class="component">
+        <header class="logo">
+          <img class="img-logo" src="./assets/logo.png" alt="logo T-Shirt" />
+          <h1 class="txt-logo">T-Shirt Planning Poker</h1>
+        </header>
       </div>
-      <video
-        class="video"
-        src="http://v2v.cc/~j/theora_testsuite/320x240.ogg"
-        controls
-      ></video>
-    </div>
-    <div class="component"></div>
-    <div class="component">
-      <a href="./app.html">GET STARTED</a>
+      <div class="component">
+        <h2 class="title">T-Shirt Planning Poker is a free online tool</h2>
+      </div>
+      <div class="component button-top">
+        <button class="button" onclick="location.href='app.html'" type="button">
+          get started
+        </button>
+      </div>
+      <div class="component">
+        <p class="txt">
+          Using T-Shirt sizes in our Scrum poker session, allows us to remove
+          analisys parallisis and build consensus estimates.
+        </p>
+      </div>
+      <div class="component video-container">
+        <video
+          class="video"
+          src="http://v2v.cc/~j/theora_testsuite/320x240.ogg"
+          controls
+        ></video>
+        <div class="txt list">
+          <h4 class="header-list">Get Started in five simple steps:</h4>
+          <ol class="body-list">
+            <li class="item-list">
+              Choose a name for the ‘master’ player and hit on create session.
+            </li>
+            <li class="item-list">
+              A session link will be generated, copy it and share it with the
+              rest of attendees.
+            </li>
+            <li class="item-list">
+              Create your story and hit hte start voting button.
+            </li>
+            <li class="item-list">Attendees will emit their votes.</li>
+            <li class="item-list">
+              Once all attendees has voted, click on finish voting and results
+            </li>
+          </ol>
+        </div>
+      </div>
+      <div class="component">
+        <button class="button" onclick="location.href='app.html'" type="button">
+          get started
+        </button>
+      </div>
     </div>
     <footer class="footer">
-      <img
-        class="imgFooter"
-        src="./src/assets/logo-lemon.png"
-        alt="lemoncode"
-      />
+      <img class="imgFooter" src="./assets/logo-lemon.png" alt="lemoncode" />
       <ul class="menuFooter">
-        <FooterLinkComponent href="#">Aviso legal</FooterLinkComponent>
-
-        <FooterLinkComponent href="#">Privacidad</FooterLinkComponent>
-
-        <FooterLinkComponent href="#">Contactar</FooterLinkComponent>
+        <li class="itemMenuFooter">
+          <a href="about.html" class="linkMenuFooter">About</a>
+        </li>
+        <li class="itemMenuFooter">
+          <a href="about.html" class="linkMenuFooter">License</a>
+        </li>
+        <li class="itemMenuFooter">
+          <a href="about.html" class="linkMenuFooter">Contact</a>
+        </li>
       </ul>
       <span class="copyFooter">Create by LEMONCODE © 2020</span>
     </footer>
