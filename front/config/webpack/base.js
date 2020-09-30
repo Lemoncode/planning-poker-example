@@ -55,6 +55,7 @@ module.exports = merge(
           { from: '../static/index.html', to: 'index.html' },
           { from: '../static/about.html', to: 'about.html' },
           { from: '../static/styles.css', to: 'styles.css' },
+          { from: '../static/about.styles.css', to: 'about.styles.css' },
           { from: 'assets', to: 'assets' },
         ],
       }),
