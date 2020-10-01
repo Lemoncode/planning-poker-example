@@ -16,6 +16,7 @@ export const OutputMessageTypes = {
   ERROR_ROOM_BUSY: 'ERROR_ROOM_BUSY',
   ERROR_CANNOT_FIND_ROOM: 'ERROR_CANNOT_FIND_ROOM',
   NICKNAME_ALREADY_IN_USE: 'NICKNAME_ALREADY_IN_USE',
+  APPEND_TEXT: 'APPEND_TEXT',
 };
 
 export const SocketMessageTypes = {
