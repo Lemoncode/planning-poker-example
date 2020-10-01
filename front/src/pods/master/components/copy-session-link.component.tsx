@@ -13,7 +13,7 @@ export const CopySessionLinkComponent: React.FC<Props> = props => {
   return (
     <div className={classes.urlContainer}>
       <Typography className={classes.subtitle} variant="subtitle1">
-        Copy this link to the players that are going to join this poker planning
+      Send this link to the players that are going to join this poker planning
         session
       </Typography>
       <div className={classes.url}>

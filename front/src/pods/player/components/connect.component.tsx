@@ -20,7 +20,7 @@ export const ConnectComponent: React.FC<Props> = props => {
   return (
     <div className={classes.container}>
       <Typography className={classes.title} variant="h5">
-        Join player to poker session: {room}
+        Join poker session: {room}
       </Typography>
       <Formik
         onSubmit={connectForm => onConnect(connectForm.nickname)}
@@ -43,7 +43,7 @@ export const ConnectComponent: React.FC<Props> = props => {
                 disabled={playerStatus === PlayerStatus.WAITING_FOR_STORY}
                 className={cx(classes.formItem, classes.button)}
               >
-                Crear nueva sesión
+                Create new session
               </Button>
             </Form>
           );

@@ -11,7 +11,7 @@ export const WaitComponent: React.FC = () => {
         className={cx(classes.title, classes.titleSpinner)}
         variant="h6"
       >
-        Waiting to master user to provide instructions
+        Waiting for master
       </Typography>
       <CircularProgress
         className={classes.spinner}

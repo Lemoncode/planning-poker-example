@@ -15,7 +15,7 @@ export const DefineStoryComponent: React.FC<Props> = props => {
   return (
     <div className={classes.container}>
       <Typography className={classes.subtitle} variant="subtitle1">
-        Define here you user history and click on start voting
+        Define here your user story
       </Typography>
       <Formik
         onSubmit={defineStoryForm => onSubmit(defineStoryForm.story)}

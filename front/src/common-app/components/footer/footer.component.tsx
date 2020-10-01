@@ -9,17 +9,23 @@ export const Footer: React.FC<Props> = props => {
 
   return (
     <footer className={classes.footer}>
-      <img
+      <a
         className={classes.imgFooter}
-        src="./src/assets/logo-lemon.png"
-        alt="lemoncode"
-      />
+        href="https://lemoncode.net/"
+        target="blank"
+      >
+        <img
+          className={classes.imgFooter}
+          src="./assets/logo-lemon.png"
+          alt="lemoncode"
+        />
+      </a>
       <ul className={classes.menuFooter}>
-        <FooterLinkComponent href="#">Aviso legal</FooterLinkComponent>
+        <FooterLinkComponent href="about.html">About us</FooterLinkComponent>
 
-        <FooterLinkComponent href="#">Privacidad</FooterLinkComponent>
+        <FooterLinkComponent href="about.html">License</FooterLinkComponent>
 
-        <FooterLinkComponent href="#">Contactar</FooterLinkComponent>
+        <FooterLinkComponent href="about.html">Contact</FooterLinkComponent>
       </ul>
       <span className={classes.copyFooter}>Create by LEMONCODE © 2020</span>
     </footer>

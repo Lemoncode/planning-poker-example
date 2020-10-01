@@ -4,7 +4,7 @@ import { theme } from 'core/theme';
 const color = theme.palette.varColors;
 
 export const background = css`
-  background: url(./src/assets/fondo-movil.jpg) no-repeat center center;
+  background: url(./assets/fondo-movil.jpg) no-repeat center center;
   background-color: ${color.brownLemon};
   background-size: cover;
   position: fixed;
@@ -14,11 +14,11 @@ export const background = css`
   margin: 0;
   z-index: -1000;
   ${theme.breakpoints.up('sm')} {
-    background: url(./src/assets/fondo-tablet.jpg) no-repeat center center;
+    background: url(./assets/fondo-tablet.jpg) no-repeat center center;
     background-size: cover;
   }
   ${theme.breakpoints.up('md')} {
-    background: url(./src/assets/fondo-desktop.jpg) no-repeat center center;
+    background: url(./assets/fondo-desktop.jpg) no-repeat center center;
     background-size: cover;
   }
 `;
