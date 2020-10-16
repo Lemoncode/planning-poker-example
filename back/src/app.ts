@@ -2,6 +2,8 @@ import { createApp } from './express.server';
 import { envConstants } from './env.constants';
 import { api } from './api';
 import cors from 'cors';
+import mongoose from 'mongoose';
+const { connect } = mongoose;
 import SocketIOClient, { Socket } from 'socket.io';
 import {
   processInputMessage,
@@ -62,23 +64,16 @@ io.on('connection', function (socket: Socket) {
   };
 
   // TODO encapuslate this to processInputMessage
-  if (isMaster === 'true') {
-    outputMessageCollection = processInputMessage(socketInfo, {
-      type: InputMessageTypes.ESTABLISH_CONNECTION_MASTER,
-      payload: {
-        nickname: user,
-        room,
-      },
-    });
-  } else {
-    outputMessageCollection = processInputMessage(socketInfo, {
-      type: InputMessageTypes.ESTABLISH_CONNECTION_PLAYER,
-      payload: {
-        nickname: user,
-        room,
-      },
-    });
-  }
+  outputMessageCollection = processInputMessage(socketInfo, {
+    type:
+      isMaster === 'true'
+        ? InputMessageTypes.ESTABLISH_CONNECTION_MASTER
+        : InputMessageTypes.ESTABLISH_CONNECTION_PLAYER,
+    payload: {
+      nickname: user,
+      room,
+    },
+  });
 
   processOutputMessageCollection(socketInfo, outputMessageCollection);
 
@@ -95,6 +90,16 @@ io.on('connection', function (socket: Socket) {
   });
 });
 
-const server = http.listen(3000, function () {
+const server = http.listen(3000, () => {
   console.log('listening on *:3000');
+  const database = envConstants.DATABASE ? 'mock' : 'mongo';
+  console.log(`database with ${database}`);
+  if (envConstants.DATABASE !== 'mock' && envConstants.MONGO_URL) {
+    connect(envConstants.MONGO_URL, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    })
+      .then(() => console.log('Mongo database connected'))
+      .catch((err) => console.log('Mongo can not connect', err));
+  }
 });

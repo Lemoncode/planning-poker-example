@@ -7,13 +7,10 @@ import {
 } from './consts';
 import { Action, SocketInfo } from './model';
 import {
-  vote,
   isMasterUser,
   getRoomFromConnectionId,
   getNicknameFromConnectionId,
-  resetVotes,
 } from '../storage';
-import * as SocketIOClient from 'socket.io';
 import { ResponseBase, responseType } from './response';
 
 export const processOutputMessageCollection = (

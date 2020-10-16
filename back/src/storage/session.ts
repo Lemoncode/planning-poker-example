@@ -1,3 +1,8 @@
+import { UserSessionModel } from './model';
+import { envConstants } from '../env.constants';
+
+//TODO implement queries
+
 // This is just a demo approach, storing in memory session Info
 // Another way to identify users: https://stackoverflow.com/questions/6979992/how-to-get-session-id-of-socket-io-client-in-client
 
@@ -13,7 +18,10 @@ interface UserSession extends ConnectSessionInfo {
   vote: string;
 }
 
-let userCollectionSession: UserSession[] = [];
+// TODO mockdatabase
+const isMockDatabase = envConstants.DATABASE === 'mock';
+
+let userCollectionSession: UserSession[] = isMockDatabase ? [] : []; //TODO ge database
 
 export const isRoomAvailable = (room: string) =>
   !userCollectionSession.find((session) => session.room === room);
@@ -22,17 +30,23 @@ export const addNewUser = (
   connectionId: string,
   { room, nickname, isMaster }: ConnectSessionInfo
 ) => {
-  userCollectionSession = [
-    ...userCollectionSession,
-    {
-      connectionId,
-      room,
-      isMaster: isMaster,
-      nickname: nickname,
-      hasVoted: false,
-      vote: '',
-    },
-  ];
+  const data = {
+    connectionId,
+    room,
+    isMaster: isMaster,
+    nickname: nickname,
+    hasVoted: false,
+    vote: '',
+  };
+  if (isMockDatabase) {
+    userCollectionSession = [...userCollectionSession, data];
+  } else {
+    UserSessionModel.create(data)
+      .then(() => {
+        console.log('se guarda');
+      })
+      .catch(console.log);
+  }
 };
 
 export const isMasterUser = (connectionId: string) => {
@@ -86,6 +100,8 @@ export const vote = (connectionId: string, value: string) => {
 };
 
 export const getVotesFromRoom = (room: string) => {
+  console.log('votaaaaa', userCollectionSession);
+
   const filteredUserCollection = userCollectionSession.filter(
     (s) => s.room === room
   );
