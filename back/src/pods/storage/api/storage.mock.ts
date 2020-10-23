@@ -1,81 +1,65 @@
-import { UserSessionModel } from './model';
-import { envConstants } from '../env.constants';
-
-//TODO implement queries
-
+import { ConnectSessionInfo, UserSession, VotesFromRooms } from 'dals/user';
 // This is just a demo approach, storing in memory session Info
 // Another way to identify users: https://stackoverflow.com/questions/6979992/how-to-get-session-id-of-socket-io-client-in-client
 
-interface ConnectSessionInfo {
-  room: string;
-  nickname: string;
-  isMaster: boolean;
-}
+let userCollectionSession: UserSession[] = [];
 
-interface UserSession extends ConnectSessionInfo {
-  connectionId: string;
-  hasVoted: boolean;
-  vote: string;
-}
-
-// TODO mockdatabase
-const isMockDatabase = envConstants.DATABASE === 'mock';
-
-let userCollectionSession: UserSession[] = isMockDatabase ? [] : []; //TODO ge database
-
-export const isRoomAvailable = (room: string) =>
+export const isRoomAvailable = async (room: string): Promise<Boolean> =>
   !userCollectionSession.find((session) => session.room === room);
 
-export const addNewUser = (
+export const addNewUser = async (
   connectionId: string,
   { room, nickname, isMaster }: ConnectSessionInfo
-) => {
-  const data = {
-    connectionId,
-    room,
-    isMaster: isMaster,
-    nickname: nickname,
-    hasVoted: false,
-    vote: '',
-  };
-  if (isMockDatabase) {
-    userCollectionSession = [...userCollectionSession, data];
-  } else {
-    UserSessionModel.create(data)
-      .then(() => {
-        console.log('se guarda');
-      })
-      .catch(console.log);
-  }
+): Promise<void> => {
+  userCollectionSession = [
+    ...userCollectionSession,
+    {
+      connectionId,
+      room,
+      isMaster: isMaster,
+      nickname: nickname,
+      hasVoted: false,
+      vote: '',
+    },
+  ];
 };
 
-export const isMasterUser = (connectionId: string) => {
+export const isMasterUser = async (
+  connectionId: string
+): Promise<UserSession> => {
   const session = userCollectionSession.find(
     (session) => session.connectionId === connectionId && session.isMaster
   );
   return session;
 };
 
-export const isNicknameInUse = (nickname: string, room: string) =>
+export const isNicknameInUse = async (
+  nickname: string,
+  room: string
+): Promise<Boolean> =>
   userCollectionSession.findIndex(
     (session) => session.nickname === nickname && session.room === room
   ) !== -1;
 
-export const getRoomFromConnectionId = (connectionId: string) => {
+export const getRoomFromConnectionId = async (
+  connectionId: string
+): Promise<string> => {
   const session = userCollectionSession.find(
     (session) => session.connectionId === connectionId
   );
   return session ? session.room : '';
 };
 
-export const getNicknameFromConnectionId = (connectionId: string) => {
+export const getNicknameFromConnectionId = async (
+  connectionId: string
+): Promise<string> => {
   const session = userCollectionSession.find(
     (session) => session.connectionId === connectionId
   );
   return session ? session.nickname : '';
 };
 
-export const resetVotes = (room: string) => {
+export const resetVotes = async (room: string): Promise<void> => {
   userCollectionSession = userCollectionSession.map((session) =>
     session.room !== room
       ? session
@@ -87,7 +71,10 @@ export const resetVotes = (room: string) => {
   );
 };
 
-export const vote = (connectionId: string, value: string) => {
+export const vote = async (
+  connectionId: string,
+  value: string
+): Promise<void> => {
   userCollectionSession = userCollectionSession.map((session) =>
     session.connectionId === connectionId
       ? {
@@ -99,9 +86,9 @@ export const vote = (connectionId: string, value: string) => {
   );
 };
 
-export const getVotesFromRoom = (room: string) => {
-  console.log('votaaaaa', userCollectionSession);
-
+export const getVotesFromRoom = async (
+  room: string
+): Promise<VotesFromRooms[]> => {
   const filteredUserCollection = userCollectionSession.filter(
     (s) => s.room === room
   );
@@ -111,7 +98,8 @@ export const getVotesFromRoom = (room: string) => {
   }));
 };
 
-export const freeRoom = (room: string) => {
+// Here returns void because change the global variable
+export const freeRoom = async (room: string): Promise<void> => {
   userCollectionSession = userCollectionSession.filter(
     (session) => session.room !== room
   );

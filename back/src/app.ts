@@ -1,17 +1,16 @@
-import { createApp } from './express.server';
-import { envConstants } from './env.constants';
-import { api } from './api';
+import { createApp } from 'core/servers';
+import { envConstants } from 'core/env.constants';
+import { roomApi } from 'pods/room';
 import cors from 'cors';
 import mongoose from 'mongoose';
 const { connect } = mongoose;
 import SocketIOClient, { Socket } from 'socket.io';
+import { Action, SocketInfo } from 'dals/messages';
 import {
   processInputMessage,
   InputMessageTypes,
   processOutputMessageCollection,
-  Action,
-  SocketInfo,
-} from './messages';
+} from 'pods/messages';
 
 const app = createApp();
 
@@ -37,7 +36,7 @@ const options: cors.CorsOptions = {
 };
 
 app.use(cors(options));
-app.use('/api', api);
+app.use(roomApi);
 
 app.listen(envConstants.PORT, () => {
   console.log(`Server ready at http://localhost:${envConstants.PORT}/api`);
@@ -45,7 +44,7 @@ app.listen(envConstants.PORT, () => {
 
 // whenever a user connects on port 3000 via
 // a websocket, log that a user has connected
-io.on('connection', function (socket: Socket) {
+io.on('connection', async (socket: Socket) => {
   // WATCH OUT !! Reconnect is not implemented
   // In the connection input processing, we should
   // check if connectionId matches with userId and RoomId
@@ -64,7 +63,7 @@ io.on('connection', function (socket: Socket) {
   };
 
   // TODO encapuslate this to processInputMessage
-  outputMessageCollection = processInputMessage(socketInfo, {
+  outputMessageCollection = await processInputMessage(socketInfo, {
     type:
       isMaster === 'true'
         ? InputMessageTypes.ESTABLISH_CONNECTION_MASTER
@@ -77,10 +76,10 @@ io.on('connection', function (socket: Socket) {
 
   processOutputMessageCollection(socketInfo, outputMessageCollection);
 
-  socket.on('message', function (message: any) {
+  socket.on('message', async (message: any) => {
     console.log(message);
     if (message && message.type) {
-      const outputMessageCollection: Action[] = processInputMessage(
+      const outputMessageCollection: Action[] = await processInputMessage(
         socketInfo,
         message
       );
@@ -92,10 +91,10 @@ io.on('connection', function (socket: Socket) {
 
 const server = http.listen(3000, () => {
   console.log('listening on *:3000');
-  const database = envConstants.DATABASE ? 'mock' : 'mongo';
+  const database = envConstants.isApiMock ? 'mock' : 'mongo';
   console.log(`database with ${database}`);
-  if (envConstants.DATABASE !== 'mock' && envConstants.MONGO_URL) {
-    connect(envConstants.MONGO_URL, {
+  if (!envConstants.isApiMock && envConstants.mongoUrl) {
+    connect(envConstants.mongoUrl, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     })

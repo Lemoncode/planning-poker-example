@@ -1,0 +1,99 @@
+import {
+  UserSessionContext,
+  UserSession,
+  ConnectSessionInfo,
+  VotesFromRooms,
+} from 'dals/user';
+
+//TODO implement queries
+
+// This is just a demo approach, storing in memory session Info
+// Another way to identify users: https://stackoverflow.com/questions/6979992/how-to-get-session-id-of-socket-io-client-in-client
+
+//TODO verify if we are going to use
+const getCollectionSession = async (): Promise<UserSession[]> => {
+  return await UserSessionContext.find({});
+};
+
+export const isRoomAvailable = async (room: string): Promise<Boolean> => {
+  return await UserSessionContext.exists({ room });
+};
+
+export const addNewUser = async (
+  connectionId: string,
+  connectSession: ConnectSessionInfo
+): Promise<void> => {
+  const data = {
+    connectionId,
+    ...connectSession,
+    hasVoted: false,
+    vote: '',
+  };
+  UserSessionContext.create(data).catch(console.log);
+};
+
+export const isMasterUser = async (
+  connectionId: string
+): Promise<UserSession> =>
+  await UserSessionContext.findOne({ connectionId, isMaster: true });
+
+export const isNicknameInUse = async (
+  nickname: string,
+  room: string
+): Promise<Boolean> => await UserSessionContext.exists({ nickname, room });
+
+export const getRoomFromConnectionId = async (
+  connectionId: string
+): Promise<string> => {
+  const session = await UserSessionContext.findOne({
+    connectionId: connectionId,
+  });
+  return session ? session.room : '';
+};
+
+export const getNicknameFromConnectionId = async (
+  connectionId: string
+): Promise<string> => {
+  const session = await UserSessionContext.findOne({
+    connectionId: connectionId,
+  });
+
+  return session ? session.nickname : '';
+};
+
+export const resetVotes = async (room: string): Promise<void> => {
+  UserSessionContext.findOneAndUpdate(
+    { room: room },
+    {
+      voted: false,
+      vote: '',
+    }
+  );
+};
+
+export const vote = async (
+  connectionId: string,
+  value: string
+): Promise<void> => {
+  UserSessionContext.findOneAndUpdate(
+    { connectionId: connectionId },
+    {
+      hasVoted: true,
+      vote: value,
+    }
+  );
+};
+
+export const getVotesFromRoom = async (
+  room: string
+): Promise<VotesFromRooms[]> => {
+  return await UserSessionContext.find({ room: room }).select([
+    'nickname',
+    'vote',
+  ]);
+};
+
+//TODO here returns array
+export const freeRoom = async (room: string): Promise<UserSession[]> => {
+  return await UserSessionContext.find().distinct('room', { room: room });
+};
