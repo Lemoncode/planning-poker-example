@@ -106,8 +106,8 @@ const handleNotifyConnectionEstablishedMaster = (
   socketInfo.socket.emit(SocketOuputMessageLiteral.MESSAGE, response);
 };
 
-const handleNewStory = (socketInfo: SocketInfo, title: string) => {
-  const room = getRoomFromConnectionId(socketInfo.connectionId);
+const handleNewStory = async (socketInfo: SocketInfo, title: string) => {
+  const room = await getRoomFromConnectionId(socketInfo.connectionId);
   socketInfo.io.in(room).emit(SocketOuputMessageLiteral.MESSAGE, {
     type: responseType.NEW_STORY,
     payload: title,
