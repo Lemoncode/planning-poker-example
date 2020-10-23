@@ -20,19 +20,17 @@ export const processOutputMessageCollection = (
 ) => {
   if (actionCollection) {
     // TODO: Error handling
-    actionCollection.forEach((action) =>
-      processOuputMessage(socketInfo, action)
+    actionCollection.forEach(
+      (action) => processOuputMessage(socketInfo, action)
     );
   }
 };
 
-export const processOuputMessage = async (
+export const processOuputMessage = (
   socketInfo: SocketInfo,
   action: Action
 ) => {
-  const { connectionId, io, socket } = socketInfo;
-  const isMaster = await isMasterUser(connectionId);
-  const room = await getRoomFromConnectionId(connectionId);
+  const { connectionId } = socketInfo;
 
   switch (action.type) {
     case OutputMessageTypes.CONNECTION_ESTABLISHED_MASTER:
