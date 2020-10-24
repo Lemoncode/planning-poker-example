@@ -13,12 +13,12 @@ import { roomApi } from 'pods/room';
 
 //TODO verify if we are going to use
 const getCollectionSession = async (): Promise<UserSession[]> => {
-  return await UserSessionContext.find({});
+  return await UserSessionContext.find({}).lean();
 };
 
 export const isRoomAvailable = async (room: string): Promise<Boolean> => {
   //TODO should return NOT EXIST?
-  return !await UserSessionContext.exists({ room });
+  return !(await UserSessionContext.exists({ room }));
 };
 
 export const addNewUser = async (
@@ -37,7 +37,7 @@ export const addNewUser = async (
 export const isMasterUser = async (
   connectionId: string
 ): Promise<UserSession> =>
-  await UserSessionContext.findOne({ connectionId, isMaster: true });
+  await UserSessionContext.findOne({ connectionId, isMaster: true }).lean();
 
 export const isNicknameInUse = async (
   nickname: string,
@@ -49,7 +49,7 @@ export const getRoomFromConnectionId = async (
 ): Promise<string> => {
   const session = await UserSessionContext.findOne({
     connectionId: connectionId,
-  });
+  }).lean();
   return session ? session.room : '';
 };
 
@@ -58,7 +58,7 @@ export const getNicknameFromConnectionId = async (
 ): Promise<string> => {
   const session = await UserSessionContext.findOne({
     connectionId: connectionId,
-  });
+  }).lean();
 
   return session ? session.nickname : '';
 };
@@ -70,7 +70,7 @@ export const resetVotes = async (room: string): Promise<void> => {
       voted: false,
       vote: '',
     }
-  );
+  ).lean();
 };
 
 export const vote = async (
@@ -83,19 +83,20 @@ export const vote = async (
       hasVoted: true,
       vote: value,
     }
-  );
+  ).lean();
 };
 
 export const getVotesFromRoom = async (
   room: string
 ): Promise<VotesFromRooms[]> => {
-  return await UserSessionContext.find({ room: room }).select([
-    'nickname',
-    'vote',
-  ]);
+  return await UserSessionContext.find({ room: room })
+    .select(['nickname', 'vote'])
+    .lean();
 };
 
 //TODO here returns array
 export const freeRoom = async (room: string): Promise<UserSession[]> => {
-  return await UserSessionContext.find().distinct('room', { room: room });
+  return await UserSessionContext.find()
+    .distinct('room', { room: room })
+    .lean();
 };
