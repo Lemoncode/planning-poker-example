@@ -98,7 +98,7 @@ export const getVotesFromRoom = async (
   }));
 };
 
-// Here returns void because change the global variable
+// TODO Here returns void because change the global variable
 export const freeRoom = async (room: string): Promise<void> => {
   userCollectionSession = userCollectionSession.filter(
     (session) => session.room !== room

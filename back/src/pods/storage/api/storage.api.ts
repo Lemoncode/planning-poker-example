@@ -4,6 +4,7 @@ import {
   ConnectSessionInfo,
   VotesFromRooms,
 } from 'dals/user';
+import { roomApi } from 'pods/room';
 
 //TODO implement queries
 
@@ -16,6 +17,7 @@ const getCollectionSession = async (): Promise<UserSession[]> => {
 };
 
 export const isRoomAvailable = async (room: string): Promise<Boolean> => {
+  //TODO should return NOT EXIST?
   return await UserSessionContext.exists({ room });
 };
 
