@@ -10,6 +10,7 @@ import {
   InputMessageTypes,
   processOutputMessageCollection,
 } from 'pods/messages';
+import colors from 'colors';
 
 const app = createApp();
 
@@ -18,11 +19,14 @@ let http = require('http').Server(app);
 // http server.
 let io: SocketIOClient.Socket = require('socket.io')(http);
 
-
 app.use(roomApi);
 
 app.listen(envConstants.PORT, () => {
-  console.log(`Server ready at http://localhost:${envConstants.PORT}/api`);
+  console.log(
+    `Server ready at ${colors.cyan(
+      `http://localhost:${envConstants.PORT}${envConstants.apiUrl}`
+    )}`
+  );
 });
 
 // whenever a user connects on port 3000 via
@@ -73,15 +77,17 @@ io.on('connection', async (socket: Socket) => {
 });
 
 const server = http.listen(3000, () => {
-  console.log('listening on *:3000');
-  const database = envConstants.isApiMock ? 'mock' : 'mongo';
-  console.log(`database with ${database}`);
+  console.log(`Sockets listening on port: ${colors.green('3000')}`);
+  const database = envConstants.isApiMock ? 'Mock' : 'MongoDB';
+  console.log(`Using ${colors.cyan(database)} to storage sessions`);
   if (!envConstants.isApiMock && envConstants.mongoUrl) {
     connect(envConstants.mongoUrl, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     })
-      .then(() => console.log('Mongo database connected'))
-      .catch((err) => console.log('Mongo can not connect', err));
+      .then(() =>
+        console.log(colors.yellow('Mongo database'), colors.green('connected'))
+      )
+      .catch((err) => console.log(colors.red('Mongo can not connect'), err));
   }
 });
