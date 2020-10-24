@@ -18,7 +18,7 @@ const getCollectionSession = async (): Promise<UserSession[]> => {
 
 export const isRoomAvailable = async (room: string): Promise<Boolean> => {
   //TODO should return NOT EXIST?
-  return await UserSessionContext.exists({ room });
+  return !await UserSessionContext.exists({ room });
 };
 
 export const addNewUser = async (
