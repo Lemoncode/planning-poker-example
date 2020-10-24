@@ -24,14 +24,15 @@ export const isRoomAvailable = async (room: string): Promise<Boolean> => {
 export const addNewUser = async (
   connectionId: string,
   connectSession: ConnectSessionInfo
-): Promise<void> => {
+): Promise<UserSession> => {
   const data = {
     connectionId,
     ...connectSession,
     hasVoted: false,
     vote: '',
   };
-  UserSessionContext.create(data).catch(console.log);
+  await UserSessionContext.create(data).catch(console.log);
+  return UserSessionContext.findOne({ connectionId }).lean();
 };
 
 export const isMasterUser = async (
@@ -64,7 +65,7 @@ export const getNicknameFromConnectionId = async (
 };
 
 export const resetVotes = async (room: string): Promise<void> => {
-  UserSessionContext.findOneAndUpdate(
+  return await UserSessionContext.findOneAndUpdate(
     { room: room },
     {
       voted: false,
@@ -77,7 +78,7 @@ export const vote = async (
   connectionId: string,
   value: string
 ): Promise<void> => {
-  UserSessionContext.findOneAndUpdate(
+  return await UserSessionContext.findOneAndUpdate(
     { connectionId: connectionId },
     {
       hasVoted: true,
