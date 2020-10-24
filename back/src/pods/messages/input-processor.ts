@@ -54,7 +54,7 @@ export const processInputMessage = async (
 
     case InputMessageTypes.END_VOTE_TIME:
       const room = await getRoomFromConnectionId(socketInfo.connectionId);
-      const votesCollection = getVotesFromRoom(room);
+      const votesCollection = await getVotesFromRoom(room);
       await resetVotes(room);
       outputActionCollection = [
         { type: OutputMessageTypes.SHOW_RESULTS, payload: votesCollection },
@@ -104,12 +104,14 @@ const handleEstablishConnectionPlayer = async (
     // Ignore
     return [];
   }
-  if (isRoomAvailable(room)) {
+  const isRoomAvailableVar = await isRoomAvailable(room);
+
+  if (isRoomAvailableVar) {
     // TODO Enque Error master
     return [{ type: OutputMessageTypes.ERROR_CANNOT_FIND_ROOM }];
   } else {
-    const isNickname = await isNicknameInUse(nickname, room);
-    if (isNickname) {
+    const isUsedNickName = await isNicknameInUse(nickname, room);
+    if (isUsedNickName) {
       // TODO Enqueue Error master
       return [{ type: OutputMessageTypes.NICKNAME_ALREADY_IN_USE }];
     } else {

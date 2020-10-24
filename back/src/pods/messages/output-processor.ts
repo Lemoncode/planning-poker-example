@@ -20,16 +20,13 @@ export const processOutputMessageCollection = (
 ) => {
   if (actionCollection) {
     // TODO: Error handling
-    actionCollection.forEach(
-      (action) => processOuputMessage(socketInfo, action)
+    actionCollection.forEach((action) =>
+      processOuputMessage(socketInfo, action)
     );
   }
 };
 
-export const processOuputMessage = (
-  socketInfo: SocketInfo,
-  action: Action
-) => {
+export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
   const { connectionId } = socketInfo;
 
   switch (action.type) {
