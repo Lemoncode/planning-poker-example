@@ -5,19 +5,9 @@ import {
   VotesFromRooms,
 } from 'dals/user';
 import { roomApi } from 'pods/room';
-
-//TODO implement queries
-
-// This is just a demo approach, storing in memory session Info
-// Another way to identify users: https://stackoverflow.com/questions/6979992/how-to-get-session-id-of-socket-io-client-in-client
-
-//TODO verify if we are going to use
-const getCollectionSession = async (): Promise<UserSession[]> => {
-  return await UserSessionContext.find({}).lean();
-};
+//This is for store the session Info in mongo database.
 
 export const isRoomAvailable = async (room: string): Promise<Boolean> => {
-  //TODO should return NOT EXIST?
   return !(await UserSessionContext.exists({ room }));
 };
 

@@ -1,7 +1,6 @@
 import { createApp } from 'core/servers';
 import { envConstants } from 'core/env.constants';
 import { roomApi } from 'pods/room';
-import cors from 'cors';
 import mongoose from 'mongoose';
 const { connect } = mongoose;
 import SocketIOClient, { Socket } from 'socket.io';
@@ -19,23 +18,7 @@ let http = require('http').Server(app);
 // http server.
 let io: SocketIOClient.Socket = require('socket.io')(http);
 
-//options for cors midddleware
-const options: cors.CorsOptions = {
-  allowedHeaders: [
-    'Origin',
-    'X-Requested-With',
-    'Content-Type',
-    'Accept',
-    'X-Access-Token',
-  ],
-  credentials: true,
-  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-  // IMPORTANT LIMIT HERE YOUR CLIENT APPS DOMAINS
-  origin: '*',
-  preflightContinue: false,
-};
 
-app.use(cors(options));
 app.use(roomApi);
 
 app.listen(envConstants.PORT, () => {

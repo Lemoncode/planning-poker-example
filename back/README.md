@@ -24,6 +24,11 @@ npm run start:debug
 
 - And run .vscode/launch.json
 
+## Create enviroment file
+
+Create a `.env` file in root(back) directory with the same keys of the `.env-sample` file.
+
+
 ## Run application APLI mode(mongodb) or Mock mode(localstorage)
 
 To run in mock mode you should modify the file `.env` setting the:

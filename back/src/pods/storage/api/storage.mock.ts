@@ -1,6 +1,5 @@
 import { ConnectSessionInfo, UserSession, VotesFromRooms } from 'dals/user';
-// This is just a demo approach, storing in memory session Info
-// Another way to identify users: https://stackoverflow.com/questions/6979992/how-to-get-session-id-of-socket-io-client-in-client
+// This is for store the session Info in memory.
 
 let userCollectionSession: UserSession[] = [];
 
