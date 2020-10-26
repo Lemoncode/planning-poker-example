@@ -11,6 +11,7 @@ import { PlayerVotingStatus } from 'core';
 import { Button } from '@material-ui/core';
 
 interface Props {
+  url: string;
   room: string;
   playerVotingStatus: PlayerVotingStatus[];
   onSetStoryTitle: (title: string) => void;
@@ -24,6 +25,7 @@ interface Props {
 
 export const MasterComponent: React.FC<Props> = props => {
   const {
+    url,
     room,
     playerVotingStatus,
     onSetStoryTitle,
@@ -77,7 +79,7 @@ export const MasterComponent: React.FC<Props> = props => {
     <>
       <div className={classes.container}>
         <div className={cx(classes.containerComponent, classes.leftContainer)}>
-          <CopySessionLinkComponent url={`${appBaseUrl}/#/player/${room}`} />
+          <CopySessionLinkComponent url={url} />
         </div>
 
         {showComponentBasedOnMasterStatus(masterStatus)}
