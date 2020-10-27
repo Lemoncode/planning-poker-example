@@ -24,11 +24,6 @@ npm run start:debug
 
 - And run .vscode/launch.json
 
-## Create enviroment file
-
-Create a `.env` file in root(back) directory with the same keys of the `.env-sample` file.
-
-
 ## Run application APLI mode(mongodb) or Mock mode(localstorage)
 
 To run in mock mode you should modify the file `.env` setting the:
@@ -43,8 +38,16 @@ API_MOCK=true
 npm run start:mock
 ```
 
-Other wise will be running in API mode with mongo and you should set the mongo url in the `.env` file by ecxample:
+Other wise will be running in API mode with mongo. If you check the script start in the `package.json` you will see that, `start` will execute `start:local-db` which execute the docker-compose.
+
+You should have installed in your machine Docker. [Install docker](https://docs.docker.com/get-docker/ 'Docker documentation')
 
 ```bash
-MONGO_URL=mongodb://localhost:27017/planning-poker
+npm run start
+```
+
+-You should set the mongo url in the `.env` file by example:
+
+```bash
+MONGO_URL=mongodb://localhost:27017/task-planning
 ```

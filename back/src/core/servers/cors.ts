@@ -1,3 +1,4 @@
+import { envConstants } from 'core/constants';
 import cors from 'cors';
 
 const options: cors.CorsOptions = {
@@ -11,7 +12,7 @@ const options: cors.CorsOptions = {
   credentials: true,
   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
   // IMPORTANT LIMIT HERE YOUR CLIENT APPS DOMAINS
-  origin: '*',
+  origin: envConstants.corsOrigin,
   preflightContinue: false,
 };
 
