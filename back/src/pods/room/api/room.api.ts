@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { generateNewRoomName } from '../business';
-import { envConstants } from 'core/constants';
 
 export const roomApi = Router();
 

@@ -13,10 +13,10 @@ import colors from 'colors';
 
 const app = createApp();
 
-let http = require('http').Server(app);
+const http = require('http').Server(app);
 // set up socket.io and bind it to our
 // http server.
-let io: SocketIOClient.Socket = require('socket.io')(http);
+const io: SocketIOClient.Socket = require('socket.io')(http);
 
 app.use(envConstants.apiUrl, roomApi);
 
@@ -75,7 +75,7 @@ io.on('connection', async (socket: Socket) => {
   });
 });
 
-app.listen(3000, async () => {
+http.listen(3000, async () => {
   if (!envConstants.isApiMock && envConstants.MONGODB_URI) {
     await connectToDB(envConstants.MONGODB_URI);
   }
