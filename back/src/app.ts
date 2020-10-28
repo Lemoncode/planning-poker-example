@@ -22,16 +22,18 @@ const http = require('http').Server(app);
 // set up socket.io and bind it to our
 // http server.
 const io: SocketIOClient.Socket = require('socket.io')(http);
-// whenever a user connects on port 3000 via
+// whenever a user connects on port envConstants.socketPort via
 // a websocket, log that a user has connected
 io.on('connection', async (socket: Socket) => await sockets(socket, io));
 
-http.listen(3000, async () => {
+http.listen(envConstants.socketPort, async () => {
   if (!envConstants.isApiMock && envConstants.MONGODB_URI) {
     await connectToDB(envConstants.MONGODB_URI);
   }
 
-  console.log(`Sockets listening on port: ${colors.green('3000')}`);
+  console.log(
+    `Sockets listening on port: ${colors.green(envConstants.socketPort)}`
+  );
   const database = envConstants.isApiMock ? 'Mock' : 'MongoDB';
   console.log(`Using ${colors.cyan(database)} to storage sessions`);
 });
