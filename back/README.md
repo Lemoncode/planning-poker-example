@@ -29,7 +29,7 @@ npm run start:debug
 To run in mock mode you should modify the file `.env` setting the:
 
 ```bash
-API_MOCK=true
+MOCK_RESPOSITORY=true
 ```
 
 - OR
@@ -46,8 +46,8 @@ You should have installed in your machine Docker. [Install docker](https://docs.
 npm run start
 ```
 
--You should set the mongo url in the `.env` file by example:
+-You should set the mongo uri in the `.env` file by example:
 
 ```bash
-MONGO_URL=mongodb://localhost:27017/task-planning
+MONGODB_URI=mongodb://localhost:27017/task-planning
 ```
