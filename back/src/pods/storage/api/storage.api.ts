@@ -4,7 +4,6 @@ import {
   ConnectSessionInfo,
   VotesFromRooms,
 } from 'dals/user';
-import { roomApi } from 'pods/room';
 //This is for store the session Info in mongo database.
 
 export const isRoomAvailable = async (room: string): Promise<Boolean> => {
