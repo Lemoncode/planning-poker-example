@@ -1,6 +1,6 @@
 import { UserSession, ConnectSessionInfo, VotesFromRooms } from 'dals/user';
 
-export interface StorageAPI {
+export interface UserRepository {
   isRoomAvailable: (room: string) => Promise<Boolean>;
   addNewUser: (
     connectionId: string,

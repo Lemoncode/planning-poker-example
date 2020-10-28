@@ -7,7 +7,7 @@ import {
   OutputConnectionEstablishedPlayer,
   SocketInfo,
 } from 'dals/messages';
-import { storageApi } from 'pods/storage';
+import { userRepository } from 'dals/user';
 const {
   vote,
   isMasterUser,
@@ -18,7 +18,7 @@ const {
   isNicknameInUse,
   getNicknameFromConnectionId,
   getVotesFromRoom,
-} = storageApi;
+} = userRepository;
 
 export const processInputMessage = async (
   socketInfo: SocketInfo,

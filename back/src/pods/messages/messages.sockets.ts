@@ -6,7 +6,10 @@ import {
   processOutputMessageCollection,
 } from 'pods/messages';
 
-export const sockets = async (socket: Socket, io: SocketIOClient.Socket) => {
+export const messageSockets = async (
+  socket: Socket,
+  io: SocketIOClient.Socket
+) => {
   // WATCH OUT !! Reconnect is not implemented
   // In the connection input processing, we should
   // check if connectionId matches with userId and RoomId

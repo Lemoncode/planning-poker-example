@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { generateNewRoomName } from '../business';
+import { generateNewRoomName } from './room-name-generator.business';
 
 export const roomApi = Router();
 

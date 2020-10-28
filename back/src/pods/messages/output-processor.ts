@@ -6,12 +6,12 @@ import {
   SocketOuputMessageLiteral,
 } from './consts';
 import { Action, SocketInfo } from 'dals/messages';
-import { storageApi } from 'pods/storage';
+import { userRepository } from 'dals/user';
 const {
   isMasterUser,
   getRoomFromConnectionId,
   getNicknameFromConnectionId,
-} = storageApi;
+} = userRepository;
 import { ResponseBase, responseType } from './response';
 
 export const processOutputMessageCollection = (

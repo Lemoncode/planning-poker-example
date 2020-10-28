@@ -1,10 +1,9 @@
-import { createApp } from 'core/servers';
+import { createApp, createSocketServer } from 'core/servers';
 import { envConstants } from 'core/constants';
 import { roomApi } from 'pods/room';
 import { connectToDB } from 'core/db';
-import SocketIOClient, { Socket } from 'socket.io';
-import { sockets } from 'core/sockets';
 import colors from 'colors';
+import { messageSockets } from 'pods/messages/messages.sockets';
 
 const app = createApp();
 
@@ -18,15 +17,9 @@ app.listen(envConstants.PORT, () => {
   );
 });
 
-const http = require('http').Server(app);
-// set up socket.io and bind it to our
-// http server.
-const io: SocketIOClient.Socket = require('socket.io')(http);
-// whenever a user connects on port envConstants.socketPort via
-// a websocket, log that a user has connected
-io.on('connection', async (socket: Socket) => await sockets(socket, io));
+const socketServer = createSocketServer(app, messageSockets);
 
-http.listen(envConstants.socketPort, async () => {
+socketServer.listen(envConstants.socketPort, async () => {
   if (!envConstants.isApiMock && envConstants.MONGODB_URI) {
     await connectToDB(envConstants.MONGODB_URI);
   }
