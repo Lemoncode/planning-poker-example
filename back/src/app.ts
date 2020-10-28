@@ -9,7 +9,12 @@ const app = createApp();
 
 app.use(envConstants.apiUrl, roomApi);
 
-app.listen(envConstants.PORT, () => {
+app.listen(envConstants.PORT, async () => {
+  if (!envConstants.isApiMock && envConstants.MONGODB_URI) {
+    await connectToDB(envConstants.MONGODB_URI);
+  }
+  const database = envConstants.isApiMock ? 'Mock' : 'MongoDB';
+  console.log(`Using ${colors.cyan(database)} to storage sessions`);
   console.log(
     `Server ready at ${colors.cyan(
       `http://localhost:${envConstants.PORT}${envConstants.apiUrl}`
@@ -19,14 +24,8 @@ app.listen(envConstants.PORT, () => {
 
 const socketServer = createSocketServer(app, messageSocketEvents);
 
-socketServer.listen(envConstants.socketPort, async () => {
-  if (!envConstants.isApiMock && envConstants.MONGODB_URI) {
-    await connectToDB(envConstants.MONGODB_URI);
-  }
-
+socketServer.listen(envConstants.socketPort, () => {
   console.log(
     `Sockets listening on port: ${colors.green(envConstants.socketPort)}`
   );
-  const database = envConstants.isApiMock ? 'Mock' : 'MongoDB';
-  console.log(`Using ${colors.cyan(database)} to storage sessions`);
 });
