@@ -1,12 +1,12 @@
 import SocketIOClient, { Socket } from 'socket.io';
-import { Action, SocketInfo } from 'dals/messages';
+import { Action, SocketInfo } from './messages.model';
 import {
   processInputMessage,
-  InputMessageTypes,
   processOutputMessageCollection,
-} from 'pods/messages';
+} from './processors';
+import { InputMessageTypes } from './messages.consts';
 
-export const messageSockets = async (
+export const messageSocketEvents = async (
   socket: Socket,
   io: SocketIOClient.Socket
 ) => {
@@ -20,15 +20,13 @@ export const messageSockets = async (
   console.log(`room request: ${room}`);
   console.log('*** Session ID:', socket.conn.id);
 
-  let outputMessageCollection: Action[] = [];
   const socketInfo: SocketInfo = {
     socket: socket,
     io,
     connectionId: socket.conn.id,
   };
 
-  // TODO encapuslate this to processInputMessage
-  outputMessageCollection = await processInputMessage(socketInfo, {
+  const outputMessageCollection = await processInputMessage(socketInfo, {
     type:
       isMaster === 'true'
         ? InputMessageTypes.ESTABLISH_CONNECTION_MASTER

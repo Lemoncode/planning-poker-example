@@ -1,4 +1,8 @@
-import { InputMessageTypes, OutputMessageTypes, getMasterRoom } from './consts';
+import {
+  InputMessageTypes,
+  OutputMessageTypes,
+  getMasterRoom,
+} from '../messages.consts';
 import {
   Action,
   InputEstablishConnectionMaster,
@@ -6,7 +10,7 @@ import {
   OutputConnectionEstablishedMaster,
   OutputConnectionEstablishedPlayer,
   SocketInfo,
-} from 'dals/messages';
+} from '../messages.model';
 import { userRepository } from 'dals/user';
 const {
   vote,

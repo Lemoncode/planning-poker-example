@@ -4,15 +4,16 @@ import {
   ErrorCodes,
   SocketMessageTypes,
   SocketOuputMessageLiteral,
-} from './consts';
-import { Action, SocketInfo } from 'dals/messages';
+  responseType,
+} from '../messages.consts';
+import { Action, SocketInfo } from '../messages.model';
 import { userRepository } from 'dals/user';
-const {
-  isMasterUser,
-  getRoomFromConnectionId,
-  getNicknameFromConnectionId,
-} = userRepository;
-import { ResponseBase, responseType } from './response';
+const { getRoomFromConnectionId, getNicknameFromConnectionId } = userRepository;
+
+interface ResponseBase {
+  type: string;
+  payload?: any;
+}
 
 export const processOutputMessageCollection = (
   socketInfo: SocketInfo,

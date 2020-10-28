@@ -3,7 +3,7 @@ import { envConstants } from 'core/constants';
 import { roomApi } from 'pods/room';
 import { connectToDB } from 'core/db';
 import colors from 'colors';
-import { messageSockets } from 'pods/messages/messages.sockets';
+import { messageSocketEvents } from 'pods/messages';
 
 const app = createApp();
 
@@ -17,7 +17,7 @@ app.listen(envConstants.PORT, () => {
   );
 });
 
-const socketServer = createSocketServer(app, messageSockets);
+const socketServer = createSocketServer(app, messageSocketEvents);
 
 socketServer.listen(envConstants.socketPort, async () => {
   if (!envConstants.isApiMock && envConstants.MONGODB_URI) {
