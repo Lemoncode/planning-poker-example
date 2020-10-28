@@ -1,5 +1,4 @@
 import { ConnectSessionInfo, UserSession, VotesFromRooms } from 'dals/user';
-import { UserRepository } from './user.contract';
 // This is for store the session Info in memory.
 
 let userCollectionSession: UserSession[] = [];

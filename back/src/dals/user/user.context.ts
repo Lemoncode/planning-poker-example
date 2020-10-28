@@ -1,4 +1,4 @@
-import { Document, model, Model, Schema } from 'mongoose';
+import { Document, model, Schema } from 'mongoose';
 import { UserSession } from 'dals/user';
 
 const userSessionSchema = new Schema({
@@ -12,6 +12,6 @@ const userSessionSchema = new Schema({
 });
 
 export const UserSessionContext = model<UserSession & Document>(
-  'userSession',
+  'UserSession',
   userSessionSchema
 );
