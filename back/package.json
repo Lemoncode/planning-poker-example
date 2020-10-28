@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "run-p -l type-check:watch start:dev start:local-db",
-    "start:mock": "cross-env API_MOCK=true npm run start ",
+    "start:mock": "cross-env MOCK_RESPOSITORY=true npm run start ",
     "start:dev": "nodemon --exec babel-node --extensions \".ts\" src/index.ts",
     "start:debug": "run-p -l type-check:watch \"start:dev -- --inspect-brk\"",
     "start:prod": "node ./dist/index.js",
@@ -41,11 +41,11 @@
     "@types/mongoose": "^5.7.36",
     "@types/socket.io": "^2.1.10",
     "babel-plugin-module-resolver": "^4.0.0",
+    "cross-env": "^7.0.2",
     "nodemon": "^2.0.4",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "typescript": "^3.9.7",
-    "cross-env": "^7.0.2"
+    "typescript": "^3.9.7"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

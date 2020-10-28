@@ -10,10 +10,10 @@ const app = createApp();
 app.use(envConstants.API_URL, roomApi);
 
 app.listen(envConstants.PORT, async () => {
-  if (!envConstants.isApiMock && envConstants.MONGODB_URI) {
+  if (!envConstants.isMockRepository && envConstants.MONGODB_URI) {
     await connectToDB(envConstants.MONGODB_URI);
   }
-  const database = envConstants.isApiMock ? 'Mock' : 'MongoDB';
+  const database = envConstants.isMockRepository ? 'Mock' : 'MongoDB';
   console.log(`Using ${colors.cyan(database)} to storage sessions`);
   console.log(
     `Server ready at ${colors.cyan(

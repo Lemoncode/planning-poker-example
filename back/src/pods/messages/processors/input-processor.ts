@@ -142,7 +142,6 @@ const handleCreateStory = async (socketInfo: SocketInfo, title: string) => {
   const room = await getRoomFromConnectionId(connectionId);
 
   if (isMaster) {
-    //TODO is necessary await?
     await resetVotes(room);
     return [{ type: OutputMessageTypes.NEW_STORY, payload: title }];
     // SendMessage to every body newStory

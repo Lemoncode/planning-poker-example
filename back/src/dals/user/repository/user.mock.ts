@@ -1,15 +1,16 @@
 import { ConnectSessionInfo, UserSession, VotesFromRooms } from 'dals/user';
+import { UserRepository } from './user.contract';
 // This is for store the session Info in memory.
 
 let userCollectionSession: UserSession[] = [];
 
-export const isRoomAvailable = async (room: string): Promise<Boolean> =>
+export const isRoomAvailable = async (room: string): Promise<boolean> =>
   !userCollectionSession.find((session) => session.room === room);
 
 export const addNewUser = async (
   connectionId: string,
   { room, nickname, isMaster }: ConnectSessionInfo
-): Promise<void> => {
+): Promise<UserSession[]> => {
   userCollectionSession = [
     ...userCollectionSession,
     {
@@ -21,6 +22,8 @@ export const addNewUser = async (
       vote: '',
     },
   ];
+
+  return userCollectionSession;
 };
 
 export const isMasterUser = async (
@@ -35,7 +38,7 @@ export const isMasterUser = async (
 export const isNicknameInUse = async (
   nickname: string,
   room: string
-): Promise<Boolean> =>
+): Promise<boolean> =>
   userCollectionSession.findIndex(
     (session) => session.nickname === nickname && session.room === room
   ) !== -1;
@@ -97,9 +100,10 @@ export const getVotesFromRoom = async (
   }));
 };
 
-// TODO Here returns void because change the global variable
-export const freeRoom = async (room: string): Promise<void> => {
+export const freeRoom = async (room: string): Promise<UserSession[]> => {
   userCollectionSession = userCollectionSession.filter(
     (session) => session.room !== room
   );
+
+  return userCollectionSession;
 };

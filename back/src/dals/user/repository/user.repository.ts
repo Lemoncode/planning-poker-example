@@ -6,14 +6,14 @@ import {
 } from 'dals/user';
 //This is for store the session Info in mongo database.
 
-export const isRoomAvailable = async (room: string): Promise<Boolean> => {
+export const isRoomAvailable = async (room: string): Promise<boolean> => {
   return !(await UserSessionContext.exists({ room }));
 };
 
 export const addNewUser = async (
   connectionId: string,
   connectSession: ConnectSessionInfo
-): Promise<UserSession> => {
+): Promise<UserSession[]> => {
   const data = {
     connectionId,
     ...connectSession,
@@ -21,7 +21,7 @@ export const addNewUser = async (
     vote: '',
   };
   await UserSessionContext.create(data).catch(console.log);
-  return UserSessionContext.findOne({ connectionId }).lean();
+  return UserSessionContext.find({}).lean();
 };
 
 export const isMasterUser = async (
@@ -32,7 +32,7 @@ export const isMasterUser = async (
 export const isNicknameInUse = async (
   nickname: string,
   room: string
-): Promise<Boolean> => await UserSessionContext.exists({ nickname, room });
+): Promise<boolean> => await UserSessionContext.exists({ nickname, room });
 
 export const getRoomFromConnectionId = async (
   connectionId: string
@@ -84,7 +84,6 @@ export const getVotesFromRoom = async (
     .lean();
 };
 
-//TODO here returns array
 export const freeRoom = async (room: string): Promise<UserSession[]> => {
   return await UserSessionContext.find()
     .distinct('room', { room: room })
