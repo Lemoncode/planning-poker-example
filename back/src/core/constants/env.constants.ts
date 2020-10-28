@@ -5,5 +5,5 @@ export const envConstants = {
   isMockRepository: process.env.MOCK_RESPOSITORY === 'true',
   MONGODB_URI: process.env.MONGODB_URI,
   API_URL: process.env.API_URL,
-  CORS_ORIGIN: process.env.CORS_ORIGIN || "*",
+  CORS_ORIGIN: process.env.CORS_ORIGIN,
 };
