@@ -12,7 +12,7 @@ const options: cors.CorsOptions = {
   credentials: true,
   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
   // IMPORTANT LIMIT HERE YOUR CLIENT APPS DOMAINS
-  origin: envConstants.corsOrigin,
+  origin: envConstants.CORS_ORIGIN,
   preflightContinue: false,
 };
 

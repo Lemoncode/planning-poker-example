@@ -7,7 +7,7 @@ import { messageSocketEvents } from 'pods/messages';
 
 const app = createApp();
 
-app.use(envConstants.apiUrl, roomApi);
+app.use(envConstants.API_URL, roomApi);
 
 app.listen(envConstants.PORT, async () => {
   if (!envConstants.isApiMock && envConstants.MONGODB_URI) {
@@ -17,15 +17,15 @@ app.listen(envConstants.PORT, async () => {
   console.log(`Using ${colors.cyan(database)} to storage sessions`);
   console.log(
     `Server ready at ${colors.cyan(
-      `http://localhost:${envConstants.PORT}${envConstants.apiUrl}`
+      `http://localhost:${envConstants.PORT}${envConstants.API_URL}`
     )}`
   );
 });
 
 const socketServer = createSocketServer(app, messageSocketEvents);
 
-socketServer.listen(envConstants.socketPort, () => {
+socketServer.listen(envConstants.SOCKET_PORT, () => {
   console.log(
-    `Sockets listening on port: ${colors.green(envConstants.socketPort)}`
+    `Sockets listening on port: ${colors.green(envConstants.SOCKET_PORT)}`
   );
 });
