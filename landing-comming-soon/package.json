@@ -1,0 +1,15 @@
+{
+	"name": "landing-comming-soon",
+	"version": "1.0.0",
+	"description": "",
+	"scripts": {
+		"dev": "lite-server"
+	},
+	"main": "index.js",
+	"dependencies": {
+		"lite-server": "^2.5.4"
+	},
+	"devDependencies": {},
+	"author": "",
+	"license": "ISC"
+}
