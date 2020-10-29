@@ -28,7 +28,6 @@ export interface InputCreateStoryPayload {
   content: string;
 }
 
-
 export interface OutputUserJoined {
   name: string;
 }

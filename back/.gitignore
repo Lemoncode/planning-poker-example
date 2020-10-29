@@ -2,6 +2,7 @@ node_modules
 dist
 coverage
 .awcache
+.env
 test-report.*
 junit.xml
 *.log
