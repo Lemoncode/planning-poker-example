@@ -4,17 +4,16 @@ import {
   ErrorCodes,
   SocketMessageTypes,
   SocketOuputMessageLiteral,
-} from './consts';
-import { Action, SocketInfo } from './model';
-import {
-  vote,
-  isMasterUser,
-  getRoomFromConnectionId,
-  getNicknameFromConnectionId,
-  resetVotes,
-} from '../storage';
-import * as SocketIOClient from 'socket.io';
-import { ResponseBase, responseType } from './response';
+  responseType,
+} from '../messages.consts';
+import { Action, SocketInfo } from '../messages.model';
+import { userRepository } from 'dals/user';
+const { getRoomFromConnectionId, getNicknameFromConnectionId } = userRepository;
+
+interface ResponseBase {
+  type: string;
+  payload?: any;
+}
 
 export const processOutputMessageCollection = (
   socketInfo: SocketInfo,
@@ -29,9 +28,7 @@ export const processOutputMessageCollection = (
 };
 
 export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
-  const { connectionId, io, socket } = socketInfo;
-  const isMaster = isMasterUser(connectionId);
-  const room = getRoomFromConnectionId(connectionId);
+  const { connectionId } = socketInfo;
 
   switch (action.type) {
     case OutputMessageTypes.CONNECTION_ESTABLISHED_MASTER:
@@ -63,28 +60,31 @@ export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
   }
 };
 
-const handleAppendText = (socketInfo: SocketInfo, text: string) => {
-  const room = getRoomFromConnectionId(socketInfo.connectionId);
+const handleAppendText = async (socketInfo: SocketInfo, text: string) => {
+  const room = await getRoomFromConnectionId(socketInfo.connectionId);
   socketInfo.io.in(room).emit(SocketOuputMessageLiteral.MESSAGE, {
     type: responseType.APPEND_TEXT,
     payload: text,
   });
 };
 
-const handleShowResults = (socketInfo: SocketInfo, votesCollection: any[]) => {
-  const room = getRoomFromConnectionId(socketInfo.connectionId);
+const handleShowResults = async (
+  socketInfo: SocketInfo,
+  votesCollection: any[]
+) => {
+  const room = await getRoomFromConnectionId(socketInfo.connectionId);
   socketInfo.io.in(room).emit(SocketOuputMessageLiteral.MESSAGE, {
     type: responseType.SHOW_VOTING_RESULTS,
     payload: votesCollection,
   });
 };
 
-const handleUserVotedOnlySendMaster = (
+const handleUserVotedOnlySendMaster = async (
   socketInfo: SocketInfo,
   nickname: string
 ) => {
   const { io, connectionId } = socketInfo;
-  const room = getRoomFromConnectionId(connectionId);
+  const room = await getRoomFromConnectionId(connectionId);
   const masterRoom = getMasterRoom(room);
 
   // Notify to master room user
@@ -102,23 +102,23 @@ const handleNotifyConnectionEstablishedMaster = (
   socketInfo.socket.emit(SocketOuputMessageLiteral.MESSAGE, response);
 };
 
-const handleNewStory = (socketInfo: SocketInfo, title: string) => {
-  const room = getRoomFromConnectionId(socketInfo.connectionId);
+const handleNewStory = async (socketInfo: SocketInfo, title: string) => {
+  const room = await getRoomFromConnectionId(socketInfo.connectionId);
   socketInfo.io.in(room).emit(SocketOuputMessageLiteral.MESSAGE, {
     type: responseType.NEW_STORY,
     payload: title,
   });
 };
 
-const handleNotifyConnectionEstablishedPlayer = (
+const handleNotifyConnectionEstablishedPlayer = async (
   socketInfo: SocketInfo,
   connectionId: string
 ) => {
   const { io, socket } = socketInfo;
 
   // TODO: consider getting this in one go
-  const room = getRoomFromConnectionId(connectionId);
-  const nickname = getNicknameFromConnectionId(connectionId);
+  const room = await getRoomFromConnectionId(connectionId);
+  const nickname = await getNicknameFromConnectionId(connectionId);
 
   const masterRoom = getMasterRoom(room);
 

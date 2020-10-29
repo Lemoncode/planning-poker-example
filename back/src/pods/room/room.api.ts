@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { generateNewRoomName } from './business';
+import { generateNewRoomName } from './room-name-generator.business';
 
-export const api = Router();
+export const roomApi = Router();
 
-api.get('/create-room', async (req, res) => {
+roomApi.get(`/create-room`, async (req, res) => {
   const roomName = generateNewRoomName();
   res.send({ name: roomName });
 });
 
-api.post('/enroll-room', async (req, res) => {
+roomApi.post(`/enroll-room`, async (req, res) => {
   // TODO: ensure parameter is informed
   const roomName = req.body.name;
 

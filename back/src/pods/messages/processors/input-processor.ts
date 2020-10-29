@@ -1,4 +1,8 @@
-import { InputMessageTypes, OutputMessageTypes, getMasterRoom } from './consts';
+import {
+  InputMessageTypes,
+  OutputMessageTypes,
+  getMasterRoom,
+} from '../messages.consts';
 import {
   Action,
   InputEstablishConnectionMaster,
@@ -6,8 +10,9 @@ import {
   OutputConnectionEstablishedMaster,
   OutputConnectionEstablishedPlayer,
   SocketInfo,
-} from './model';
-import {
+} from '../messages.model';
+import { userRepository } from 'dals/user';
+const {
   vote,
   isMasterUser,
   getRoomFromConnectionId,
@@ -17,18 +22,17 @@ import {
   isNicknameInUse,
   getNicknameFromConnectionId,
   getVotesFromRoom,
-} from '../storage';
-import { processOuputMessage } from './output-processor';
+} = userRepository;
 
-export const processInputMessage = (
+export const processInputMessage = async (
   socketInfo: SocketInfo,
   action: Action
-): Action[] => {
+): Promise<Action[]> => {
   let outputActionCollection: Action[] = [];
   switch (action.type) {
     case InputMessageTypes.ESTABLISH_CONNECTION_MASTER:
       const payloadECM: InputEstablishConnectionMaster = action.payload;
-      outputActionCollection = handleEstablishConnectionMaster(
+      outputActionCollection = await handleEstablishConnectionMaster(
         socketInfo,
         payloadECM.nickname,
         payloadECM.room
@@ -36,7 +40,7 @@ export const processInputMessage = (
       break;
     case InputMessageTypes.ESTABLISH_CONNECTION_PLAYER:
       const payloadPlayer: InputEstablishConnectionPlayer = action.payload;
-      outputActionCollection = handleEstablishConnectionPlayer(
+      outputActionCollection = await handleEstablishConnectionPlayer(
         socketInfo,
         payloadPlayer.nickname,
         payloadPlayer.room
@@ -44,18 +48,18 @@ export const processInputMessage = (
       break;
     case InputMessageTypes.CREATE_STORY:
       const storyTitle: string = action.payload;
-      outputActionCollection = handleCreateStory(socketInfo, storyTitle);
+      outputActionCollection = await handleCreateStory(socketInfo, storyTitle);
       break;
 
     case InputMessageTypes.USER_VOTED:
       const vote: string = action.payload;
-      outputActionCollection = handleVote(socketInfo.connectionId, vote);
+      outputActionCollection = await handleVote(socketInfo.connectionId, vote);
       break;
 
     case InputMessageTypes.END_VOTE_TIME:
-      const room = getRoomFromConnectionId(socketInfo.connectionId);
-      const votesCollection = getVotesFromRoom(room);
-      resetVotes(room);
+      const room = await getRoomFromConnectionId(socketInfo.connectionId);
+      const votesCollection = await getVotesFromRoom(room);
+      await resetVotes(room);
       outputActionCollection = [
         { type: OutputMessageTypes.SHOW_RESULTS, payload: votesCollection },
       ];
@@ -65,18 +69,23 @@ export const processInputMessage = (
   return outputActionCollection;
 };
 
-const handleEstablishConnectionMaster = (
+const handleEstablishConnectionMaster = async (
   socketInfo: SocketInfo,
   nickname: string,
   room: string
-): Action[] => {
+): Promise<Action[]> => {
   if (!nickname || !room) {
     // Ignore
     return [];
   }
 
-  if (isRoomAvailable(room)) {
-    addNewUser(socketInfo.connectionId, { room, nickname, isMaster: true });
+  const isRoomAvailableVar = await isRoomAvailable(room);
+  if (isRoomAvailableVar) {
+    await addNewUser(socketInfo.connectionId, {
+      room,
+      nickname,
+      isMaster: true,
+    });
     socketInfo.socket.join(room);
     socketInfo.socket.join(getMasterRoom(room));
 
@@ -90,24 +99,31 @@ const handleEstablishConnectionMaster = (
   }
 };
 
-const handleEstablishConnectionPlayer = (
+const handleEstablishConnectionPlayer = async (
   socketInfo: SocketInfo,
   nickname: string,
   room: string
-): Action[] => {
+): Promise<Action[]> => {
   if (!nickname || !room) {
     // Ignore
     return [];
   }
-  if (isRoomAvailable(room)) {
+  const isRoomAvailableVar = await isRoomAvailable(room);
+
+  if (isRoomAvailableVar) {
     // TODO Enque Error master
     return [{ type: OutputMessageTypes.ERROR_CANNOT_FIND_ROOM }];
   } else {
-    if (isNicknameInUse(nickname, room)) {
+    const isUsedNickName = await isNicknameInUse(nickname, room);
+    if (isUsedNickName) {
       // TODO Enqueue Error master
       return [{ type: OutputMessageTypes.NICKNAME_ALREADY_IN_USE }];
     } else {
-      addNewUser(socketInfo.connectionId, { room, nickname, isMaster: false });
+      await addNewUser(socketInfo.connectionId, {
+        room,
+        nickname,
+        isMaster: false,
+      });
       socketInfo.socket.join(room);
       const payload: OutputConnectionEstablishedPlayer = { newUser: nickname };
       return [
@@ -117,16 +133,16 @@ const handleEstablishConnectionPlayer = (
   }
 };
 
-const handleCreateStory = (socketInfo: SocketInfo, title: string) => {
+const handleCreateStory = async (socketInfo: SocketInfo, title: string) => {
   const { connectionId } = socketInfo;
   // this should generate output message
   // later TODO: global flag cannot vote, to avoid having users cheating
   // Maybe processInputMessage should return a qeueu of outputMesssages
-  const isMaster = isMasterUser(connectionId);
-  const room = getRoomFromConnectionId(connectionId);
+  const isMaster = await isMasterUser(connectionId);
+  const room = await getRoomFromConnectionId(connectionId);
 
   if (isMaster) {
-    resetVotes(room);
+    await resetVotes(room);
     return [{ type: OutputMessageTypes.NEW_STORY, payload: title }];
     // SendMessage to every body newStory
     // enque output message send to all participants new  question
@@ -135,9 +151,9 @@ const handleCreateStory = (socketInfo: SocketInfo, title: string) => {
   }
 };
 
-const handleVote = (connectionId: string, value: string) => {
-  vote(connectionId, value);
-  const nickname = getNicknameFromConnectionId(connectionId);
+const handleVote = async (connectionId: string, value: string) => {
+  await vote(connectionId, value);
+  const nickname = await getNicknameFromConnectionId(connectionId);
   return [
     { type: OutputMessageTypes.USER_VOTED_ONLY_SEND_MASTER, payload: nickname },
   ];

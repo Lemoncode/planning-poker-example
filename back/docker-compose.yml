@@ -1,0 +1,7 @@
+version: '3'
+services:
+  mongo-db-taskplaninng:
+    container_name: mongo-db-taskplaninng
+    image: mongo:4.2.10
+    ports:
+      - '27017:27017'
