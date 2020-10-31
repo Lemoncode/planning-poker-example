@@ -13,15 +13,22 @@ export const isRoomAvailable = async (room: string): Promise<boolean> => {
 export const addNewUser = async (
   connectionId: string,
   connectSession: ConnectSessionInfo
-): Promise<UserSession[]> => {
+): Promise<boolean> => {
   const data = {
     connectionId,
     ...connectSession,
     hasVoted: false,
     vote: '',
   };
-  await UserSessionContext.create(data).catch(console.log);
-  return UserSessionContext.find({}).lean();
+  try {
+    await UserSessionContext.create(data);
+
+    return true;
+  } catch (error) {
+    console.log('An error ocurred adding new user', error);
+
+    return false;
+  }
 };
 
 export const isMasterUser = async (
