@@ -72,7 +72,6 @@ describe('Footer link component spec', () => {
     const props: Props = {
       href: 'test.com/',
     };
-    const localHostTest: string = 'http://localhost/';
 
     // Act
     render(<FooterLinkComponent {...props} />);
@@ -80,6 +79,6 @@ describe('Footer link component spec', () => {
     const link = screen.getByRole('link') as HTMLLinkElement;
 
     // Assert
-    expect(link.href).toEqual(`${localHostTest}${props.href}`);
+    expect(link.href).toEqual(`http://localhost/${props.href}`);
   });
 });
