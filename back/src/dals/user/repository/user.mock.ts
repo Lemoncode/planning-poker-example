@@ -9,7 +9,7 @@ export const isRoomAvailable = async (room: string): Promise<boolean> =>
 export const addNewUser = async (
   connectionId: string,
   { room, nickname, isMaster }: ConnectSessionInfo
-): Promise<UserSession[]> => {
+): Promise<boolean> => {
   userCollectionSession = [
     ...userCollectionSession,
     {
@@ -22,7 +22,7 @@ export const addNewUser = async (
     },
   ];
 
-  return userCollectionSession;
+  return true;
 };
 
 export const isMasterUser = async (

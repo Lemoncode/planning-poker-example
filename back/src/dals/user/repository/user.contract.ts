@@ -5,7 +5,7 @@ export interface UserRepository {
   addNewUser: (
     connectionId: string,
     connectSession: ConnectSessionInfo
-  ) => Promise<UserSession[]>;
+  ) => Promise<boolean>;
   isMasterUser: (connectionId: string) => Promise<UserSession>;
   isNicknameInUse: (nickname: string, room: string) => Promise<boolean>;
   getRoomFromConnectionId: (connectionId: string) => Promise<string>;
