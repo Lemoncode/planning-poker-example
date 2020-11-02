@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, Divider } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import * as classes from './header.styles';
 
 interface Props {}
