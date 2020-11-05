@@ -29,7 +29,7 @@ npm run start:debug
 To run in mock mode you should modify the file `.env` setting the:
 
 ```bash
-MOCK_RESPOSITORY=true
+MOCK_REPOSITORY=true
 ```
 
 - OR
