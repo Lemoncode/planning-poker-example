@@ -1,4 +1,5 @@
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 import { screen, render } from '@testing-library/react';
 import { SnackbarProvider } from 'common';
 import { VoteOptionsComponent } from './vote-options.component';
@@ -24,10 +25,10 @@ describe('Vote options component spec', () => {
       </SnackbarProvider>
     );
 
-    const h3Heading: HTMLElement = screen.queryByRole('alert');
+    const snackbar: HTMLElement = screen.queryByRole('alert');
 
     // Assert
-    expect(h3Heading).toBeNull();
+    expect(snackbar).toBeNull();
   });
 
   it('"h3" should show "Select and send vote" text when "votedStatus" is false', () => {
@@ -90,7 +91,7 @@ describe('Vote options component spec', () => {
     expect(h3Heading).toBeInTheDocument();
   });
 
-  it('"cards" should be displayed with values from "TShirtVotes"', () => {
+  it('"cards" should be displayed with heading values from "TShirtVotes"', () => {
     // Arrange
     interface Props {
       onVoteChosen: (vote: string) => void;
@@ -125,7 +126,6 @@ describe('Vote options component spec', () => {
     const cardSHeading: HTMLElement = screen.getByRole('heading', {
       name: 'S',
     });
-
     const cardXSHeading: HTMLElement = screen.getByRole('heading', {
       name: 'XS',
     });
@@ -139,7 +139,7 @@ describe('Vote options component spec', () => {
     expect(cardXSHeading).toBeInTheDocument();
   });
 
-  it('"button" should not be displayed text when "votedStatus" is true', () => {
+  it('"button" should not be displayed when "votedStatus" is true', () => {
     // Arrange
     interface Props {
       onVoteChosen: (vote: string) => void;
@@ -165,7 +165,7 @@ describe('Vote options component spec', () => {
     expect(button).toBeNull();
   });
 
-  it('"button" should be displayed text when "votedStatus" is false', () => {
+  it('"button" should be displayed when "votedStatus" is false', () => {
     // Arrange
     interface Props {
       onVoteChosen: (vote: string) => void;
@@ -189,5 +189,86 @@ describe('Vote options component spec', () => {
 
     // Assert
     expect(button).toBeInTheDocument();
+  });
+
+  it('"button" should show snackbar message when clicking if "voteActive" is empty', () => {
+    // Arrange
+    interface Props {
+      onVoteChosen: (vote: string) => void;
+      buttonFinishVoting?: React.FC;
+      votedStatus: boolean;
+    }
+
+    const props: Props = {
+      onVoteChosen: jest.fn(),
+      votedStatus: false,
+    };
+
+    // Act
+    render(
+      <SnackbarProvider>
+        <VoteOptionsComponent {...props} />
+      </SnackbarProvider>
+    );
+
+    userEvent.click(screen.getByRole('button'));
+
+    const snackbar: HTMLElement = screen.getByRole('alert');
+
+    // Assert
+    expect(snackbar).toBeInTheDocument();
+  });
+
+  it('"button" should show only selected vote when clicking if "voteActive" has a value', () => {
+    // Arrange
+    interface Props {
+      onVoteChosen: (vote: string) => void;
+      buttonFinishVoting?: React.FC;
+      votedStatus: boolean;
+    }
+
+    const props: Props = {
+      onVoteChosen: jest.fn(),
+      votedStatus: false,
+    };
+
+    // Act
+    render(
+      <SnackbarProvider>
+        <VoteOptionsComponent {...props} />
+      </SnackbarProvider>
+    );
+
+    const cardXXLHeading: HTMLElement = screen.getByRole('heading', {
+      name: 'XXL',
+    });
+
+    userEvent.click(cardXXLHeading);
+
+    userEvent.click(screen.getByRole('button'));
+
+    const cardXLHeading: HTMLElement = screen.queryByRole('heading', {
+      name: 'XL',
+    });
+    const cardLHeading: HTMLElement = screen.queryByRole('heading', {
+      name: 'L',
+    });
+    const cardMHeading: HTMLElement = screen.queryByRole('heading', {
+      name: 'M',
+    });
+    const cardSHeading: HTMLElement = screen.queryByRole('heading', {
+      name: 'S',
+    });
+    const cardXSHeading: HTMLElement = screen.queryByRole('heading', {
+      name: 'XS',
+    });
+
+    // Assert
+    expect(cardXXLHeading).toBeInTheDocument();
+    expect(cardXLHeading).toBeNull();
+    expect(cardLHeading).toBeNull();
+    expect(cardMHeading).toBeNull();
+    expect(cardSHeading).toBeNull();
+    expect(cardXSHeading).toBeNull();
   });
 });

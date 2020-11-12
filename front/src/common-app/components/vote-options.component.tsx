@@ -95,6 +95,7 @@ const CardComponent: React.FC<CardProps> = props => {
     return voteSelected !== cardValue ? classes.label : classes.activeLabel;
   };
 
+  // TODO refactor the following code to make it accessible
   return (
     <div
       className={cx(styleActiveCard(), styleVotedCard())}
