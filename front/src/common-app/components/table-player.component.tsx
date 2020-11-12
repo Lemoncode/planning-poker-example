@@ -53,9 +53,9 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
                 </TableCell>
                 <TableCell className={classes.cell} align="right">
                   {player.voted ? (
-                    <CheckIcon color={'primary'} />
+                    <CheckIcon color={'primary'} aria-label="check icon" />
                   ) : (
-                    <CloseIcon color={'error'} />
+                    <CloseIcon color={'error'} aria-label="cross icon" />
                   )}
                 </TableCell>
                 <TableCell className={classes.cell} align="right">
