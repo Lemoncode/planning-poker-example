@@ -170,3 +170,11 @@ export const showLabelVote = css`
     background-size: 85% auto;
   }
 `;
+
+export const radioButton = css`
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+`;
