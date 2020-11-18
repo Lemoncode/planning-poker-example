@@ -47,6 +47,8 @@ export const contanierLabels = css`
   flex-flow: row wrap;
   justify-content: space-between;
   width: auto;
+  list-style: none;
+  padding: 0;
   margin: 0;
 
   ${theme.breakpoints.up('sm')} {
@@ -64,15 +66,11 @@ export const contanierLabelShowVote = css`
 
 export const label = css`
   cursor: pointer;
-  width: 30%;
-  min-height: 220px;
-  max-width: 128px;
   color: red;
   display: flex;
   justify-content: center;
   align-content: center;
   flex-flow: column;
-  padding: 0;
   background-image: url('./assets/label-white.png');
   background-repeat: no-repeat;
   background-position: center center;
@@ -177,4 +175,10 @@ export const radioButton = css`
   cursor: pointer;
   height: 0;
   width: 0;
+`;
+
+export const voteListItem = css`
+  width: 30%;
+  min-height: 220px;
+  max-width: 128px;
 `;

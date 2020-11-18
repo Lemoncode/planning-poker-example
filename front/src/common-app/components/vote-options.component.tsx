@@ -108,14 +108,14 @@ const CardComponent: React.FC<CardProps> = props => {
   };
 
   return (
-    <li>
+    <li className={classes.voteListItem}>
       <input
         className={classes.radioButton}
         type="radio"
         id={`${cardValue} size`}
         name="T-shirt size votes"
         onChange={e => {
-          console.log(e.target.value);
+          console.log(`${cardValue} ${e.target.value}`);
         }}
       />
       <label htmlFor={`${cardValue} size`}>
