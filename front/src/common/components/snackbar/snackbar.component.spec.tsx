@@ -23,4 +23,21 @@ describe('Snackbar component specs', () => {
     // Assert
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
+
+  xit('', () => {
+    // Arrange
+    jest.spyOn(React, 'useContext').mockReturnValue({
+      open: true,
+    });
+
+    // Act
+    render(
+      <SnackbarProvider>
+        <SnackbarComponent />
+      </SnackbarProvider>
+    );
+
+    // Assert
+    expect(screen.getByRole('button')).toBeInTheDocument();
+  });
 });
