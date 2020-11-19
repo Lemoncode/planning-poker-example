@@ -66,6 +66,7 @@ export const contanierLabelShowVote = css`
 
 export const label = css`
   cursor: pointer;
+  min-height: 274px;
   color: red;
   display: flex;
   justify-content: center;
@@ -89,10 +90,6 @@ export const label = css`
     @media (min-width: 430px) and (max-width: 599px) {
       background-size: 85% auto;
     }
-  }
-
-  ${theme.breakpoints.up('md')} {
-    min-height: 274px;
   }
 
   @media (min-width: 430px) and (max-width: 599px) {
