@@ -130,7 +130,7 @@ export const label = css`
     font-weight: 100;
     letter-spacing: 0.32rem;
     position: relative;
-    top: -2%;
+    margin-top: -0.5rem;
     left: 1%;
     ${theme.breakpoints.down('md')} {
       font-size: 1.5rem;
@@ -146,7 +146,7 @@ export const label = css`
 
 export const activeLabel = css`
   ${label}
-
+  width: 100%;
   background-image: url('./assets/label-red.png');
   background-repeat: no-repeat;
   background-position: center center;
@@ -157,7 +157,7 @@ export const activeLabel = css`
 export const showLabelVote = css`
   ${activeLabel}
 
-  width: 25%;
+  width: 100%;
   cursor: default;
   margin: 3% 0 5%;
 
