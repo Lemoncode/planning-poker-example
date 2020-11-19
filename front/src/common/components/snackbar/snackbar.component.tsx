@@ -4,7 +4,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { SnackbarContext } from './snackbar.context';
-// import * as classes from './snackbar.styles';
+import * as classes from './snackbar.styles';
 
 interface Props {
   autoHideDuration?: number;
@@ -21,10 +21,10 @@ export const SnackbarComponent: React.FunctionComponent<Props> = props => {
       open={open}
       // autoHideDuration={autoHideDuration}
       onClose={onClose}
-      // className={classes.position}
+      className={classes.position}
     >
       <SnackbarContent
-        // className={classes[options.variant]}
+        className={classes[options.variant]}
         message={options.message}
         action={[
           <IconButton key="close" color="inherit" onClick={onClose}>
