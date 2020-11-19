@@ -174,13 +174,15 @@ export const radioButton = css`
   width: 0;
 `;
 
+const voteListItemActive = css`
+  transform: scale(1.1);
+  transition: transform 100ms linear;
+  margin: 0 2%;
+`;
+
 export const voteListItem = (active: boolean): string => css`
   width: 30%;
   min-height: 220px;
   max-width: 128px;
-  ${active
-    ? `transform: scale(1.1);
-   transition: transform 100ms linear;
-   margin: 0 2%';`
-    : ``}
+  ${active ? voteListItemActive : ``}
 `;
