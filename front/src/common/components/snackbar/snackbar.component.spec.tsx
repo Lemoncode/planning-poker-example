@@ -39,8 +39,9 @@ describe('Snackbar component specs', () => {
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  // TO DO - Check if Snackbar is closed when clicking button
+  // TO DO - Check if Snackbar is closed when clicking button:
   // Maybe it is not possible to do it because MUI is giving some troubles.
   // There is no way of mocking the context so it is impossible to use a spy and know
   // if "onClose" has been called
+  // Is there another way of doing it?
 });

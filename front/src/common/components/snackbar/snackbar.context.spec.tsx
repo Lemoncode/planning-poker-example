@@ -118,4 +118,123 @@ describe('Snackbar context specs', () => {
     // Assert
     expect(heading).toBeInTheDocument();
   });
+
+  it('"onClose" should change "open" value to false when called with no argument', () => {
+    // Arrange
+    const TestComponent: React.FC = () => {
+      const { onClose, setOpen, open } = React.useContext(SnackbarContext);
+      React.useEffect(() => setOpen(true));
+      return (
+        <>
+          {open && <h1>Test</h1>}
+          <button onClick={e => onClose()}>Test button</button>
+        </>
+      );
+    };
+
+    // Act
+    render(
+      <SnackbarProvider>
+        <TestComponent />
+      </SnackbarProvider>
+    );
+
+    // Act - Check if heading previously exists
+    let heading: HTMLElement = screen.getByRole('heading', {
+      name: 'Test',
+    });
+    expect(heading).toBeInTheDocument();
+
+    const button: HTMLElement = screen.getByRole('button');
+
+    userEvent.click(button);
+
+    // Act - Check if heading exists after clicking
+    heading = screen.queryByRole('heading', {
+      name: 'Test',
+    });
+
+    // Assert
+    expect(heading).toBeNull();
+  });
+
+  it('"onClose" should change "open" value to false when called with argument different from "clickaway"', () => {
+    // Arrange
+    const TestComponent: React.FC = () => {
+      const { onClose, setOpen, open } = React.useContext(SnackbarContext);
+      React.useEffect(() => setOpen(true));
+      return (
+        <>
+          {open && <h1>Test</h1>}
+          <button onClick={e => onClose(e, 'test argument')}>
+            Test button
+          </button>
+        </>
+      );
+    };
+
+    // Act
+    render(
+      <SnackbarProvider>
+        <TestComponent />
+      </SnackbarProvider>
+    );
+
+    // Act - Check if heading previously exists
+    let heading: HTMLElement = screen.getByRole('heading', {
+      name: 'Test',
+    });
+    expect(heading).toBeInTheDocument();
+
+    const button: HTMLElement = screen.getByRole('button');
+
+    userEvent.click(button);
+
+    // Act - Check if heading exists after clicking
+    heading = screen.queryByRole('heading', {
+      name: 'Test',
+    });
+
+    // Assert
+    expect(heading).toBeNull();
+  });
+
+  it('"onClose" should not change "open" value when called with argument "clickaway"', () => {
+    // Arrange
+    const TestComponent: React.FC = () => {
+      const { onClose, setOpen, open } = React.useContext(SnackbarContext);
+      React.useEffect(() => setOpen(true));
+      return (
+        <>
+          {open && <h1>Test</h1>}
+          <button onClick={e => onClose(e, 'clickaway')}>Test button</button>
+        </>
+      );
+    };
+
+    // Act
+    render(
+      <SnackbarProvider>
+        <TestComponent />
+      </SnackbarProvider>
+    );
+
+    // Act - Check if heading previously exists
+    let heading: HTMLElement = screen.getByRole('heading', {
+      name: 'Test',
+    });
+    expect(heading).toBeInTheDocument();
+
+    const button: HTMLElement = screen.getByRole('button');
+
+    userEvent.click(button);
+
+    // Act - Check if heading exists after clicking
+    heading = screen.getByRole('heading', {
+      name: 'Test',
+    });
+
+    // Assert
+    expect(heading).toBeInTheDocument();
+  });
 });
