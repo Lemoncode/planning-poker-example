@@ -1,11 +1,24 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { ThemeProviderComponent } from 'core/theme';
 import { SnackbarProvider, SnackbarContext } from './snackbar.context';
 import { SnackbarComponent } from './snackbar.component';
 
 describe('Snackbar component specs', () => {
-  it('', () => {
+  it('"Snackbar" should not be displayed by default', () => {
+    // Arrange
+
+    // Act
+    render(
+      <SnackbarProvider>
+        <SnackbarComponent />
+      </SnackbarProvider>
+    );
+
+    // Assert
+    expect(screen.queryByRole('alert')).toBeNull();
+  });
+
+  it('"Snackbar" and "button" should be displayed when setting "open" to true', () => {
     // Arrange
     const TestComponent: React.FC = () => {
       const { setOpen } = React.useContext(SnackbarContext);
@@ -22,25 +35,12 @@ describe('Snackbar component specs', () => {
     );
 
     // Assert
+    expect(screen.getByRole('alert')).toBeInTheDocument();
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  xit('', () => {
-    // Arrange
-    jest.spyOn(React, 'useContext').mockReturnValue({
-      open: true,
-      onClose: jest.fn(),
-      options: { variant: 'success', message: 'text message' },
-    });
-
-    // Act
-    render(
-      <ThemeProviderComponent>
-        <SnackbarComponent />
-      </ThemeProviderComponent>
-    );
-
-    // Assert
-    expect(screen.getByRole('button')).toBeInTheDocument();
-  });
+  // TO DO - Check if Snackbar is closed when clicking button
+  // Maybe it is not possible to do it because MUI is giving some troubles.
+  // There is no way of mocking the context so it is impossible to use a spy and know
+  // if "onClose" has been called
 });
