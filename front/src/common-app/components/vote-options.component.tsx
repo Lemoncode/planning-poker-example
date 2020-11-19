@@ -47,15 +47,6 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
       ) : null}
       <div role="radiogroup" aria-labelledby="T-shirt size votes">
         <ul className={cx(classes.contanierLabels, cardCenterOnVoteChosen())}>
-          {/* {voteCollection.map(vote => (
-            <CardComponent
-              userHasVoted={votedStatus}
-              key={vote}
-              cardValue={vote}
-              onVoteSelected={setVoteActive}
-              voteSelected={voteActive}
-            />
-          ))} */}
           {/* TODO - CHECK IF RECEIVED NULL OR UNDEFINED */}
           {voteCollection.map(vote => (
             <CardComponent
@@ -108,7 +99,7 @@ const CardComponent: React.FC<CardProps> = props => {
   };
 
   return (
-    <li className={classes.voteListItem}>
+    <li className={classes.voteListItem(voteSelected === cardValue)}>
       <input
         className={classes.radioButton}
         type="radio"

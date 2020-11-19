@@ -152,9 +152,6 @@ export const activeLabel = css`
   background-position: center center;
   background-size: 100% auto;
   color: ${theme.palette.varColors.grey1};
-  transform: scale(1.1);
-  transition: transform 100ms linear;
-  margin: 0 2%;
 `;
 
 export const showLabelVote = css`
@@ -177,8 +174,13 @@ export const radioButton = css`
   width: 0;
 `;
 
-export const voteListItem = css`
+export const voteListItem = (active: boolean): string => css`
   width: 30%;
   min-height: 220px;
   max-width: 128px;
+  ${active
+    ? `transform: scale(1.1);
+   transition: transform 100ms linear;
+   margin: 0 2%';`
+    : ``}
 `;
