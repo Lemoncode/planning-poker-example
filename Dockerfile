@@ -19,7 +19,7 @@ RUN npm run build
 FROM base AS release
 COPY --from=build-backend /usr/app/dist ./
 COPY --from=build-frontend /usr/app/dist ./public
-COPY ./package.json ./
+COPY ./back/package.json ./
 RUN npm install --only=production
 
 ENTRYPOINT [ "node", "index" ]
