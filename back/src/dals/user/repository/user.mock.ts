@@ -106,3 +106,9 @@ export const freeRoom = async (room: string): Promise<UserSession[]> => {
 
   return userCollectionSession;
 };
+
+export const deleteSession = async (connectionId: string): Promise<void> => {
+  userCollectionSession = userCollectionSession.filter(
+    (session) => session.connectionId !== connectionId
+  );
+};
