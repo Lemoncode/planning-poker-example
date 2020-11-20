@@ -15,7 +15,7 @@ app.use(envConstants.API_URL, roomApi);
 const staticFilesPath = path.resolve(__dirname, envConstants.STATIC_FILES_PATH);
 app.use('/', express.static(staticFilesPath));
 
-app.listen(envConstants.PORT, async () => {
+const appServer = app.listen(envConstants.PORT, async () => {
   if (!envConstants.isMockRepository && envConstants.MONGODB_URI) {
     await connectToDB(envConstants.MONGODB_URI);
   }
@@ -28,10 +28,4 @@ app.listen(envConstants.PORT, async () => {
   );
 });
 
-const socketServer = createSocketServer(app, messageSocketEvents);
-
-socketServer.listen(envConstants.SOCKET_PORT, () => {
-  console.log(
-    `Sockets listening on port: ${colors.green(envConstants.SOCKET_PORT)}`
-  );
-});
+createSocketServer(appServer, messageSocketEvents);
