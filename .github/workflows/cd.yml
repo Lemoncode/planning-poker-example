@@ -1,9 +1,11 @@
 name: Continuos Deployment workflow
 
-on:
-  push:
-    branches:
-      - feature/51
+on: pull_request
+  # push:
+  #   branches:
+  #     - master
+
+    
 
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
