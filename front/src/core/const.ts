@@ -1,9 +1,10 @@
 // TODO: Add env variables
-export const baseApiUrl = 'http://localhost:8081';
-export const baseSocketUrl = 'http://localhost:3000';
+export const baseApiUrl = process.env.BASE_API_URL;
+export const baseSocketUrl = baseApiUrl;
+export const baseAppUrl = process.env.BASE_APP_URL;
 
 // TODO we could extract inspecting current URL
-export const appBaseUrl = 'http://localhost:8080/app.html';
+export const appBaseUrl = `${baseAppUrl}/app.html`;
 
 export const SocketInputMessageTypes = {
   CONNECTION_ESTABLISHED_PLAYER: 'CONNECTION_ESTABLISHED_PLAYER',
