@@ -1,3 +1,6 @@
+import express from 'express';
+import path from 'path';
+
 import { createApp, createSocketServer } from 'core/servers';
 import { envConstants } from 'core/constants';
 import { roomApi } from 'pods/room';
@@ -8,6 +11,9 @@ import { messageSocketEvents } from 'pods/messages';
 const app = createApp();
 
 app.use(envConstants.API_URL, roomApi);
+
+const staticFilesPath = path.resolve(__dirname, envConstants.STATIC_FILES_PATH);
+app.use('/', express.static(staticFilesPath));
 
 app.listen(envConstants.PORT, async () => {
   if (!envConstants.isMockRepository && envConstants.MONGODB_URI) {
