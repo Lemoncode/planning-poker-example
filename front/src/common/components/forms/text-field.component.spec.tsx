@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, useField } from 'formik';
+import { Formik, Form } from 'formik';
 import { render, screen } from '@testing-library/react';
 import { TextFieldComponent } from './text-field.component';
 
@@ -7,21 +7,20 @@ describe('textfield component specs', () => {
   const renderWithFormik = (component, initialValues) => ({
     ...render(
       <Formik initialValues={initialValues} onSubmit={console.log}>
-        {() => component}
+        {() => <Form>{component}</Form>}
       </Formik>
     ),
   });
 
-  it('', () => {
+  it('"input" should be displayed by default', () => {
     // Arrange
 
     // Act
+    renderWithFormik(<TextFieldComponent name={name} />, { name: 'test name' });
 
-    renderWithFormik(<TextFieldComponent />, { name: 'test name' });
-
-    const textarea = screen.getByRole('textbox');
+    const input = screen.getByRole('textbox');
 
     // Assert
-    expect(textarea).toBeInTheDocument();
+    expect(input).toBeInTheDocument();
   });
 });
