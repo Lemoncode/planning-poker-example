@@ -1,7 +1,8 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import { render, screen } from '@testing-library/react';
-import { TextFieldComponent } from './text-field.component';
+import { render, screen, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { TextAreaComponent } from './textArea-field.component';
 
 describe('textfield component specs', () => {
   const renderWithFormik = (component, initialValues) => ({
@@ -16,11 +17,25 @@ describe('textfield component specs', () => {
     // Arrange
 
     // Act
-    renderWithFormik(<TextFieldComponent name={name} />, { name: 'test name' });
+    renderWithFormik(<TextAreaComponent name={name} />, { name: 'test name' });
 
-    const input = screen.getByRole('textbox');
+    const textarea: HTMLElement = screen.getByRole('textbox');
 
     // Assert
-    expect(input).toBeInTheDocument();
+    expect(textarea).toBeInTheDocument();
+  });
+
+  it('"input" should change value when typing', () => {
+    // Arrange
+
+    // Act
+    renderWithFormik(<TextAreaComponent name={name} />, { name: 'test name' });
+
+    const textarea: HTMLElement = screen.getByRole('textbox');
+
+    userEvent.type(textarea, 'test input text');
+
+    // Assert
+    expect(textarea).toHaveValue('test input text');
   });
 });
