@@ -130,6 +130,10 @@ export const MasterContainer = () => {
             setPlayerCollectionVoteResult(playerVoteResults);
             SetMasterStatus(MasterStatus.SHOWING_RESULTS);
             break;
+          case SocketInputMessageTypes.DELETE_SESSIONS_ID:
+            //TODO Refresh list of users in master room
+            
+            break;
         }
       }
     });

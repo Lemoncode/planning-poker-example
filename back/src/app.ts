@@ -6,7 +6,6 @@ import { envConstants } from 'core/constants';
 import { roomApi } from 'pods/room';
 import { connectToDB } from 'core/db';
 import colors from 'colors';
-import { messageSocketEvents } from 'pods/messages';
 
 const app = createApp();
 
@@ -28,4 +27,4 @@ const appServer = app.listen(envConstants.PORT, async () => {
   );
 });
 
-createSocketServer(appServer, messageSocketEvents);
+createSocketServer(appServer);
