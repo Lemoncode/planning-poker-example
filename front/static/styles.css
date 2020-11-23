@@ -234,10 +234,10 @@
   .container {
     background-image: url(./assets/fondo-landing-desktop.jpg);
     background-size: cover;
-    width: 100vw;
-    height: 100vh;
-    max-width: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
   }
+
   .component {
     padding: 1% 0;
   }
@@ -247,6 +247,7 @@
     padding: 0;
     margin: 0;
   }
+
   .logo {
     margin-top: 0%;
   }

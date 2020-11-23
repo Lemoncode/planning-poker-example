@@ -47,6 +47,8 @@ export const contanierLabels = css`
   flex-flow: row wrap;
   justify-content: space-between;
   width: auto;
+  list-style: none;
+  padding: 0;
   margin: 0;
 
   ${theme.breakpoints.up('sm')} {
@@ -64,15 +66,12 @@ export const contanierLabelShowVote = css`
 
 export const label = css`
   cursor: pointer;
-  width: 30%;
-  min-height: 220px;
-  max-width: 128px;
+  min-height: 274px;
   color: red;
   display: flex;
   justify-content: center;
   align-content: center;
   flex-flow: column;
-  padding: 0;
   background-image: url('./assets/label-white.png');
   background-repeat: no-repeat;
   background-position: center center;
@@ -91,10 +90,6 @@ export const label = css`
     @media (min-width: 430px) and (max-width: 599px) {
       background-size: 85% auto;
     }
-  }
-
-  ${theme.breakpoints.up('md')} {
-    min-height: 274px;
   }
 
   @media (min-width: 430px) and (max-width: 599px) {
@@ -132,7 +127,7 @@ export const label = css`
     font-weight: 100;
     letter-spacing: 0.32rem;
     position: relative;
-    top: -2%;
+    margin-top: -0.5rem;
     left: 1%;
     ${theme.breakpoints.down('md')} {
       font-size: 1.5rem;
@@ -148,25 +143,43 @@ export const label = css`
 
 export const activeLabel = css`
   ${label}
-
+  width: 100%;
   background-image: url('./assets/label-red.png');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% auto;
   color: ${theme.palette.varColors.grey1};
-  transform: scale(1.1);
-  transition: transform 100ms linear;
-  margin: 0 2%;
 `;
 
 export const showLabelVote = css`
   ${activeLabel}
 
-  width: 25%;
+  width: 100%;
   cursor: default;
   margin: 3% 0 5%;
 
   @media (min-width: 430px) and (max-width: 700px) {
     background-size: 85% auto;
   }
+`;
+
+export const radioButton = css`
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+`;
+
+const voteListItemActive = css`
+  transform: scale(1.1);
+  transition: transform 100ms linear;
+  margin: 0 2%;
+`;
+
+export const voteListItem = (active: boolean): string => css`
+  width: 30%;
+  min-height: 220px;
+  max-width: 128px;
+  ${active ? voteListItemActive : ``}
 `;

@@ -15,7 +15,7 @@ export const AuthContext = React.createContext<Context>({
 
 export const AuthProvider: React.FC = props => {
   const { children } = props;
-  const [nickname, setNickname] = React.useState('');
+  const [nickname, setNickname] = React.useState<string>('');
 
   return (
     <AuthContext.Provider

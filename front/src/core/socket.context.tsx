@@ -1,5 +1,5 @@
 import React from 'react';
-import SocketIOClient, { Socket } from 'socket.io';
+import { Socket } from 'socket.io';
 
 interface Context {
   socket: Socket;
@@ -16,7 +16,7 @@ export const SocketContext = React.createContext<Context>({
 
 export const SocketProvider: React.FC = props => {
   const { children } = props;
-  const [socket, setSocket] = React.useState(null);
+  const [socket, setSocket] = React.useState<Socket>(null);
 
   return (
     <SocketContext.Provider
