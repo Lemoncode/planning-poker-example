@@ -45,20 +45,23 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
           Your vote: <span className={classes.subtitle2}>{voteChosen}</span>
         </h3>
       ) : null}
-      <div role="radiogroup" aria-labelledby="T-shirt size votes">
-        <ul className={cx(classes.contanierLabels, cardCenterOnVoteChosen())}>
-          {/* TODO - CHECK IF RECEIVED NULL OR UNDEFINED */}
-          {voteCollection.map(vote => (
-            <CardComponent
-              userHasVoted={votedStatus}
-              key={vote}
-              cardValue={vote}
-              onVoteSelected={setVoteActive}
-              voteSelected={voteActive}
-            />
-          ))}
-        </ul>
-      </div>
+
+      <ul
+        className={cx(classes.contanierLabels, cardCenterOnVoteChosen())}
+        aria-labelledby="T-shirt size votes"
+      >
+        {/* TODO - CHECK IF RECEIVED NULL OR UNDEFINED */}
+        {voteCollection.map(vote => (
+          <CardComponent
+            userHasVoted={votedStatus}
+            key={vote}
+            cardValue={vote}
+            onVoteSelected={setVoteActive}
+            voteSelected={voteActive}
+          />
+        ))}
+      </ul>
+
       <div className={classes.buttonContainer}>
         {votedStatus ? (
           undefined
@@ -99,27 +102,20 @@ const CardComponent: React.FC<CardProps> = props => {
   };
 
   return (
-    <li className={classes.voteListItem(voteSelected === cardValue)}>
-      <input
-        className={classes.radioButton}
-        type="radio"
-        id={`${cardValue} size`}
-        name="T-shirt size votes"
-        onChange={e => {
-          console.log(`${cardValue} ${e.target.value}`);
+    <li
+      className={classes.voteListItem(voteSelected === cardValue)}
+      data-message={`Label ${cardValue}, click for select this vote`}
+      tabIndex={0}
+    >
+      <div
+        className={cx(styleActiveCard(), styleVotedCard())}
+        onClick={event => {
+          onVoteSelected(cardValue);
         }}
-      />
-      <label htmlFor={`${cardValue} size`}>
-        <div
-          className={cx(styleActiveCard(), styleVotedCard())}
-          onClick={event => {
-            onVoteSelected(cardValue);
-          }}
-        >
-          <h1>{cardValue}</h1>
-          <h2>SIZE</h2>
-        </div>
-      </label>
+      >
+        <h1>{cardValue}</h1>
+        <h2>SIZE</h2>
+      </div>
     </li>
   );
 };
