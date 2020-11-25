@@ -14,4 +14,5 @@ export interface UserRepository {
   vote: (connectionId: string, value: string) => Promise<void>;
   getVotesFromRoom: (room: string) => Promise<VotesFromRooms[]>;
   freeRoom: (room: string) => Promise<UserSession[]>;
+  deleteSession: (connectionId: string) => Promise<void>;
 }

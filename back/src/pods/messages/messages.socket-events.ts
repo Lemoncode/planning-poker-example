@@ -4,7 +4,7 @@ import {
   processInputMessage,
   processOutputMessageCollection,
 } from './processors';
-import { InputMessageTypes } from './messages.consts';
+import { InputMessageTypes, SocketMessageTypes } from './messages.consts';
 
 export const messageSocketEvents = async (
   socket: Socket,
@@ -49,5 +49,9 @@ export const messageSocketEvents = async (
 
       processOutputMessageCollection(socketInfo, outputMessageCollection);
     }
+  });
+
+  socket.on('disconnect', () => {
+     processInputMessage(socketInfo,{type: SocketMessageTypes.DELETE_SESSIONS_ID});
   });
 };

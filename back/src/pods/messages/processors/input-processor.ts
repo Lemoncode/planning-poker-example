@@ -2,6 +2,7 @@ import {
   InputMessageTypes,
   OutputMessageTypes,
   getMasterRoom,
+  SocketMessageTypes,
 } from '../messages.consts';
 import {
   Action,
@@ -22,6 +23,7 @@ const {
   isNicknameInUse,
   getNicknameFromConnectionId,
   getVotesFromRoom,
+  deleteSession,
 } = userRepository;
 
 export const processInputMessage = async (
@@ -63,6 +65,10 @@ export const processInputMessage = async (
       outputActionCollection = [
         { type: OutputMessageTypes.SHOW_RESULTS, payload: votesCollection },
       ];
+      break;
+
+    case SocketMessageTypes.DELETE_SESSIONS_ID:
+      deleteSession(socketInfo.connectionId);
       break;
   }
 

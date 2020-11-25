@@ -1,9 +1,11 @@
 import SocketIOClient, { Socket } from 'socket.io';
 
-export const createSocketServer = (app, socketEventsInitializer) => {
+import { messageSocketEvents } from 'pods/messages';
+
+export const createSocketServer = (app) => {
   const io: SocketIOClient.Socket = require('socket.io')(app);
 
   io.on('connection', async (socket: Socket) => {
-    await socketEventsInitializer(socket, io);
+    await messageSocketEvents(socket, io);
   });
 };
