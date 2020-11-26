@@ -2,13 +2,14 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AuthContext, AuthProvider } from './auth.context';
+import { initMasterNickname } from './const';
 
 describe('Auth context specs', () => {
-  it('"nickname" should be an empty string by default', () => {
+  it('"nickname" should be an master const name by default', () => {
     // Arrange
     const TestComponent: React.FC = () => {
       const { nickname } = React.useContext(AuthContext);
-      return <>{nickname === '' && <h1>Test</h1>}</>;
+      return <>{nickname === initMasterNickname && <h1>Test</h1>}</>;
     };
 
     // Act

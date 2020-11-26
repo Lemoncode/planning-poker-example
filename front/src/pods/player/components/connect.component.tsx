@@ -43,7 +43,7 @@ export const ConnectComponent: React.FC<Props> = props => {
                 disabled={playerStatus === PlayerStatus.WAITING_FOR_STORY}
                 className={cx(classes.formItem, classes.button)}
               >
-                Create new session
+                Join session
               </Button>
             </Form>
           );
