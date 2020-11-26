@@ -176,8 +176,8 @@ describe('Table player component specs', () => {
     // Act
     render(<TablePlayerComponent {...props} />);
 
-    const checkIcon: HTMLElement = screen.getByLabelText('check icon');
-    const closeIcon: HTMLElement = screen.queryByLabelText('cross icon');
+    const checkIcon: HTMLElement = screen.getByLabelText('User voted');
+    const closeIcon: HTMLElement = screen.queryByLabelText("User didn't vote");
 
     // Assert
     expect(checkIcon).toBeInTheDocument();
@@ -203,8 +203,8 @@ describe('Table player component specs', () => {
     // Act
     render(<TablePlayerComponent {...props} />);
 
-    const checkIcon: HTMLElement = screen.queryByLabelText('check icon');
-    const closeIcon: HTMLElement = screen.getByLabelText('cross icon');
+    const checkIcon: HTMLElement = screen.queryByLabelText('User voted');
+    const closeIcon: HTMLElement = screen.getByLabelText("User didn't vote");
 
     // Assert
     expect(closeIcon).toBeInTheDocument();
