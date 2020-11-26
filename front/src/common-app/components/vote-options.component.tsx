@@ -36,13 +36,22 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
     <div className={classes.container}>
       <SnackbarComponent />
       {votedStatus ? null : (
-        <Typography variant="h3" component="h2" id="T-shirt size votes" className={classes.subtitle}>
+        <Typography
+          variant="h3"
+          component="h2"
+          id="T-shirt size votes"
+          className={classes.subtitle}
+        >
           Select and send vote
         </Typography>
       )}
 
       {votedStatus ? (
-        <Typography variant="h3" component="h2" className={cx(classes.subtitle, classes.subtitle2)}>
+        <Typography
+          variant="h3"
+          component="h2"
+          className={cx(classes.subtitle, classes.subtitle2)}
+        >
           Your vote: <span className={classes.subtitle2}>{voteChosen}</span>
         </Typography>
       ) : null}
@@ -109,12 +118,11 @@ const CardComponent: React.FC<CardProps> = props => {
         onClick={event => {
           onVoteSelected(cardValue);
         }}
+        data-testid={cardValue}
       />
       <label htmlFor={`${cardValue} size`}>
-        <div
-          className={cx(styleActiveCard(), styleVotedCard())}
-        >
-          <span>{cardValue}</span>
+        <div className={cx(styleActiveCard(), styleVotedCard())}>
+          <div>{cardValue}</div>
           <span>SIZE</span>
         </div>
       </label>

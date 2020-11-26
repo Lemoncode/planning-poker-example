@@ -111,24 +111,12 @@ describe('Vote options component spec', () => {
       </SnackbarProvider>
     );
 
-    const cardXXLHeading: HTMLElement = screen.getByRole('heading', {
-      name: 'XXL',
-    });
-    const cardXLHeading: HTMLElement = screen.getByRole('heading', {
-      name: 'XL',
-    });
-    const cardLHeading: HTMLElement = screen.getByRole('heading', {
-      name: 'L',
-    });
-    const cardMHeading: HTMLElement = screen.getByRole('heading', {
-      name: 'M',
-    });
-    const cardSHeading: HTMLElement = screen.getByRole('heading', {
-      name: 'S',
-    });
-    const cardXSHeading: HTMLElement = screen.getByRole('heading', {
-      name: 'XS',
-    });
+    const cardXXLHeading: HTMLElement = screen.getByTestId('XXL');
+    const cardXLHeading: HTMLElement = screen.getByTestId('XL');
+    const cardLHeading: HTMLElement = screen.getByTestId('L');
+    const cardMHeading: HTMLElement = screen.getByTestId('M');
+    const cardSHeading: HTMLElement = screen.getByTestId('S');
+    const cardXSHeading: HTMLElement = screen.getByTestId('XS');
 
     // Assert
     expect(cardXXLHeading).toBeInTheDocument();
@@ -239,29 +227,17 @@ describe('Vote options component spec', () => {
       </SnackbarProvider>
     );
 
-    const cardXXLHeading: HTMLElement = screen.getByRole('heading', {
-      name: 'XXL',
-    });
+    const cardXXLHeading: HTMLElement = screen.getByTestId('XXL');
 
     userEvent.click(cardXXLHeading);
 
     userEvent.click(screen.getByRole('button'));
 
-    const cardXLHeading: HTMLElement = screen.queryByRole('heading', {
-      name: 'XL',
-    });
-    const cardLHeading: HTMLElement = screen.queryByRole('heading', {
-      name: 'L',
-    });
-    const cardMHeading: HTMLElement = screen.queryByRole('heading', {
-      name: 'M',
-    });
-    const cardSHeading: HTMLElement = screen.queryByRole('heading', {
-      name: 'S',
-    });
-    const cardXSHeading: HTMLElement = screen.queryByRole('heading', {
-      name: 'XS',
-    });
+    const cardXLHeading: HTMLElement = screen.queryByTestId('XL');
+    const cardLHeading: HTMLElement = screen.queryByTestId('L');
+    const cardMHeading: HTMLElement = screen.queryByTestId('M');
+    const cardSHeading: HTMLElement = screen.queryByTestId('S');
+    const cardXSHeading: HTMLElement = screen.queryByTestId('XS');
 
     // Assert
     expect(cardXXLHeading).toBeInTheDocument();
