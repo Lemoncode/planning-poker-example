@@ -96,8 +96,8 @@ export const label = css`
     background-size: 85% auto;
   }
 
-  h1,
-  h2 {
+  div,
+  span {
     padding: 0;
     margin: 0;
     width: 100%;
@@ -105,7 +105,7 @@ export const label = css`
     font-family: ${theme.typography.fontFamily};
     text-shadow: 1px 1px 3px grey;
   }
-  h1 {
+  div {
     font-size: 2.5rem;
     font-weight: 500;
     letter-spacing: 0.08rem;
@@ -122,7 +122,7 @@ export const label = css`
       font-size: 1.9rem;
     }
   }
-  h2 {
+  span {
     font-size: 1.7rem;
     font-weight: 100;
     letter-spacing: 0.32rem;

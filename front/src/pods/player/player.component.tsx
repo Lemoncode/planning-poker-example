@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from 'emotion';
+import Typography from '@material-ui/core/Typography';
 import * as classes from './player.component.styles';
 import { TablePlayerComponent } from 'common-app/components';
 import { PlayerStatus } from './player.vm';
@@ -89,9 +90,13 @@ const VotingInProgressComponent: React.FC<VotingInProgressProps> = props => {
       <div className={classes.leftContainer}>
         <div className={classes.containerComponent}>
           {title ? (
-            <h3 className={classes.subtitle}>
+            <Typography
+              variant="h3"
+              component="h2"
+              className={classes.subtitle}
+            >
               Hello <b>{nickname}</b>, this is the Story:
-            </h3>
+            </Typography>
           ) : null}
           {title ? <p className={classes.story}>{title}</p> : null}
         </div>
@@ -119,9 +124,13 @@ const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
       <div className={classes.leftContainer}>
         <div className={classes.containerComponent}>
           {title ? (
-            <h3 className={classes.subtitle}>
+            <Typography
+              variant="h3"
+              component="h2"
+              className={classes.subtitle}
+            >
               Hello <b>{nickname}</b>, this is the Story:
-            </h3>
+            </Typography>
           ) : null}
           {title ? <p className={classes.story}>{title}</p> : null}
         </div>
@@ -131,7 +140,10 @@ const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
           <h2 className={classes.title}>Show voting results</h2>
         </div>
         <div className={classes.containerComponent}>
-          <TablePlayerComponent playersCollection={voteCollectionResult} />
+          <TablePlayerComponent
+            playersCollection={voteCollectionResult}
+            headingLevel="h3"
+          />
         </div>
         <div className={classes.containerComponent}>
           <h2 className={classes.title}>Wait for next story</h2>

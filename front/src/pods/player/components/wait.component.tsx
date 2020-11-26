@@ -10,6 +10,7 @@ export const WaitComponent: React.FC = () => {
       <Typography
         className={cx(classes.title, classes.titleSpinner)}
         variant="h6"
+        component="h2"
       >
         Waiting for master
       </Typography>

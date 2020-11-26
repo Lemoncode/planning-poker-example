@@ -19,6 +19,9 @@ export const TextFieldComponent: React.FunctionComponent<TextFieldProps> = props
       fullWidth={true}
       margin="normal"
       value={textFieldProps.value}
+      FormHelperTextProps={{
+        role: 'alert',
+      }}
     />
   );
 };

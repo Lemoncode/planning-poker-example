@@ -1,19 +1,21 @@
 import * as React from 'react';
-import { PlayerComponent } from 'pods/player/player.component';
 import Typography from '@material-ui/core/Typography';
 import { Player } from '../master.vm';
 
 interface Props {
   playerCollection: Player[];
+  headingLevel?: string;
 }
 
 export const PlayersConnectedComponent: React.FC<Props> = (props: Props) => {
-  const { playerCollection } = props;
+  const { playerCollection, headingLevel } = props;
   return (
     <>
-      <Typography variant="h3">Players connected:</Typography>
+      <Typography variant="h3" component={headingLevel}>
+        Players connected:
+      </Typography>
       <ul>
-        {playerCollection.map(player => (
+        {playerCollection.map((player) => (
           <li key={player.nickname}>
             {player.nickname} {player.voted ? '- Voted' : ''}
           </li>
@@ -21,4 +23,8 @@ export const PlayersConnectedComponent: React.FC<Props> = (props: Props) => {
       </ul>
     </>
   );
+};
+
+PlayersConnectedComponent.defaultProps = {
+  headingLevel: 'h2',
 };

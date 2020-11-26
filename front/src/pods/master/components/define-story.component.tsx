@@ -14,7 +14,7 @@ export const DefineStoryComponent: React.FC<Props> = props => {
 
   return (
     <div className={classes.container}>
-      <Typography className={classes.subtitle} variant="subtitle1">
+      <Typography className={classes.subtitle} variant="subtitle1" component="h2">
         Define here your user story
       </Typography>
       <Formik

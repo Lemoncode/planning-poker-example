@@ -10,7 +10,7 @@ export const Header: React.FC<Props> = props => {
   return (
     <header className={classes.logoContainer}>
       <img className={classes.logo} src="./assets/logo.png" alt="logo" />
-      <Typography className={classes.title} variant="h4" component="h4">
+      <Typography className={classes.title} variant="h4" component="h1">
         T-Shirt Planning Poker
       </Typography>
     </header>
