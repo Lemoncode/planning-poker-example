@@ -25,6 +25,7 @@ const {
   getVotesFromRoom,
   deleteSession,
 } = userRepository;
+let room = '';
 
 export const processInputMessage = async (
   socketInfo: SocketInfo,
@@ -59,7 +60,7 @@ export const processInputMessage = async (
       break;
 
     case InputMessageTypes.END_VOTE_TIME:
-      const room = await getRoomFromConnectionId(socketInfo.connectionId);
+      room = await getRoomFromConnectionId(socketInfo.connectionId);
       const votesCollection = await getVotesFromRoom(room);
       await resetVotes(room);
       outputActionCollection = [
@@ -68,7 +69,16 @@ export const processInputMessage = async (
       break;
 
     case SocketMessageTypes.DISCONNECT:
-      deleteSession(socketInfo.connectionId);
+      room = await userRepository.getRoomFromConnectionId(socketInfo.connectionId);
+      const nickname: string = await userRepository.getNicknameFromConnectionId(
+        socketInfo.connectionId
+      );
+
+      await deleteSession(socketInfo.connectionId);
+      // need to pass room since connection can be already deleted
+      outputActionCollection = [
+        { type: OutputMessageTypes.USER_DISCONNECTED, payload: {nickname, room} },
+      ];
       break;
   }
 

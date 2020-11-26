@@ -51,9 +51,14 @@ export const messageSocketEvents = async (
     }
   });
 
-  socket.on('disconnect', () => {
-    processInputMessage(socketInfo, {
-      type: SocketMessageTypes.DISCONNECT,
-    });
+  socket.on('disconnect', async () => {
+    const outputMessageCollection: Action[] = await processInputMessage(
+      socketInfo,
+      {
+        type: SocketMessageTypes.DISCONNECT,
+      }
+    );
+
+    processOutputMessageCollection(socketInfo, outputMessageCollection);
   });
 };

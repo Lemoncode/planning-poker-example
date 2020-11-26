@@ -129,9 +129,11 @@ export const MasterContainer = () => {
             setPlayerCollectionVoteResult(playerVoteResults);
             setMasterStatus(MasterStatus.SHOWING_RESULTS);
             break;
-          case SocketInputMessageTypes.DELETE_SESSIONS_ID:
+          case SocketInputMessageTypes.USER_DISCONNECTED:
             //TODO Refresh list of users in master room
-
+            updatePlayerCollection(
+              playerCollectionRef.current.filter(p => p.nickname !== payload)
+            );
             break;
         }
       }
