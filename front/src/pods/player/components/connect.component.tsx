@@ -19,7 +19,7 @@ export const ConnectComponent: React.FC<Props> = props => {
 
   return (
     <div className={classes.container}>
-      <Typography className={classes.title} variant="h5">
+      <Typography className={classes.title} variant="h5" component="h2">
         Join poker session: {room}
       </Typography>
       <Formik

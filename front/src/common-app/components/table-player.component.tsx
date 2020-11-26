@@ -14,14 +14,19 @@ import { PlayerVotingStatus } from 'core';
 
 interface Props {
   playersCollection: PlayerVotingStatus[];
+  headingLevel?: React.ElementType;
 }
 
 export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
-  const { playersCollection } = props;
+  const { playersCollection, headingLevel } = props;
 
   return (
     <div className={classes.container}>
-      <Typography className={classes.subtitle} variant="h6" component="h2">
+      <Typography
+        className={classes.subtitle}
+        variant="h6"
+        component={headingLevel}
+      >
         Players connected:
       </Typography>
       <TableContainer className={classes.table}>
@@ -53,9 +58,17 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
                 </TableCell>
                 <TableCell className={classes.cell} align="right">
                   {player.voted ? (
-                    <CheckIcon color="primary" aria-hidden={false} aria-label="User voted" />
+                    <CheckIcon
+                      color="primary"
+                      aria-hidden={false}
+                      aria-label="User voted"
+                    />
                   ) : (
-                    <CloseIcon color="error" aria-hidden={false} aria-label="User didn't vote" />
+                    <CloseIcon
+                      color="error"
+                      aria-hidden={false}
+                      aria-label="User didn't vote"
+                    />
                   )}
                 </TableCell>
                 <TableCell className={classes.cell} align="right">
@@ -68,4 +81,8 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
       </TableContainer>
     </div>
   );
+};
+
+TablePlayerComponent.defaultProps = {
+  headingLevel: 'h2',
 };
