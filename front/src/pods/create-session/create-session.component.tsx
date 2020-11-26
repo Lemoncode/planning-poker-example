@@ -1,10 +1,11 @@
 import React from 'react';
 import { cx } from 'emotion';
-import * as classes from './create-session.styles';
 import { Formik, Form } from 'formik';
 import { Typography, Button } from '@material-ui/core';
 import { TextFieldComponent } from 'common/components/forms';
+import { initMasterNickname } from 'core/const';
 import { formValidation } from './create-session.validation';
+import * as classes from './create-session.styles';
 
 interface Props {
   onCreateSession: (nickname: string) => void;
@@ -21,7 +22,7 @@ export const CreateSessionComponent: React.FunctionComponent<Props> = props => {
         </Typography>
         <Formik
           onSubmit={sessionForm => onCreateSession(sessionForm.nickname)}
-          initialValues={{ nickname: 'master of puppets' }}
+          initialValues={{ nickname: initMasterNickname }}
           validate={formValidation.validateForm}
         >
           {() => {

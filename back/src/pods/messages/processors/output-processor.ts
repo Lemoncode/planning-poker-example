@@ -57,7 +57,27 @@ export const processOuputMessage = (socketInfo: SocketInfo, action: Action) => {
     case OutputMessageTypes.APPEND_TEXT:
       handleAppendText(socketInfo, action.payload);
       break;
+
+    case OutputMessageTypes.USER_DISCONNECTED:
+      handleUserDisconnected(socketInfo, action.payload);
+      break;
   }
+};
+
+// Room is needed here cannot be extract in this case from
+// repo since a delete operation has been executed
+const handleUserDisconnected = async (
+  socketInfo: SocketInfo,
+  payload: { nickname: string; room: string }
+) => {
+  const { io, connectionId } = socketInfo;
+  const masterRoom = getMasterRoom(payload.room);
+
+  // Notify to master room user
+  io.in(masterRoom).emit(SocketOuputMessageLiteral.MESSAGE, {
+    type: responseType.USER_DISCONNECTED,
+    payload: payload.nickname,
+  });
 };
 
 const handleAppendText = async (socketInfo: SocketInfo, text: string) => {

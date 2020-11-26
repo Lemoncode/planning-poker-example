@@ -29,7 +29,7 @@ const usePlayerCollection = () => {
   const setPlayerCollectionVoteResult = (
     votesResultCollection: VoteResult[]
   ) => {
-    const PlayerCollectionUpdated = playerCollectionRef.current.map(player => {
+    const playerCollectionUpdated = playerCollectionRef.current.map(player => {
       const voteResult = votesResultCollection.find(
         voteResult => voteResult.nickname === player.nickname
       );
@@ -43,7 +43,7 @@ const usePlayerCollection = () => {
         : player;
     });
 
-    updatePlayerCollection(PlayerCollectionUpdated);
+    updatePlayerCollection(playerCollectionUpdated);
   };
 
   const resetVotedInfoOnEveryPlayer = () => {
@@ -67,7 +67,7 @@ export const MasterContainer = () => {
   const authContext = React.useContext(AuthContext);
   const params = useParams(); // TODO: Type this
   const [room, setRoom] = React.useState('');
-  const [masterStatus, SetMasterStatus] = React.useState<MasterStatus>(
+  const [masterStatus, setMasterStatus] = React.useState<MasterStatus>(
     MasterStatus.INITIALIZING
   );
   const [masterVoted, setMasterVoted] = React.useState(false);
@@ -97,10 +97,9 @@ export const MasterContainer = () => {
     // Set Master as first player in the room
     updatePlayerCollection([{ nickname, voted: false, vote: '' }]);
 
-    SetMasterStatus(MasterStatus.CREATING_STORY);
+    setMasterStatus(MasterStatus.CREATING_STORY);
 
     socket.on(SocketOuputMessageLiteral.MESSAGE, msg => {
-      console.log(msg);
       if (msg.type) {
         const { type, payload } = msg;
 
@@ -128,11 +127,13 @@ export const MasterContainer = () => {
             }));
             // ***
             setPlayerCollectionVoteResult(playerVoteResults);
-            SetMasterStatus(MasterStatus.SHOWING_RESULTS);
+            setMasterStatus(MasterStatus.SHOWING_RESULTS);
             break;
-          case SocketInputMessageTypes.DELETE_SESSIONS_ID:
+          case SocketInputMessageTypes.USER_DISCONNECTED:
             //TODO Refresh list of users in master room
-            
+            updatePlayerCollection(
+              playerCollectionRef.current.filter(p => p.nickname !== payload)
+            );
             break;
         }
       }
@@ -149,7 +150,7 @@ export const MasterContainer = () => {
   const handleSetStoryTitle = (title: string) => {
     setMasterVoted(false);
     setStoryTitle(title);
-    SetMasterStatus(MasterStatus.VOTING_IN_PROGRESS);
+    setMasterStatus(MasterStatus.VOTING_IN_PROGRESS);
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
       type: SocketOuputMessageTypes.CREATE_STORY,
       payload: title,
@@ -168,7 +169,7 @@ export const MasterContainer = () => {
 
   const handleFinishVoting = () => {
     console.log('finished voting...');
-    SetMasterStatus(MasterStatus.SHOWING_RESULTS);
+    setMasterStatus(MasterStatus.SHOWING_RESULTS);
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {
       type: SocketOuputMessageTypes.END_VOTE_TIME,
       payload: null,
@@ -180,7 +181,7 @@ export const MasterContainer = () => {
     setStoryTitle('');
     resetVotedInfoOnEveryPlayer();
 
-    SetMasterStatus(MasterStatus.CREATING_STORY);
+    setMasterStatus(MasterStatus.CREATING_STORY);
   };
 
   return (

@@ -51,7 +51,14 @@ export const messageSocketEvents = async (
     }
   });
 
-  socket.on('disconnect', () => {
-     processInputMessage(socketInfo,{type: SocketMessageTypes.DELETE_SESSIONS_ID});
+  socket.on('disconnect', async () => {
+    const outputMessageCollection: Action[] = await processInputMessage(
+      socketInfo,
+      {
+        type: SocketMessageTypes.DISCONNECT,
+      }
+    );
+
+    processOutputMessageCollection(socketInfo, outputMessageCollection);
   });
 };
