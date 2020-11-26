@@ -109,16 +109,13 @@ const CardComponent: React.FC<CardProps> = props => {
         onClick={event => {
           onVoteSelected(cardValue);
         }}
-        // onChange={e => {
-        //   console.log(`${cardValue} ${e.target.value}`);
-        // }}
       />
       <label htmlFor={`${cardValue} size`}>
         <div
           className={cx(styleActiveCard(), styleVotedCard())}
         >
-          <h1>{cardValue}</h1>
-          <h2>SIZE</h2>
+          <span>{cardValue}</span>
+          <span>SIZE</span>
         </div>
       </label>
     </li>
