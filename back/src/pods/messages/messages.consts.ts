@@ -22,7 +22,7 @@ export const OutputMessageTypes = {
 export const SocketMessageTypes = {
   CONNECTION_ESTABLISHED_PLAYER: 'CONNECTION_ESTABLISHED_PLAYER',
   NOTIFY_USER_VOTED: 'NOTIFY_USER_VOTED',
-  DELETE_SESSIONS_ID: 'DELETE_SESSIONS_ID',
+  DISCONNECT: 'DISCONNECT',
 };
 
 const masterRoomSuffix = 'master';

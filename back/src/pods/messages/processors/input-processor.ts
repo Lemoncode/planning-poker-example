@@ -67,7 +67,7 @@ export const processInputMessage = async (
       ];
       break;
 
-    case SocketMessageTypes.DELETE_SESSIONS_ID:
+    case SocketMessageTypes.DISCONNECT:
       deleteSession(socketInfo.connectionId);
       break;
   }

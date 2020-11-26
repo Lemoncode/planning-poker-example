@@ -11,7 +11,7 @@ export const SocketInputMessageTypes = {
   NEW_STORY: 'NEW_STORY',
   NOTIFY_USER_VOTED: 'NOTIFY_USER_VOTED',
   SHOW_VOTING_RESULTS: 'SHOW_VOTING_RESULTS',
-  DELETE_SESSIONS_ID: 'DELETE_SESSIONS_ID'
+  DELETE_SESSIONS_ID: 'DELETE_SESSIONS_ID',
 };
 
 export const SocketErrorTypes = {
@@ -37,3 +37,5 @@ export const TShirtVotes = {
   S: 'S',
   XS: 'XS',
 };
+
+export const initMasterNickname = 'master of puppets';

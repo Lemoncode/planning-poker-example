@@ -99,11 +99,11 @@ export const freeRoom = async (room: string): Promise<UserSession[]> => {
 };
 
 export const deleteSession = async (connectionId: string): Promise<void> => {
-  console.log('llega connec id', connectionId);
   try {
     const data = await UserSessionContext.deleteOne({
       connectionId: connectionId,
     }).lean();
+
     console.log('data', data);
   } catch (error) {
     console.log('error', error);

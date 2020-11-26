@@ -52,6 +52,8 @@ export const messageSocketEvents = async (
   });
 
   socket.on('disconnect', () => {
-     processInputMessage(socketInfo,{type: SocketMessageTypes.DELETE_SESSIONS_ID});
+    processInputMessage(socketInfo, {
+      type: SocketMessageTypes.DISCONNECT,
+    });
   });
 };

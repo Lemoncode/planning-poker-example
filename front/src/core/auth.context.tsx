@@ -1,4 +1,5 @@
 import React from 'react';
+import { initMasterNickname } from './const';
 
 interface Context {
   nickname: string;
@@ -15,7 +16,7 @@ export const AuthContext = React.createContext<Context>({
 
 export const AuthProvider: React.FC = props => {
   const { children } = props;
-  const [nickname, setNickname] = React.useState<string>('');
+  const [nickname, setNickname] = React.useState<string>(initMasterNickname);
 
   return (
     <AuthContext.Provider
