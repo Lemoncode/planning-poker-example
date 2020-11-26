@@ -19,6 +19,9 @@ export const TextAreaComponent: React.FunctionComponent<TextFieldProps> = props 
       variant={'standard'}
       error={hasError}
       helperText={hasError ? meta.error : ''}
+      FormHelperTextProps={{
+        role: 'alert',
+      }}
     />
   );
 };

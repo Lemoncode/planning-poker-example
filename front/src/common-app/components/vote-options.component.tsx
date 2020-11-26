@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Typography from '@material-ui/core/Typography';
 import * as classes from './vote-options.styles';
 import { TShirtVotes } from 'core';
 import { Button } from '@material-ui/core';
@@ -35,15 +36,15 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
     <div className={classes.container}>
       <SnackbarComponent />
       {votedStatus ? null : (
-        <h3 id="T-shirt size votes" className={classes.subtitle}>
+        <Typography variant="h3" component="h2" id="T-shirt size votes" className={classes.subtitle}>
           Select and send vote
-        </h3>
+        </Typography>
       )}
 
       {votedStatus ? (
-        <h3 className={cx(classes.subtitle, classes.subtitle2)}>
+        <Typography variant="h3" component="h2" className={cx(classes.subtitle, classes.subtitle2)}>
           Your vote: <span className={classes.subtitle2}>{voteChosen}</span>
-        </h3>
+        </Typography>
       ) : null}
       <div role="radiogroup" aria-labelledby="T-shirt size votes">
         <ul className={cx(classes.contanierLabels, cardCenterOnVoteChosen())}>
@@ -105,16 +106,16 @@ const CardComponent: React.FC<CardProps> = props => {
         type="radio"
         id={`${cardValue} size`}
         name="T-shirt size votes"
-        onChange={e => {
-          console.log(`${cardValue} ${e.target.value}`);
+        onClick={event => {
+          onVoteSelected(cardValue);
         }}
+        // onChange={e => {
+        //   console.log(`${cardValue} ${e.target.value}`);
+        // }}
       />
       <label htmlFor={`${cardValue} size`}>
         <div
           className={cx(styleActiveCard(), styleVotedCard())}
-          onClick={event => {
-            onVoteSelected(cardValue);
-          }}
         >
           <h1>{cardValue}</h1>
           <h2>SIZE</h2>

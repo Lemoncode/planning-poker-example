@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from 'emotion';
+import Typography from '@material-ui/core/Typography'
 import * as classes from './master.component.styles';
 import { appBaseUrl } from 'core';
 import { MasterStatus, VoteResult } from './master.vm';
@@ -132,7 +133,7 @@ const VotingInProgressComponent: React.FC<VotingInProgressProps> = props => {
       </div>
       <div className={classes.leftContainer2}>
         <div className={classes.containerComponent}>
-          {title ? <h3 className={classes.subtitle}>Story:</h3> : null}
+          {title ? <Typography variant="h3" component="h2" className={classes.subtitle}>Story:</Typography> : null}
           {title ? <p className={classes.story}>{title}</p> : null}
         </div>
       </div>
