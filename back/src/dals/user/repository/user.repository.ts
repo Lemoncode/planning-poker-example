@@ -62,7 +62,7 @@ export const getNicknameFromConnectionId = async (
 };
 
 export const resetVotes = async (room: string): Promise<void> => {
-  await UserSessionContext.findOneAndUpdate(
+  await UserSessionContext.updateMany(
     { room: room },
     {
       voted: false,
