@@ -63,4 +63,15 @@ export const title = css`
   ${theme.breakpoints.up('xl')} {
     font-size: 2rem;
   }
+
+  span {
+    width: 80%;
+    color: #d9d900;
+    font-weight: 500;
+    font-family: 'Architects Daughter', cursive, Arial, Helvetica, sans-serif;
+    font-size: 1.3rem;
+    text-align: center;
+    margin: 0 auto;
+    padding: 5% 0 0;
+  }
 `;
