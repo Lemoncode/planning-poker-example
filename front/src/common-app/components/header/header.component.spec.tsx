@@ -11,8 +11,8 @@ describe('Header component spec', () => {
 
     const header: HTMLElement = screen.getByRole('banner');
     const image: HTMLElement = screen.getByRole('img');
-    const heading: HTMLElement = screen.getByRole('heading', {
-      name: 'T-Shirt Planning Poker',
+    const heading: HTMLElement = screen.getByText('T-Shirt Planning Poker', {
+      exact: false,
     });
 
     // Assert
