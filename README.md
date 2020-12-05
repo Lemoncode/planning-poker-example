@@ -22,8 +22,8 @@
   <p align="center">
     T-shirt Planning Poker is a quick and simple tool for Scrum poker sessions. Create a new room, share it with your team and start estimating the size of your tasks using clothing sizes as reference.
   </p>
-  <p>
-  You can give it a try: <a href="https://www.tshirtplanning.com/">TShirt Planning poker site</a>
+  <p align="center">
+  Production site: <a href="https://www.tshirtplanning.com/">TShirt Planning poker site</a>
   </p>
 </p>
 <br />
