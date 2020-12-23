@@ -49,9 +49,7 @@ export const TablePlayerTrendComponent: React.FC<Props> = (props: Props) => {
           </TableHead>
           <TableBody className={classes.body}>
             <TableRow key={1}>
-              <TableCell className={classes.cell} component="th" scope="row">
-                Trend result
-              </TableCell>
+              <TableCell className={classes.cell} component="th" scope="row"/>
               <TableCell className={classes.cell} align="right">
                 { getTrend()}
               </TableCell>
