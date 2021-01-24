@@ -16,6 +16,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
   const { onVoteChosen, votedStatus, buttonFinishVoting } = props;
   const [voteChosen, setVoteChosen] = React.useState('');
   const [voteActive, setVoteActive] = React.useState('');
+  const inputFocus = React.useRef<HTMLInputElement>(null);
 
   // https://stackoverflow.com/questions/16174182/typescript-looping-through-a-dictionary
   const [voteCollection, setVoteCollection] = React.useState<string[]>(
@@ -25,12 +26,18 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
   const { showMessage } = useSnackbarContext();
 
   const onLocalVoteChosen = voteActive => {
+    inputFocus.current.focus();
     setVoteCollection([voteActive]);
     onVoteChosen(voteActive);
   };
 
   const cardCenterOnVoteChosen = () =>
     voteCollection.length === 1 ? classes.contanierLabelShowVote : '';
+
+  const handleVote = (vote, input) => {
+    inputFocus.current = input;
+    setVoteActive(vote);
+  };
 
   return (
     <div className={classes.container}>
@@ -63,7 +70,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
               userHasVoted={votedStatus}
               key={vote}
               cardValue={vote}
-              onVoteSelected={setVoteActive}
+              onVoteSelected={handleVote}
               voteSelected={voteActive}
             />
           ))}
@@ -96,10 +103,11 @@ interface CardProps {
   cardValue: string;
   voteSelected: string;
   userHasVoted: boolean;
-  onVoteSelected: (value: string) => void;
+  onVoteSelected: (value: string, foco: HTMLInputElement) => void;
 }
 
 const CardComponent: React.FC<CardProps> = props => {
+  const input = React.useRef<HTMLInputElement>(null);
   const { onVoteSelected, cardValue, userHasVoted, voteSelected } = props;
 
   const styleVotedCard = () => (userHasVoted ? classes.showLabelVote : '');
@@ -111,12 +119,13 @@ const CardComponent: React.FC<CardProps> = props => {
   return (
     <li className={classes.voteListItem(voteSelected === cardValue)}>
       <input
+        ref={input}
         className={classes.radioButton}
         type="radio"
         id={`${cardValue} size`}
         name="T-shirt size votes"
         onClick={event => {
-          onVoteSelected(cardValue);
+          onVoteSelected(cardValue, input.current);
         }}
         data-testid={cardValue}
       />
