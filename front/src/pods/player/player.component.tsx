@@ -146,7 +146,7 @@ const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
           />
         </div>
         <div className={classes.containerComponent}>
-          <h2 className={classes.title}>Wait for next story</h2>
+          <p className={classes.title}>Wait for next story</p>
         </div>
       </div>
     </div>

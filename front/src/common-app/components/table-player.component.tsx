@@ -4,6 +4,7 @@ import * as classes from './table-player.styles';
 import Typography from '@material-ui/core/Typography';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
+import CloudCircleIcon from '@material-ui/icons/CloudCircle';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -26,14 +27,18 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
         className={classes.subtitle}
         variant="h6"
         component={headingLevel}
+        id="headTable"
       >
-        Players connected:
+        Players and votes:
       </Typography>
       <TableContainer className={classes.table}>
         <Table aria-label="customized table">
           <TableHead>
             <TableRow>
-              <TableCell className={cx(classes.head, classes.cell)}>
+              <TableCell
+                className={cx(classes.head, classes.cell)}
+                aria-labelledby="headTable"
+              >
                 Players connected
               </TableCell>
               <TableCell
@@ -72,7 +77,12 @@ export const TablePlayerComponent: React.FC<Props> = (props: Props) => {
                   )}
                 </TableCell>
                 <TableCell className={classes.cell} align="right">
-                  {player.vote}
+                  {!player.voted && (
+                    <CloudCircleIcon
+                      aria-hidden={false}
+                      aria-label="Pending finished voting"
+                    />
+                  )}
                 </TableCell>
               </TableRow>
             ))}
