@@ -40,6 +40,7 @@ export const buttonContainer = css`
 export const container = css`
   display: flex;
   flex-flow: column;
+  outline: none !important;
 `;
 
 export const contanierLabels = css`

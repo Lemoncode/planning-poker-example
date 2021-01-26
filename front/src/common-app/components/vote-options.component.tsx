@@ -16,7 +16,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
   const { onVoteChosen, votedStatus, buttonFinishVoting } = props;
   const [voteChosen, setVoteChosen] = React.useState('');
   const [voteActive, setVoteActive] = React.useState('');
-  const inputFocus = React.useRef<HTMLInputElement>(null);
+  const elementFocus = React.useRef<HTMLDivElement>(null);
 
   // https://stackoverflow.com/questions/16174182/typescript-looping-through-a-dictionary
   const [voteCollection, setVoteCollection] = React.useState<string[]>(
@@ -26,7 +26,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
   const { showMessage } = useSnackbarContext();
 
   const onLocalVoteChosen = voteActive => {
-    inputFocus.current.focus();
+    elementFocus.current.focus();
     setVoteCollection([voteActive]);
     onVoteChosen(voteActive);
   };
@@ -34,13 +34,8 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
   const cardCenterOnVoteChosen = () =>
     voteCollection.length === 1 ? classes.contanierLabelShowVote : '';
 
-  const handleVote = (vote, input) => {
-    inputFocus.current = input;
-    setVoteActive(vote);
-  };
-
   return (
-    <div className={classes.container}>
+    <div className={classes.container} ref={elementFocus} tabIndex={0}>
       <SnackbarComponent />
       {votedStatus ? null : (
         <Typography
@@ -70,7 +65,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
               userHasVoted={votedStatus}
               key={vote}
               cardValue={vote}
-              onVoteSelected={handleVote}
+              onVoteSelected={setVoteActive}
               voteSelected={voteActive}
             />
           ))}
@@ -103,11 +98,10 @@ interface CardProps {
   cardValue: string;
   voteSelected: string;
   userHasVoted: boolean;
-  onVoteSelected: (value: string, foco: HTMLInputElement) => void;
+  onVoteSelected: (value: string) => void;
 }
 
 const CardComponent: React.FC<CardProps> = props => {
-  const input = React.useRef<HTMLInputElement>(null);
   const { onVoteSelected, cardValue, userHasVoted, voteSelected } = props;
 
   const styleVotedCard = () => (userHasVoted ? classes.showLabelVote : '');
@@ -119,13 +113,12 @@ const CardComponent: React.FC<CardProps> = props => {
   return (
     <li className={classes.voteListItem(voteSelected === cardValue)}>
       <input
-        ref={input}
         className={classes.radioButton}
         type="radio"
         id={`${cardValue} size`}
         name="T-shirt size votes"
         onClick={event => {
-          onVoteSelected(cardValue, input.current);
+          onVoteSelected(cardValue);
         }}
         data-testid={cardValue}
       />
