@@ -23,80 +23,69 @@ interface Props {
   title: string;
 }
 
-export const MasterComponent = React.forwardRef<HTMLDivElement, Props>(
-  (props, ref) => {
-    const elementoTextArea = React.useRef<HTMLDivElement>(null);
-    const {
-      room,
-      playerVotingStatus,
-      onSetStoryTitle,
-      masterStatus,
-      onFinishVoting,
-      onMoveToNextStory,
-      onMasterVoteChosen,
-      masterVoted,
-      title,
-    } = props;
-    React.useEffect(() => {
-      console.log('Recibo en master component');
-      console.log(ref);
-    }, []);
-    const showComponentBasedOnMasterStatus = ref => (status: MasterStatus) => {
-      console.log('Envio a Creating Story Component');
-      console.log(ref);
-      switch (status) {
-        case MasterStatus.INITIALIZING:
-          return null;
-        case MasterStatus.CREATING_STORY:
-          return (
-            <CreatingStoryComponent
-              onSetStoryTitle={onSetStoryTitle}
-              playerVotingStatus={playerVotingStatus}
-              room={room}
-              ref={ref}
-            />
-          );
+export const MasterComponent: React.FC<Props> = props => {
+  const {
+    room,
+    playerVotingStatus,
+    onSetStoryTitle,
+    masterStatus,
+    onFinishVoting,
+    onMoveToNextStory,
+    onMasterVoteChosen,
+    masterVoted,
+    title,
+  } = props;
 
-        case MasterStatus.VOTING_IN_PROGRESS:
-          return (
-            <VotingInProgressComponent
-              onFinishVoting={onFinishVoting}
-              masterVoted={masterVoted}
-              onMasterVoteChosen={onMasterVoteChosen}
-              playerVotingStatus={playerVotingStatus}
-              title={title}
-            />
-          );
+  const showComponentBasedOnMasterStatus = (status: MasterStatus) => {
+    switch (status) {
+      case MasterStatus.INITIALIZING:
+        return null;
+      case MasterStatus.CREATING_STORY:
+        return (
+          <CreatingStoryComponent
+            onSetStoryTitle={onSetStoryTitle}
+            playerVotingStatus={playerVotingStatus}
+            room={room}
+          />
+        );
 
-        case MasterStatus.SHOWING_RESULTS:
-          return (
-            <ShowVotingResultsComponent
-              onMoveToNextStory={onMoveToNextStory}
-              playerVotingStatus={playerVotingStatus}
-              title={title}
-            />
-          );
+      case MasterStatus.VOTING_IN_PROGRESS:
+        return (
+          <VotingInProgressComponent
+            onFinishVoting={onFinishVoting}
+            masterVoted={masterVoted}
+            onMasterVoteChosen={onMasterVoteChosen}
+            playerVotingStatus={playerVotingStatus}
+            title={title}
+          />
+        );
 
-        default:
-          return null;
-      }
-    };
+      case MasterStatus.SHOWING_RESULTS:
+        return (
+          <ShowVotingResultsComponent
+            onMoveToNextStory={onMoveToNextStory}
+            playerVotingStatus={playerVotingStatus}
+            title={title}
+          />
+        );
 
-    return (
-      <>
-        <div className={classes.container}>
-          <div
-            className={cx(classes.containerComponent, classes.leftContainer)}
-          >
-            <CopySessionLinkComponent url={`${appBaseUrl}#/player/${room}`} />
-          </div>
+      default:
+        return null;
+    }
+  };
 
-          {showComponentBasedOnMasterStatus(ref)(masterStatus)}
+  return (
+    <>
+      <div className={classes.container}>
+        <div className={cx(classes.containerComponent, classes.leftContainer)}>
+          <CopySessionLinkComponent url={`${appBaseUrl}#/player/${room}`} />
         </div>
-      </>
-    );
-  }
-);
+
+        {showComponentBasedOnMasterStatus(masterStatus)}
+      </div>
+    </>
+  );
+};
 
 interface CreatingStoryProps {
   onSetStoryTitle: (title: string) => void;
@@ -104,20 +93,13 @@ interface CreatingStoryProps {
   room: string;
 }
 
-const CreatingStoryComponent = React.forwardRef<
-  HTMLDivElement,
-  CreatingStoryProps
->((props, ref) => {
-  React.useEffect(() => {
-    console.log('Recibo en Creating Story Component');
-    console.log(ref);
-  }, []);
+const CreatingStoryComponent: React.FC<CreatingStoryProps> = props => {
   const { onSetStoryTitle, playerVotingStatus, room } = props;
   return (
     <>
       <div className={cx(classes.containerComponent, classes.leftContainer2)}>
         {' '}
-        <DefineStoryComponent onSubmit={onSetStoryTitle} ref={ref} />
+        <DefineStoryComponent onSubmit={onSetStoryTitle} />
       </div>
       <div className={cx(classes.containerComponent, classes.rightContainer)}>
         {room ? (
@@ -126,7 +108,7 @@ const CreatingStoryComponent = React.forwardRef<
       </div>
     </>
   );
-});
+};
 
 interface VotingInProgressProps {
   playerVotingStatus: PlayerVotingStatus[];

@@ -80,12 +80,6 @@ export const MasterContainer = () => {
     setPlayerCollectionVoteResult,
   } = usePlayerCollection();
 
-  const elementoTextArea = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    console.log('Master container ->');
-    console.log(elementoTextArea);
-  }, []);
   React.useEffect(() => {
     // TODO: Error handling
     // Connect to the socket
@@ -183,14 +177,6 @@ export const MasterContainer = () => {
   };
 
   const handleMoveToNextStory = () => {
-    //Tengo que hacer foco
-    console.log('hago click');
-    console.log(elementoTextArea);
-    console.log(elementoTextArea.current);
-    if (elementoTextArea != null) {
-      console.log('quiero hacer foco es distinto de null');
-      elementoTextArea.current.focus();
-    }
     // Reset values, extract this, to business or hook
     setStoryTitle('');
     resetVotedInfoOnEveryPlayer();
@@ -209,7 +195,6 @@ export const MasterContainer = () => {
       onMasterVoteChosen={handleMasterVoteChosen}
       masterVoted={masterVoted}
       title={storyTitle}
-      ref={elementoTextArea}
     />
   );
 };
