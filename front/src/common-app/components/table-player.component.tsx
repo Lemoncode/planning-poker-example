@@ -82,11 +82,13 @@ export const TablePlayerComponent = React.forwardRef<HTMLTableElement, Props>(
                     )}
                   </TableCell>
                   <TableCell className={classes.cell} align="right">
-                    {!player.voted && (
+                    {player.vote == '' ? (
                       <CloudCircleIcon
                         aria-hidden={false}
                         aria-label="Pending finished voting"
                       />
+                    ) : (
+                      player.vote
                     )}
                   </TableCell>
                 </TableRow>
