@@ -137,9 +137,6 @@ const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
       </div>
       <div className={classes.rightContainer}>
         <div className={classes.containerComponent}>
-          <h2 className={classes.title}>Show voting results</h2>
-        </div>
-        <div className={classes.containerComponent}>
           <TablePlayerComponent
             playersCollection={voteCollectionResult}
             headingLevel="h3"

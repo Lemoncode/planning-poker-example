@@ -4,7 +4,7 @@ import * as classes from './table-player.styles';
 import Typography from '@material-ui/core/Typography';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-import CloudCircleIcon from '@material-ui/icons/CloudCircle';
+import PendingVoteIcon from '@material-ui/icons/ViewCarousel';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -33,13 +33,10 @@ export const TablePlayerComponent = React.forwardRef<HTMLTableElement, Props>(
           Players and votes:
         </Typography>
         <TableContainer className={classes.table}>
-          <Table aria-label="customized table" ref={ref} tabIndex={0}>
+          <Table aria-labelledby="headTable" ref={ref} tabIndex={0}>
             <TableHead>
               <TableRow>
-                <TableCell
-                  className={cx(classes.head, classes.cell)}
-                  aria-labelledby="headTable"
-                >
+                <TableCell className={cx(classes.head, classes.cell)}>
                   Players connected
                 </TableCell>
                 <TableCell
@@ -83,7 +80,7 @@ export const TablePlayerComponent = React.forwardRef<HTMLTableElement, Props>(
                   </TableCell>
                   <TableCell className={classes.cell} align="right">
                     {player.vote == '' ? (
-                      <CloudCircleIcon
+                      <PendingVoteIcon
                         aria-hidden={false}
                         aria-label="Pending finished voting"
                       />

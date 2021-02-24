@@ -98,7 +98,6 @@ const CreatingStoryComponent: React.FC<CreatingStoryProps> = props => {
   return (
     <>
       <div className={cx(classes.containerComponent, classes.leftContainer2)}>
-        {' '}
         <DefineStoryComponent onSubmit={onSetStoryTitle} />
       </div>
       <div className={cx(classes.containerComponent, classes.rightContainer)}>
@@ -174,11 +173,11 @@ interface ShowVotingResultsProps {
 
 const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
   const { onMoveToNextStory, playerVotingStatus, title } = props;
-  const refTabla = React.useRef<HTMLTableElement>(null);
+  const tableRef = React.useRef<HTMLTableElement>(null);
 
   React.useEffect(() => {
-    if (refTabla != null) {
-      refTabla.current.focus();
+    if (tableRef != null) {
+      tableRef.current.focus();
     }
   }, []);
 
@@ -194,7 +193,7 @@ const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
         <div className={classes.containerComponent}>
           <TablePlayerComponent
             playersCollection={playerVotingStatus}
-            ref={refTabla}
+            ref={tableRef}
           />
         </div>
         <div className={classes.containerComponent}>

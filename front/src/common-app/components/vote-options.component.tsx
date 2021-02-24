@@ -16,7 +16,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
   const { onVoteChosen, votedStatus, buttonFinishVoting } = props;
   const [voteChosen, setVoteChosen] = React.useState('');
   const [voteActive, setVoteActive] = React.useState('');
-  const elementFocus = React.useRef<HTMLDivElement>(null);
+  const yourVoteRef = React.useRef<HTMLHeadingElement>(null);
 
   // https://stackoverflow.com/questions/16174182/typescript-looping-through-a-dictionary
   const [voteCollection, setVoteCollection] = React.useState<string[]>(
@@ -26,16 +26,21 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
   const { showMessage } = useSnackbarContext();
 
   const onLocalVoteChosen = voteActive => {
-    elementFocus.current.focus();
     setVoteCollection([voteActive]);
     onVoteChosen(voteActive);
   };
+
+  React.useEffect(() => {
+    if (votedStatus) {
+      yourVoteRef.current.focus();
+    }
+  }, [votedStatus]);
 
   const cardCenterOnVoteChosen = () =>
     voteCollection.length === 1 ? classes.contanierLabelShowVote : '';
 
   return (
-    <div className={classes.container} ref={elementFocus} tabIndex={0}>
+    <div className={classes.container}>
       <SnackbarComponent />
       {votedStatus ? null : (
         <Typography
@@ -53,6 +58,8 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
           variant="h3"
           component="h2"
           className={cx(classes.subtitle, classes.subtitle2)}
+          ref={yourVoteRef}
+          tabIndex={0}
         >
           Your vote: <span className={classes.subtitle2}>{voteChosen}</span>
         </Typography>

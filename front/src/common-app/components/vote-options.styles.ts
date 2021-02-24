@@ -9,6 +9,7 @@ export const subtitle = css`
   font-size: 0.9rem;
   line-height: 1.3rem;
   margin: 0;
+  outline: none;
 `;
 
 export const subtitle2 = css`
@@ -40,7 +41,6 @@ export const buttonContainer = css`
 export const container = css`
   display: flex;
   flex-flow: column;
-  outline: none !important;
 `;
 
 export const contanierLabels = css`
