@@ -30,16 +30,6 @@ export const container = css`
     grid-gap: 0 20%;
   }
 `;
-export const title = css`
-  font-weight: 300;
-  color: ${color.grey1};
-  text-align: center;
-  margin: 0;
-  background: rgba(36, 36, 21, 0.3);
-  border-radius: 3px;
-  padding: 3%;
-`;
-
 export const subtitle = css`
   font-weight: 300;
   color: ${color.greenLight};

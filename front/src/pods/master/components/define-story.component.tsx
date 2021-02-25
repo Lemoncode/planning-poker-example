@@ -14,7 +14,12 @@ export const DefineStoryComponent: React.FC<Props> = props => {
 
   return (
     <div className={classes.container}>
-      <Typography className={classes.subtitle} variant="subtitle1" component="h2">
+      <Typography
+        className={classes.subtitle}
+        variant="subtitle1"
+        component="h2"
+        id="define"
+      >
         Define here your user story
       </Typography>
       <Formik
@@ -26,9 +31,10 @@ export const DefineStoryComponent: React.FC<Props> = props => {
           return (
             <Form>
               <TextAreaComponent
+                autoFocus
+                aria-labelledby="define"
                 className={classes.textArea}
                 rows={3}
-                placeholder="Define here..."
                 name={'story'}
               />
               <Button

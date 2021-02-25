@@ -16,6 +16,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
   const { onVoteChosen, votedStatus, buttonFinishVoting } = props;
   const [voteChosen, setVoteChosen] = React.useState('');
   const [voteActive, setVoteActive] = React.useState('');
+  const yourVoteRef = React.useRef<HTMLHeadingElement>(null);
 
   // https://stackoverflow.com/questions/16174182/typescript-looping-through-a-dictionary
   const [voteCollection, setVoteCollection] = React.useState<string[]>(
@@ -29,6 +30,12 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
     onVoteChosen(voteActive);
   };
 
+  React.useEffect(() => {
+    if (votedStatus) {
+      yourVoteRef.current.focus();
+    }
+  }, [votedStatus]);
+
   const cardCenterOnVoteChosen = () =>
     voteCollection.length === 1 ? classes.contanierLabelShowVote : '';
 
@@ -39,7 +46,7 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
         <Typography
           variant="h3"
           component="h2"
-          id="T-shirt size votes"
+          id="sizeVotes"
           className={classes.subtitle}
         >
           Select and send vote
@@ -51,11 +58,13 @@ export const VoteOptionsComponent: React.FC<Props> = props => {
           variant="h3"
           component="h2"
           className={cx(classes.subtitle, classes.subtitle2)}
+          ref={yourVoteRef}
+          tabIndex={0}
         >
           Your vote: <span className={classes.subtitle2}>{voteChosen}</span>
         </Typography>
       ) : null}
-      <div role="radiogroup" aria-labelledby="T-shirt size votes">
+      <div role="radiogroup" aria-labelledby="sizeVotes">
         <ul className={cx(classes.contanierLabels, cardCenterOnVoteChosen())}>
           {/* TODO - CHECK IF RECEIVED NULL OR UNDEFINED */}
           {voteCollection.map(vote => (

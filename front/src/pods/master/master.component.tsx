@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cx } from 'emotion';
-import Typography from '@material-ui/core/Typography'
+import Typography from '@material-ui/core/Typography';
 import * as classes from './master.component.styles';
 import { appBaseUrl } from 'core';
 import { MasterStatus, VoteResult } from './master.vm';
@@ -133,7 +133,15 @@ const VotingInProgressComponent: React.FC<VotingInProgressProps> = props => {
       </div>
       <div className={classes.leftContainer2}>
         <div className={classes.containerComponent}>
-          {title ? <Typography variant="h3" component="h2" className={classes.subtitle}>Story:</Typography> : null}
+          {title ? (
+            <Typography
+              variant="h3"
+              component="h2"
+              className={classes.subtitle}
+            >
+              Story:
+            </Typography>
+          ) : null}
           {title ? <p className={classes.story}>{title}</p> : null}
         </div>
       </div>
@@ -165,6 +173,14 @@ interface ShowVotingResultsProps {
 
 const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
   const { onMoveToNextStory, playerVotingStatus, title } = props;
+  const tableRef = React.useRef<HTMLTableElement>(null);
+
+  React.useEffect(() => {
+    if (tableRef != null) {
+      tableRef.current.focus();
+    }
+  }, []);
+
   return (
     <>
       <div className={classes.leftContainer2}>
@@ -175,10 +191,10 @@ const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
       </div>
       <div className={classes.rightContainer}>
         <div className={classes.containerComponent}>
-          <h2 className={classes.title}>Show voting results</h2>
-        </div>
-        <div className={classes.containerComponent}>
-          <TablePlayerComponent playersCollection={playerVotingStatus} />
+          <TablePlayerComponent
+            playersCollection={playerVotingStatus}
+            ref={tableRef}
+          />
         </div>
         <div className={classes.containerComponent}>
           <Button

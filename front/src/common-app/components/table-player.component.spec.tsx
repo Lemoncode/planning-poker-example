@@ -4,7 +4,7 @@ import { PlayerVotingStatus } from 'core';
 import { TablePlayerComponent } from './table-player.component';
 
 describe('Table player component specs', () => {
-  it('should display h6 heading with the "Players connected:" text by default', () => {
+  it('should display h6 heading with the "Players and votes:" text by default', () => {
     // Arrange
     interface Props {
       playersCollection: PlayerVotingStatus[];
@@ -24,7 +24,7 @@ describe('Table player component specs', () => {
     render(<TablePlayerComponent {...props} />);
 
     const h6Heading: HTMLElement = screen.getByRole('heading', {
-      name: 'Players connected:',
+      name: 'Players and votes:',
     });
 
     // Assert
