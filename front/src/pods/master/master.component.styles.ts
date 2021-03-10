@@ -45,6 +45,13 @@ export const containerComponent = css`
   display: block;
 `;
 
+export const lector = css`
+  position: absolute;
+  overflow: hidden;
+  top: -9999px;
+  left: -9999px;
+`;
+
 export const story = css`
   color: ${color.grey1};
   border: 1px dashed ${color.yellowLemonDark};
