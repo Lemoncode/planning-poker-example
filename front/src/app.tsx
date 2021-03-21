@@ -4,6 +4,7 @@ import { RouterComponent } from 'core/router';
 import { AuthProvider, SocketProvider } from 'core';
 import { ThemeProviderComponent } from 'core/theme';
 import { SnackbarProvider } from 'common';
+import { ScreenReaderSnackbarProvider } from 'common/components/screenReaderSnackbar';
 
 const App: React.FunctionComponent = () => {
   return (
@@ -11,7 +12,9 @@ const App: React.FunctionComponent = () => {
       <AuthProvider>
         <ThemeProviderComponent>
           <SnackbarProvider>
-            <RouterComponent />
+            <ScreenReaderSnackbarProvider>
+              <RouterComponent />
+            </ScreenReaderSnackbarProvider>
           </SnackbarProvider>
         </ThemeProviderComponent>
       </AuthProvider>

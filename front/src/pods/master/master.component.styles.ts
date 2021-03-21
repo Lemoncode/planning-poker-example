@@ -45,17 +45,6 @@ export const containerComponent = css`
   display: block;
 `;
 
-export const screenReaderOnly = css`
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-`;
-
 export const story = css`
   color: ${color.grey1};
   border: 1px dashed ${color.yellowLemonDark};

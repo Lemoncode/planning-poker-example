@@ -13,8 +13,10 @@ export const ScreenReaderSnackbarComponent: React.FunctionComponent = () => {
           aria-atomic="true"
           className={classes.screenReaderOnly}
         >
-          {options.messages.map(message => (
-            <p role="paragraph">{message}</p>
+          {options.messages.map((message, index) => (
+            <p role="paragraph" key={index}>
+              {message}
+            </p>
           ))}
         </div>
       )}

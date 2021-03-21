@@ -40,7 +40,7 @@ describe('Snackbar hook spec', () => {
       wrapper: provider,
     });
 
-    result.current.showScreeanReaderMessage(['Test message']);
+    result.current.showScreeanReaderMessage('Test message');
 
     // Assert
     expect(setOptions).toHaveBeenCalledTimes(1);

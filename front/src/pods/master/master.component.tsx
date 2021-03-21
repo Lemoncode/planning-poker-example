@@ -131,13 +131,7 @@ const VotingInProgressComponent: React.FC<VotingInProgressProps> = props => {
       <div className={cx(classes.containerComponent, classes.leftContainer3)}>
         <TablePlayerComponent playersCollection={playerVotingStatus} />
       </div>
-      <div className={cx(classes.screenReaderOnly)}>
-        {playerVotingStatus.map(player => (
-          <div aria-live="assertive" aria-atomic="true">
-            {player.voted && <p>El usuario {player.nickname} ha votado</p>}
-          </div>
-        ))}
-      </div>
+
       <div className={classes.leftContainer2}>
         <div className={classes.containerComponent}>
           {title ? (
