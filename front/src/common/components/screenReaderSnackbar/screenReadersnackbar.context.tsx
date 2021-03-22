@@ -6,7 +6,12 @@ interface Context {
   setOptions: (options: ScreenReaderSnackbarOptions) => void;
 }
 
-export const ScreenReaderSnackbarContext = React.createContext<Context>(null);
+export const ScreenReaderSnackbarContext = React.createContext<Context>({
+  options: {
+    messages: [],
+  },
+  setOptions: options => {},
+});
 
 export const ScreenReaderSnackbarProvider: React.FunctionComponent = props => {
   const { children } = props;

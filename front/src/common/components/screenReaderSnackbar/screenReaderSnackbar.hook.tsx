@@ -2,14 +2,15 @@ import React from 'react';
 import { ScreenReaderSnackbarContext } from './screenReadersnackbar.context';
 
 export const useScreenReaderSnackbarContext = () => {
-  const { setOptions, options } = React.useContext(ScreenReaderSnackbarContext);
+  const { options, setOptions } = React.useContext(ScreenReaderSnackbarContext);
 
   return {
     showScreeanReaderMessage: (message: string) => {
-      setTimeout(
-        () => setOptions({ messages: [...options.messages, message] }),
-        2500
-      );
+      console.log(options);
+      console.log(message);
+      const newMessage = [...options.messages, message];
+      console.log(newMessage);
+      setOptions({ messages: [...options.messages, message] });
     },
   };
 };

@@ -23,7 +23,7 @@ describe('Snackbar hook spec', () => {
     );
   });
 
-  it('"setOpen" and "setOptions" should be called when calling "showScreeanReaderMessage', () => {
+  it('"setOptions" should be called when calling "showScreeanReaderMessage', () => {
     // Arrange
     const provider: React.FC = props => (
       <ScreenReaderSnackbarProvider>
@@ -32,8 +32,10 @@ describe('Snackbar hook spec', () => {
     );
 
     const setOptions = jest.fn();
-
-    jest.spyOn(React, 'useContext').mockReturnValue({ setOptions });
+    const options = {
+      messages:[],
+    };
+    jest.spyOn(React, 'useContext').mockReturnValue({ setOptions, options });
 
     // Act
     const { result } = renderHook(() => useScreenReaderSnackbarContext(), {
