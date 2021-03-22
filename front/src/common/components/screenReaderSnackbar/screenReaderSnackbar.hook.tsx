@@ -6,7 +6,6 @@ export const useScreenReaderSnackbarContext = () => {
 
   return {
     showScreeanReaderMessage: (message: string) => {
-      const newMessage = [...options.messages, message];
       setOptions({ messages: [...options.messages, message] });
     },
   };
