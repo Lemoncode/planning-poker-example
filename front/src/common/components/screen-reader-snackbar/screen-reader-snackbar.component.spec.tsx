@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import {
   ScreenReaderSnackbarProvider,
   ScreenReaderSnackbarContext,
-} from './screenReadersnackbar.context';
-import { ScreenReaderSnackbarComponent } from './screenReaderSnackbar.component';
+} from './screen-reader-snackbar.context';
+import { ScreenReaderSnackbarComponent } from './screen-reader-snackbar.component';
 
 describe('ScreenReaderSnackbar component specs', () => {
   it('"ScreenReaderSnackbar" should not be displayed nothing by default', () => {

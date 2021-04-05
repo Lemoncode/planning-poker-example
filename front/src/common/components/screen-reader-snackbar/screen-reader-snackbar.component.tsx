@@ -1,6 +1,6 @@
 import React from 'react';
-import { ScreenReaderSnackbarContext } from './screenReadersnackbar.context';
-import * as classes from './screenReaderSnackbar.styles';
+import { ScreenReaderSnackbarContext } from './screen-reader-snackbar.context';
+import * as classes from './screen-reader-snackbar.styles';
 
 export const ScreenReaderSnackbarComponent: React.FunctionComponent = () => {
   const { options } = React.useContext(ScreenReaderSnackbarContext);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScreenReaderSnackbarOptions } from './screeenReaderSnackbar.vm';
+import { ScreenReaderSnackbarOptions } from './screeen-reader-snackbar.vm';
 
 interface Context {
   options: ScreenReaderSnackbarOptions;

@@ -1,3 +1,3 @@
 export * from './forms';
 export * from './snackbar';
-export * from './screenReaderSnackbar';
+export * from './screen-reader-snackbar';

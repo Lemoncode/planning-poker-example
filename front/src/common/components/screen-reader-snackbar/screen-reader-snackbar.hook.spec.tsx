@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderHook } from '@testing-library/react-hooks';
-import { useScreenReaderSnackbarContext } from './screenReaderSnackbar.hook';
-import { ScreenReaderSnackbarProvider } from './screenReadersnackbar.context';
+import { useScreenReaderSnackbarContext } from './screen-reader-snackbar.hook';
+import { ScreenReaderSnackbarProvider } from './screen-reader-snackbar.context';
 
 describe('Snackbar hook spec', () => {
   it('"showScreeanReaderMessage" should be a funcion by default', () => {
@@ -33,7 +33,7 @@ describe('Snackbar hook spec', () => {
 
     const setOptions = jest.fn();
     const options = {
-      messages:[],
+      messages: [],
     };
     jest.spyOn(React, 'useContext').mockReturnValue({ setOptions, options });
 

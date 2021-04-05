@@ -3,7 +3,7 @@ import { screen, render } from '@testing-library/react';
 import {
   ScreenReaderSnackbarContext,
   ScreenReaderSnackbarProvider,
-} from './screenReadersnackbar.context';
+} from './screen-reader-snackbar.context';
 
 describe('ScreenReaderSnackbar context specs', () => {
   it('"options" should have default values', () => {

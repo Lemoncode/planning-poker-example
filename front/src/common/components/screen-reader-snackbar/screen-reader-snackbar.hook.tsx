@@ -1,6 +1,6 @@
 import React from 'react';
-import { ScreenReaderSnackbarOptions } from './screeenReaderSnackbar.vm';
-import { ScreenReaderSnackbarContext } from './screenReadersnackbar.context';
+import { ScreenReaderSnackbarOptions } from './screeen-reader-snackbar.vm';
+import { ScreenReaderSnackbarContext } from './screen-reader-snackbar.context';
 
 export const useScreenReaderSnackbarContext = () => {
   const { options, setOptions } = React.useContext(ScreenReaderSnackbarContext);
