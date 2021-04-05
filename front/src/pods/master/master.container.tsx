@@ -80,7 +80,10 @@ export const MasterContainer = () => {
     resetVotedInfoOnEveryPlayer,
     setPlayerCollectionVoteResult,
   } = usePlayerCollection();
-  const { showScreeanReaderMessage } = useScreenReaderSnackbarContext();
+  const {
+    showScreeanReaderMessage,
+    intervalScreen,
+  } = useScreenReaderSnackbarContext();
 
   React.useEffect(() => {
     // TODO: Error handling
@@ -151,6 +154,10 @@ export const MasterContainer = () => {
     // later on we can control that handling the sockets
     // responses (add spinner, and show entering, succeeded,
     // or error)
+
+    return () => {
+      clearInterval(intervalScreen);
+    };
   }, []);
 
   const handleSetStoryTitle = (title: string) => {
