@@ -2,7 +2,6 @@ import React from 'react';
 import { getByText, render, screen } from '@testing-library/react';
 import { PlayerVotingStatus } from 'core';
 import { TablePlayerComponent } from './table-player.component';
-import { ScreenReaderSnackbarProvider } from 'common/components';
 
 describe('Table player component specs', () => {
   it('should display h6 heading with the "Players and votes:" text by default', () => {
@@ -22,11 +21,7 @@ describe('Table player component specs', () => {
     };
 
     // Act
-    render(
-      <ScreenReaderSnackbarProvider>
-        <TablePlayerComponent {...props} />
-      </ScreenReaderSnackbarProvider>
-    );
+    render(<TablePlayerComponent {...props} />);
 
     const h6Heading: HTMLElement = screen.getByRole('heading', {
       name: 'Players and votes:',
@@ -53,11 +48,7 @@ describe('Table player component specs', () => {
     };
 
     // Act
-    render(
-      <ScreenReaderSnackbarProvider>
-        <TablePlayerComponent {...props} />
-      </ScreenReaderSnackbarProvider>
-    );
+    render(<TablePlayerComponent {...props} />);
 
     const table: HTMLElement = screen.getByRole('table');
 
@@ -87,11 +78,7 @@ describe('Table player component specs', () => {
     };
 
     // Act
-    render(
-      <ScreenReaderSnackbarProvider>
-        <TablePlayerComponent {...props} />
-      </ScreenReaderSnackbarProvider>
-    );
+    render(<TablePlayerComponent {...props} />);
 
     const rows: HTMLElement[] = screen.getAllByRole('row');
 
@@ -122,11 +109,7 @@ describe('Table player component specs', () => {
     ];
 
     // Act
-    render(
-      <ScreenReaderSnackbarProvider>
-        <TablePlayerComponent {...props} />
-      </ScreenReaderSnackbarProvider>
-    );
+    render(<TablePlayerComponent {...props} />);
 
     const table: HTMLElement = screen.getByRole('table');
 
@@ -162,11 +145,7 @@ describe('Table player component specs', () => {
     };
 
     // Act
-    render(
-      <ScreenReaderSnackbarProvider>
-        <TablePlayerComponent {...props} />
-      </ScreenReaderSnackbarProvider>
-    );
+    render(<TablePlayerComponent {...props} />);
 
     const cells: HTMLElement[] = screen.getAllByRole('cell');
 
@@ -195,11 +174,7 @@ describe('Table player component specs', () => {
     };
 
     // Act
-    render(
-      <ScreenReaderSnackbarProvider>
-        <TablePlayerComponent {...props} />
-      </ScreenReaderSnackbarProvider>
-    );
+    render(<TablePlayerComponent {...props} />);
 
     const checkIcon: HTMLElement = screen.getByLabelText('User voted');
     const closeIcon: HTMLElement = screen.queryByLabelText("User didn't vote");
@@ -226,11 +201,7 @@ describe('Table player component specs', () => {
     };
 
     // Act
-    render(
-      <ScreenReaderSnackbarProvider>
-        <TablePlayerComponent {...props} />
-      </ScreenReaderSnackbarProvider>
-    );
+    render(<TablePlayerComponent {...props} />);
 
     const checkIcon: HTMLElement = screen.queryByLabelText('User voted');
     const closeIcon: HTMLElement = screen.getByLabelText("User didn't vote");

@@ -7,34 +7,36 @@ export const useScreenReaderSnackbarContext = () => {
 
   const optionsRef = React.useRef<ScreenReaderSnackbarOptions>({
     messages: [],
+    timeout: 1000,
   });
 
-  const [intervalScreen, setIntervalScreen] = React.useState(null);
+  const timer = React.useRef(null);
 
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
+  const handleUpdateMessages = (messages: string[], timeout: number) => {
+    optionsRef.current = {
+      messages,
+      timeout,
+    };
+    setOptions(optionsRef.current);
+  };
+
+  const showScreenReaderMessage = (message: string, timeout: number = 1000) => {
+    handleUpdateMessages([...optionsRef.current.messages], timeout);
+
+    timer.current = setTimeout(() => {
+      handleUpdateMessages(
+        optionsRef.current.messages.filter(m => m !== message),
+        timeout
+      );
+    }, timeout);
+  };
   return {
-    showScreeanReaderMessage: (message: string) => {
-      optionsRef.current = {
-        messages: [...optionsRef.current.messages, message],
-      };
-      setOptions(optionsRef.current);
-      const interval = setInterval(() => {
-        //Delete message
-        if (
-          optionsRef.current.messages != undefined &&
-          optionsRef.current.messages.length > 0
-        ) {
-          setTimeout(() => {
-            optionsRef.current.messages.pop();
-
-            setOptions({
-              messages: optionsRef.current.messages,
-            });
-          }, 1000);
-        }
-      }, 2000);
-
-      setIntervalScreen(interval);
-    },
-    intervalScreen,
+    showScreenReaderMessage,
   };
 };

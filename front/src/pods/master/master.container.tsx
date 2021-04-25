@@ -80,10 +80,7 @@ export const MasterContainer = () => {
     resetVotedInfoOnEveryPlayer,
     setPlayerCollectionVoteResult,
   } = usePlayerCollection();
-  const {
-    showScreeanReaderMessage,
-    intervalScreen,
-  } = useScreenReaderSnackbarContext();
+  const { showScreenReaderMessage } = useScreenReaderSnackbarContext();
 
   React.useEffect(() => {
     // TODO: Error handling
@@ -114,7 +111,10 @@ export const MasterContainer = () => {
               playerCollectionRef.current,
               payload
             );
-            showScreeanReaderMessage(`El usuario ${payload} se ha conectado`);
+            showScreenReaderMessage(
+              `El usuario ${payload} se ha conectado`,
+              1500
+            );
             updatePlayerCollection(newPlayerCollection);
             break;
           case SocketInputMessageTypes.NOTIFY_USER_VOTED:
@@ -122,7 +122,7 @@ export const MasterContainer = () => {
               playerCollectionRef.current,
               payload
             );
-            showScreeanReaderMessage(`El usuario ${payload} ha votado`);
+            showScreenReaderMessage(`El usuario ${payload} ha votado`, 1500);
             updatePlayerCollection(updatedPlayerList);
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
@@ -136,8 +136,9 @@ export const MasterContainer = () => {
             setMasterStatus(MasterStatus.SHOWING_RESULTS);
             break;
           case SocketInputMessageTypes.USER_DISCONNECTED:
-            showScreeanReaderMessage(
-              `El usuario ${payload} se ha desconectado`
+            showScreenReaderMessage(
+              `El usuario ${payload} se ha desconectado`,
+              1500
             );
             //TODO Refresh list of users in master room
             updatePlayerCollection(
@@ -154,10 +155,6 @@ export const MasterContainer = () => {
     // later on we can control that handling the sockets
     // responses (add spinner, and show entering, succeeded,
     // or error)
-
-    return () => {
-      clearInterval(intervalScreen);
-    };
   }, []);
 
   const handleSetStoryTitle = (title: string) => {

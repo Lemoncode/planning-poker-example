@@ -29,6 +29,7 @@ describe('ScreenReaderSnackbar component specs', () => {
         () =>
           setOptions({
             messages: ['Test'],
+            timeout: 1000,
           }),
         []
       );

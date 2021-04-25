@@ -4,7 +4,7 @@ import { useScreenReaderSnackbarContext } from './screen-reader-snackbar.hook';
 import { ScreenReaderSnackbarProvider } from './screen-reader-snackbar.context';
 
 describe('Snackbar hook spec', () => {
-  it('"showScreeanReaderMessage" should be a funcion by default', () => {
+  it('"showScreenReaderMessage" should be a funcion by default', () => {
     // Arrange
     const provider: React.FC = props => (
       <ScreenReaderSnackbarProvider>
@@ -18,12 +18,12 @@ describe('Snackbar hook spec', () => {
     });
 
     // Assert
-    expect(result.current.showScreeanReaderMessage).toEqual(
+    expect(result.current.showScreenReaderMessage).toEqual(
       expect.any(Function)
     );
   });
 
-  it('"setOptions" should be called when calling "showScreeanReaderMessage', () => {
+  it('"setOptions" should be called when calling "showScreenReaderMessage', () => {
     // Arrange
     const provider: React.FC = props => (
       <ScreenReaderSnackbarProvider>
@@ -42,7 +42,7 @@ describe('Snackbar hook spec', () => {
       wrapper: provider,
     });
 
-    result.current.showScreeanReaderMessage('Test message');
+    result.current.showScreenReaderMessage('Test message');
 
     // Assert
     expect(setOptions).toHaveBeenCalledTimes(1);
