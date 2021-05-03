@@ -113,7 +113,7 @@ export const MasterContainer = () => {
             );
             showScreenReaderMessage(
               `El usuario ${payload} se ha conectado`,
-              1500
+              1000
             );
             updatePlayerCollection(newPlayerCollection);
             break;
@@ -122,7 +122,9 @@ export const MasterContainer = () => {
               playerCollectionRef.current,
               payload
             );
-            showScreenReaderMessage(`El usuario ${payload} ha votado`, 1500);
+            console.log(showScreenReaderMessage);
+            console.log('vota');
+            showScreenReaderMessage(`El usuario ${payload} ha votado`, 1000);
             updatePlayerCollection(updatedPlayerList);
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
@@ -138,7 +140,7 @@ export const MasterContainer = () => {
           case SocketInputMessageTypes.USER_DISCONNECTED:
             showScreenReaderMessage(
               `El usuario ${payload} se ha desconectado`,
-              1500
+              1000
             );
             //TODO Refresh list of users in master room
             updatePlayerCollection(
