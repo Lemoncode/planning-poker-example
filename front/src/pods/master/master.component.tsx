@@ -131,6 +131,7 @@ const VotingInProgressComponent: React.FC<VotingInProgressProps> = props => {
       <div className={cx(classes.containerComponent, classes.leftContainer3)}>
         <TablePlayerComponent playersCollection={playerVotingStatus} />
       </div>
+
       <div className={classes.leftContainer2}>
         <div className={classes.containerComponent}>
           {title ? (

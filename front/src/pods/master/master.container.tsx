@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import { MasterComponent } from './master.component';
 import { MasterStatus, VoteResult } from './master.vm';
 import { AddNewPlayer, userVoted } from './master.business';
+import { useScreenReaderSnackbarContext } from 'common';
 
 const usePlayerCollection = () => {
   const [playerCollection, setPlayerCollection] = React.useState<
@@ -79,6 +80,7 @@ export const MasterContainer = () => {
     resetVotedInfoOnEveryPlayer,
     setPlayerCollectionVoteResult,
   } = usePlayerCollection();
+  const { showScreenReaderMessage } = useScreenReaderSnackbarContext();
 
   React.useEffect(() => {
     // TODO: Error handling
@@ -109,7 +111,10 @@ export const MasterContainer = () => {
               playerCollectionRef.current,
               payload
             );
-
+            showScreenReaderMessage(
+              `El usuario ${payload} se ha conectado`,
+              1000
+            );
             updatePlayerCollection(newPlayerCollection);
             break;
           case SocketInputMessageTypes.NOTIFY_USER_VOTED:
@@ -117,6 +122,9 @@ export const MasterContainer = () => {
               playerCollectionRef.current,
               payload
             );
+            console.log(showScreenReaderMessage);
+            console.log('vota');
+            showScreenReaderMessage(`El usuario ${payload} ha votado`, 1000);
             updatePlayerCollection(updatedPlayerList);
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
@@ -130,6 +138,10 @@ export const MasterContainer = () => {
             setMasterStatus(MasterStatus.SHOWING_RESULTS);
             break;
           case SocketInputMessageTypes.USER_DISCONNECTED:
+            showScreenReaderMessage(
+              `El usuario ${payload} se ha desconectado`,
+              1000
+            );
             //TODO Refresh list of users in master room
             updatePlayerCollection(
               playerCollectionRef.current.filter(p => p.nickname !== payload)

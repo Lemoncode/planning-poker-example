@@ -12,6 +12,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { PlayerVotingStatus } from 'core';
+import { ScreenReaderSnackbarComponent } from 'common/components';
 
 interface Props {
   playersCollection: PlayerVotingStatus[];
@@ -24,6 +25,7 @@ export const TablePlayerComponent = React.forwardRef<HTMLTableElement, Props>(
 
     return (
       <div className={classes.container}>
+        <ScreenReaderSnackbarComponent />
         <Typography
           className={classes.subtitle}
           variant="h6"

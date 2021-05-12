@@ -6,7 +6,6 @@ import { TablePlayerComponent } from 'common-app/components';
 import { PlayerStatus } from './player.vm';
 import { PlayerVotingStatus } from 'core';
 import { ConnectComponent, WaitComponent } from './components';
-
 import { VoteOptionsComponent } from 'common-app/components/vote-options.component';
 
 interface Props {
