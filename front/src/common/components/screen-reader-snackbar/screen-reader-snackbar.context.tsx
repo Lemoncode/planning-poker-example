@@ -6,22 +6,19 @@ interface Context {
   setOptions: (options: ScreenReaderSnackbarOptions) => void;
 }
 
-export const ScreenReaderSnackbarContext = React.createContext<Context>({
-  options: {
-    messages: [],
-  },
-  setOptions: options => {},
-});
+export const ScreenReaderSnackbarContext = React.createContext<Context>(null);
 
-export const ScreenReaderSnackbarProvider: React.FunctionComponent = props => {
-  const { children } = props;
+interface Props {
+  timeout?: number;
+}
+
+export const ScreenReaderSnackbarProvider: React.FunctionComponent<Props> = props => {
+  const { timeout, children } = props;
   const [options, setOptions] = React.useState<ScreenReaderSnackbarOptions>({
     messages: [],
+    timeout: Boolean(timeout) ? timeout : 0,
   });
 
-  React.useEffect(() => {
-    console.log('opcions ', options);
-  }, [options]);
   return (
     <ScreenReaderSnackbarContext.Provider
       value={{

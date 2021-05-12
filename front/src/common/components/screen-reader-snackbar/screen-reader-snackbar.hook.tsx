@@ -4,11 +4,7 @@ import { ScreenReaderSnackbarContext } from './screen-reader-snackbar.context';
 
 export const useScreenReaderSnackbarContext = () => {
   const { options, setOptions } = React.useContext(ScreenReaderSnackbarContext);
-
-  const optionsRef = React.useRef<ScreenReaderSnackbarOptions>({
-    messages: [],
-  });
-
+  const optionsRef = React.useRef<ScreenReaderSnackbarOptions>(options);
   const timer = React.useRef(null);
 
   React.useEffect(() => {
@@ -19,19 +15,21 @@ export const useScreenReaderSnackbarContext = () => {
 
   const handleUpdateMessages = (messages: string[]) => {
     optionsRef.current = {
+      ...options,
       messages,
     };
     setOptions(optionsRef.current);
   };
 
-  const showScreenReaderMessage = (message: string, timeout: number = 1000) => {
+  const showScreenReaderMessage = (message: string, timeout?: number) => {
+    const currentTimeout = Boolean(timeout) ? timeout : optionsRef.current.timeout;
     handleUpdateMessages([...optionsRef.current.messages, message]);
 
     timer.current = setTimeout(() => {
       handleUpdateMessages(
         optionsRef.current.messages.filter(m => m !== message)
       );
-    }, timeout);
+    }, currentTimeout);
   };
   return {
     showScreenReaderMessage,

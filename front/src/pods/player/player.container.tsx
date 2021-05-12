@@ -1,18 +1,19 @@
 import * as React from 'react';
-import { PlayerComponent } from './player.component';
 import { useParams } from 'react-router-dom';
-import { createSocket } from 'core';
+import { Socket } from 'socket.io';
 import {
+  createSocket,
   AuthContext,
   SocketErrorTypes,
   SocketInputMessageTypes,
   SocketContext,
   SocketOuputMessageLiteral,
   SocketOuputMessageTypes,
+  PlayerVotingStatus,
 } from 'core';
-import { Socket } from 'socket.io';
+import { useScreenReaderSnackbarContext } from 'common';
 import { PlayerStatus } from './player.vm';
-import { PlayerVotingStatus } from 'core';
+import { PlayerComponent } from './player.component';
 
 export const PlayerContainer = () => {
   const authContext = React.useContext(AuthContext);
@@ -20,6 +21,7 @@ export const PlayerContainer = () => {
 
   // TODO: type this.
   const params = useParams();
+  const { showScreenReaderMessage } = useScreenReaderSnackbarContext();
   const [room, setRoom] = React.useState('');
   const [voted, setVoted] = React.useState(false);
   const [story, setStory] = React.useState('');
@@ -27,7 +29,7 @@ export const PlayerContainer = () => {
   const [voteCollectionResult, setVoteCollectionresult] = React.useState<
     PlayerVotingStatus[]
   >([]);
-  const [playerStatus, SetplayerStatus] = React.useState<PlayerStatus>(
+  const [playerStatus, setPlayerStatus] = React.useState<PlayerStatus>(
     PlayerStatus.CONNECTED
   );
 
@@ -50,18 +52,20 @@ export const PlayerContainer = () => {
     setRoom(room);
 
     socket.on('message', msg => {
-      console.log(msg);
       if (msg.type) {
         switch (msg.type) {
           case SocketInputMessageTypes.CONNECTION_ESTABLISHED_PLAYER:
-            //alert('Connection established !!!');
-            SetplayerStatus(PlayerStatus.WAITING_FOR_STORY);
+            setPlayerStatus(PlayerStatus.WAITING_FOR_STORY);
+            showScreenReaderMessage('Waiting for master');
             break;
           case SocketInputMessageTypes.NEW_STORY:
             //alert('new Story !!');
             setVoted(false);
             setStory(msg.payload);
-            SetplayerStatus(PlayerStatus.VOTING_IN_PROGRESS);
+            setPlayerStatus(PlayerStatus.VOTING_IN_PROGRESS);
+            showScreenReaderMessage(
+              `Ready to start vote the "${msg.payload}" story`
+            );
             break;
           case SocketInputMessageTypes.SHOW_VOTING_RESULTS:
             // refactor this to a map
@@ -71,7 +75,10 @@ export const PlayerContainer = () => {
             }));
             // ***
             setVoteCollectionresult(playerVoteResults);
-            SetplayerStatus(PlayerStatus.SHOW_RESULTS);
+            setPlayerStatus(PlayerStatus.SHOW_RESULTS);
+            showScreenReaderMessage(
+              `Please, check the "${story}" story\`s results`
+            );
             break;
         }
       }
@@ -83,7 +90,7 @@ export const PlayerContainer = () => {
           case SocketErrorTypes.NICKNAME_ALREADY_IN_USE:
             alert('Please Choose another nickname');
             socket.disconnect();
-            SetplayerStatus(PlayerStatus.CONNECTED);
+            setPlayerStatus(PlayerStatus.CONNECTED);
             break;
         }
       }
@@ -96,7 +103,7 @@ export const PlayerContainer = () => {
   const handleVoteChosen = (vote: string) => {
     setVote(vote);
     setVoted(true);
-    SetplayerStatus(PlayerStatus.VOTING_IN_PROGRESS);
+    setPlayerStatus(PlayerStatus.VOTING_IN_PROGRESS);
 
     // Send messsage to server informing about the vote
     socketContext.socket.emit(SocketOuputMessageLiteral.MESSAGE, {

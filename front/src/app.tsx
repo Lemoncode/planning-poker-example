@@ -3,8 +3,11 @@ import { hot } from 'react-hot-loader/root';
 import { RouterComponent } from 'core/router';
 import { AuthProvider, SocketProvider } from 'core';
 import { ThemeProviderComponent } from 'core/theme';
-import { SnackbarProvider } from 'common';
-import { ScreenReaderSnackbarProvider } from 'common';
+import {
+  SnackbarProvider,
+  ScreenReaderSnackbarProvider,
+  ScreenReaderSnackbarComponent,
+} from 'common/components';
 
 const App: React.FunctionComponent = () => {
   return (
@@ -12,8 +15,9 @@ const App: React.FunctionComponent = () => {
       <AuthProvider>
         <ThemeProviderComponent>
           <SnackbarProvider>
-            <ScreenReaderSnackbarProvider>
+            <ScreenReaderSnackbarProvider timeout={1000}>
               <RouterComponent />
+              <ScreenReaderSnackbarComponent />
             </ScreenReaderSnackbarProvider>
           </SnackbarProvider>
         </ThemeProviderComponent>
