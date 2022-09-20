@@ -5,7 +5,5 @@ services:
     build:
       context: .
       args:
-        - BASE_API_URL=https://dev.tshirtplanning.com/
-    ports:
-      - "3000:3000"
+        - BASE_API_URL=https://dev.tshirtplanning.com
  
