@@ -9,7 +9,7 @@ jobs:
   dev-cd:
     uses: lemoncode/actions/.github/workflows/aws-ebs.yml@main
     with:
-      files-to-zip: 'back/** back/* .*  front/** front/* .* Dockerfile .dockerignore' 
+      files-to-zip: 'back/** back/.babelrc  front/** front/.babelrc Dockerfile .dockerignore' 
     secrets:
       AWS_EB_APP_NAME: ${{secrets.DEV_AWS_EB_APP_NAME}}
       AWS_EB_ENV_NAME: ${{secrets.DEV_AWS_EB_ENV_NAME}}
