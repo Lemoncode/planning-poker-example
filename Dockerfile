@@ -22,4 +22,7 @@ COPY --from=build-frontend /usr/app/dist ./public
 COPY ./back/package.json ./
 RUN npm install --only=production
 
+EXPOSE 3000
+ENV PORT=3000
+
 ENTRYPOINT [ "node", "index" ]
