@@ -6,13 +6,13 @@ WORKDIR /usr/app
 # Build front
 FROM base AS build-frontend
 COPY ./front ./
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 # Build backend
 FROM base AS build-backend
 COPY ./back ./
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 # Release
@@ -20,7 +20,8 @@ FROM base AS release
 COPY --from=build-backend /usr/app/dist ./
 COPY --from=build-frontend /usr/app/dist ./public
 COPY ./back/package.json ./
-RUN npm install --only=production
+COPY ./back/package-lock.json ./
+RUN npm ci --only=production
 
 EXPOSE 3000
 ENV PORT=3000
