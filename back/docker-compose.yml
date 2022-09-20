@@ -1,7 +1,11 @@
-version: '3'
+version: '3.8'
 services:
-  mongo-db-taskplaninng:
-    container_name: mongo-db-taskplaninng
-    image: mongo:4.2.10
+  taskplaninng:
+    container_name: taskplaninng
+    image: mongo:5.0.12
     ports:
       - '27017:27017'
+    networks:
+      - taskplaninng
+networks:
+  taskplaninng:
