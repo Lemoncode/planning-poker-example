@@ -11,11 +11,11 @@ jobs:
       - name: Install front
         run: |
           cd front
-          npm install
+          npm ci
       - name: Install back
         run: |
           cd back
-          npm install
+          npm ci
       - name: Build
         run: |
           cd front
