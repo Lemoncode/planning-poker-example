@@ -1,9 +1,0 @@
-version: "3.8"
-services:
-  app:
-    container_name: app
-    build:
-      context: .
-      args:
-        - BASE_API_URL=https://dev.tshirtplanning.com
- 
