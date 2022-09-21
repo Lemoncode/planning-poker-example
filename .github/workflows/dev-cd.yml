@@ -10,8 +10,6 @@ jobs:
     uses: lemoncode/actions/.github/workflows/aws-ebs.yml@main
     with:
       files-to-zip: 'back/** back/.babelrc  front/** front/.babelrc Dockerfile .dockerignore'
-      dockerArgs: "BASE_API_URL=https://dev.tshirtplanning.com \
-        BASE_APP_URL=https://dev.tshirtplanning.com"
     secrets:
       AWS_EB_APP_NAME: ${{secrets.DEV_AWS_EB_APP_NAME}}
       AWS_EB_ENV_NAME: ${{secrets.DEV_AWS_EB_ENV_NAME}}
