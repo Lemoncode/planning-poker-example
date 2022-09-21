@@ -14,5 +14,5 @@ jobs:
     uses: lemoncode/actions/.github/workflows/aws-ebs.yml@main
     with:
       files-to-zip: "back/** back/.babelrc  front/** front/.babelrc Dockerfile .dockerignore"
-      dockerArgs: BASE_API_URL=${{env.BASE_API_URL}}
+      dockerArgs: BASE_API_URL=${secrets.DEV_BASE_API_URL}
     secrets: inherit
