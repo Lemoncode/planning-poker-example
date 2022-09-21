@@ -1,4 +1,4 @@
-name: Develop CD Workflow
+name: OLD Develop CD Workflow
 
 on:
   workflow_dispatch:
@@ -7,16 +7,15 @@ on:
       - develop
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: lemoncode/actions/aws-ebs-action.yml@main
-        with:
-          files-to-zip: "back/** back/.babelrc  front/** front/.babelrc Dockerfile .dockerignore"
-          dockerArgs: BASE_API_URL=${{secrets.DEV_BASE_API_URL}}
-          AWS_EB_APP_NAME: ${{secrets.DEV_AWS_EB_APP_NAME}}
-          AWS_EB_ENV_NAME: ${{secrets.DEV_AWS_EB_ENV_NAME}}
-          AWS_DEPLOY_ACCESS_KEY_ID: ${{secrets.DEV_AWS_DEPLOY_ACCESS_KEY_ID}}
-          AWS_DEPLOY_SECRET_ACCESS_KEY: ${{secrets.DEV_AWS_DEPLOY_SECRET_ACCESS_KEY}}
-          AWS_REGION: ${{secrets.DEV_AWS_REGION}}
-          AWS_DEPLOY_S3_BUCKET: ${{secrets.DEV_AWS_DEPLOY_S3_BUCKET}}
+  dev-cd:
+    uses: lemoncode/actions/.github/workflows/aws-ebs.yml@main
+    with:
+      files-to-zip: "back/** back/.babelrc  front/** front/.babelrc Dockerfile .dockerignore"
+      dockerArgs: BASE_API_URL=https://dev.tshirtplanning.com
+    secrets:
+      AWS_EB_APP_NAME: ${{secrets.DEV_AWS_EB_APP_NAME}}
+      AWS_EB_ENV_NAME: ${{secrets.DEV_AWS_EB_ENV_NAME}}
+      AWS_DEPLOY_ACCESS_KEY_ID: ${{secrets.DEV_AWS_DEPLOY_ACCESS_KEY_ID}}
+      AWS_DEPLOY_SECRET_ACCESS_KEY: ${{secrets.DEV_AWS_DEPLOY_SECRET_ACCESS_KEY}}
+      AWS_REGION: ${{secrets.DEV_AWS_REGION}}
+      AWS_DEPLOY_S3_BUCKET: ${{secrets.DEV_AWS_DEPLOY_S3_BUCKET}}
