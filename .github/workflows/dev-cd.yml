@@ -7,14 +7,14 @@ on:
       - develop
 
 env:
-  BASE_API_URL: ${{secrets.DEV_BASE_API_URL}}
+  dockerArgs: BASE_API_URL=${{secrets.DEV_BASE_API_URL}}
 
 jobs:
   dev-cd:
     uses: lemoncode/actions/.github/workflows/aws-ebs.yml@main
     with:
       files-to-zip: "back/** back/.babelrc  front/** front/.babelrc Dockerfile .dockerignore"
-      dockerArgs: BASE_API_URL=${secrets.DEV_BASE_API_URL}
+      dockerArgs: ${{env.dockerArgs}}
     secrets:
       AWS_EB_APP_NAME: ${{secrets.DEV_AWS_EB_APP_NAME}}
       AWS_EB_ENV_NAME: ${{secrets.DEV_AWS_EB_ENV_NAME}}
@@ -22,4 +22,3 @@ jobs:
       AWS_DEPLOY_SECRET_ACCESS_KEY: ${{secrets.DEV_AWS_DEPLOY_SECRET_ACCESS_KEY}}
       AWS_REGION: ${{secrets.DEV_AWS_REGION}}
       AWS_DEPLOY_S3_BUCKET: ${{secrets.DEV_AWS_DEPLOY_S3_BUCKET}}
-      DEV_BASE_API_URL: ${{secrets.DEV_BASE_API_URL}}
