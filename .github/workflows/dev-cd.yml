@@ -10,16 +10,16 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      dockerArgs: ${{ steps.setup.outputs.dockerArgs }}
+      BASE_API_URL: ${{ steps.setup.outputs.BASE_API_URL }}
     steps:
       - id: setup
-        run: echo "::set-output name=dockerArgs::BASE_API_URL=${{secrets.DEV_BASE_API_URL}}"
+        run: echo "::set-output name=BASE_API_URL::${{secrets.DEV_BASE_API_URL}}"
   dev-cd:
     needs: [setup]
     uses: lemoncode/actions/.github/workflows/aws-ebs.yml@main
     with:
       files-to-zip: "back/** back/.babelrc  front/** front/.babelrc Dockerfile .dockerignore"
-      dockerArgs: ${{needs.setup.outputs.dockerArgs}}
+      dockerArgs: BASE_API_URL=${{needs.setup.outputs.BASE_API_URL}}
     secrets:
       AWS_EB_APP_NAME: ${{secrets.DEV_AWS_EB_APP_NAME}}
       AWS_EB_ENV_NAME: ${{secrets.DEV_AWS_EB_ENV_NAME}}
