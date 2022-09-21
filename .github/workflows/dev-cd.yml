@@ -10,7 +10,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - uses: lemoncode/actions/.github/workflows/aws-ebs-action.yml
+      - uses: lemoncode/actions/.github/workflows/aws-ebs-action.yml@main
         with:
           files-to-zip: "back/** back/.babelrc  front/** front/.babelrc Dockerfile .dockerignore"
           dockerArgs: BASE_API_URL=${{secrets.DEV_BASE_API_URL}}
