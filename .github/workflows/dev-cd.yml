@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       dockerArgs: BASE_API_URL=${{secrets.DEV_BASE_API_URL}}
+    steps:
+      - run: echo Setup dockerArgs
   dev-cd:
     needs: [setup]
     uses: lemoncode/actions/.github/workflows/aws-ebs.yml@main
