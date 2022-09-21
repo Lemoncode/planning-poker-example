@@ -34,4 +34,6 @@ ENV MOCK_REPOSITORY=false
 ENV CORS_ORIGIN=false
 ENV API_URL=/api
 
-ENTRYPOINT [ "node", "index" ]
+RUN npm i pm2 -g
+
+CMD pm2 start ./index.js --name "app" --env production --no-daemon
