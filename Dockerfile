@@ -1,4 +1,4 @@
-FROM node:12-alpine AS base
+FROM node:16-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -6,13 +6,16 @@ WORKDIR /usr/app
 # Build front
 FROM base AS build-frontend
 COPY ./front ./
-RUN npm install
+ARG BASE_API_URL=$BASE_API_URL
+ENV BASE_API_URL=$BASE_API_URL
+ENV BASE_APP_URL=$BASE_API_URL
+RUN npm ci
 RUN npm run build
 
 # Build backend
 FROM base AS build-backend
 COPY ./back ./
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 # Release
@@ -20,6 +23,15 @@ FROM base AS release
 COPY --from=build-backend /usr/app/dist ./
 COPY --from=build-frontend /usr/app/dist ./public
 COPY ./back/package.json ./
-RUN npm install --only=production
+COPY ./back/package-lock.json ./
+RUN npm ci --only=production
+
+EXPOSE 3000
+ENV PORT=3000
+ENV NODE_ENV=production
+ENV STATIC_FILES_PATH=./public
+ENV MOCK_REPOSITORY=false
+ENV CORS_ORIGIN=false
+ENV API_URL=/api
 
 ENTRYPOINT [ "node", "index" ]
