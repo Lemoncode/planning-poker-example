@@ -10,9 +10,10 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      dockerArgs: BASE_API_URL=${{secrets.DEV_BASE_API_URL}}
+      dockerArgs: ${{ steps.setup.outputs.dockerArgs }}
     steps:
-      - run: echo Setup dockerArgs
+      - id: setup
+        run: echo "::set-output name=dockerArgs::BASE_API_URL=${{secrets.DEV_BASE_API_URL}}"
   dev-cd:
     needs: [setup]
     uses: lemoncode/actions/.github/workflows/aws-ebs.yml@main
