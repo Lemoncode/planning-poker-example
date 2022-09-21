@@ -1,4 +1,4 @@
-name: OLD Develop CD Workflow
+name: Develop CD Workflow
 
 on:
   workflow_dispatch:
