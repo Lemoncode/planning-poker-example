@@ -6,15 +6,17 @@ on:
     branches:
       - develop
 
-env:
-  dockerArgs: BASE_API_URL=${{secrets.DEV_BASE_API_URL}}
-
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    env:
+      dockerArgs: BASE_API_URL=${{secrets.DEV_BASE_API_URL}}
   dev-cd:
+    needs: [setup]
     uses: lemoncode/actions/.github/workflows/aws-ebs.yml@main
     with:
       files-to-zip: "back/** back/.babelrc  front/** front/.babelrc Dockerfile .dockerignore"
-      dockerArgs: ${{env.dockerArgs}}
+      dockerArgs: ${{needs.setup.env.dockerArgs}}
     secrets:
       AWS_EB_APP_NAME: ${{secrets.DEV_AWS_EB_APP_NAME}}
       AWS_EB_ENV_NAME: ${{secrets.DEV_AWS_EB_ENV_NAME}}
