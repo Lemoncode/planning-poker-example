@@ -6,6 +6,9 @@ WORKDIR /usr/app
 # Build front
 FROM base AS build-frontend
 COPY ./front ./
+ARG BASE_API_URL=$BASE_API_URL
+ENV BASE_API_URL=$BASE_API_URL
+ENV BASE_APP_URL=$BASE_API_URL
 RUN npm ci
 RUN npm run build
 
