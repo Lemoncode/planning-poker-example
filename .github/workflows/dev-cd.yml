@@ -8,7 +8,7 @@ on:
 
 jobs:
   dev-cd:
-    uses: lemoncode/actions/.github/workflows/aws-ebs.yml@main
+    uses: lemoncode/actions/.github/workflows/aws-ebs.yml@develop
     with:
       files-to-zip: "back/** back/.babelrc front/** front/.babelrc Dockerfile .dockerignore"
       dockerArgs: "BASE_API_URL=https://dev.tshirtplanning.com"
