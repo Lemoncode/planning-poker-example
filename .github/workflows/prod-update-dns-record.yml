@@ -1,4 +1,4 @@
-name: Development Update DNS Record
+name: Production Update DNS Record
 
 on:
   repository_dispatch:
