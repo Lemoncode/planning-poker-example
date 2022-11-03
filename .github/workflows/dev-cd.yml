@@ -31,6 +31,7 @@ jobs:
           docker buildx use multi-arch-builder
           docker buildx build \
           --platform linux/amd64,linux/arm64 \
+          --push \
           --build-arg BASE_API_URL=https://dev.tshirtplanning.com \
           --build-arg BASE_APP_URL=https://dev.tshirtplanning.com \
           -t ${{env.IMAGE_NAME}} .
