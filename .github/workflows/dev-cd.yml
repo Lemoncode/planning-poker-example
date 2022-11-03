@@ -25,6 +25,8 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
+      - name: Set up QEMU (for docker buildx)
+        uses: docker/setup-qemu-action@v2
       - name: Build and push docker image
         run: |
           docker buildx create --name multi-arch-builder
