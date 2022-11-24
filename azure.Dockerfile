@@ -27,14 +27,20 @@ COPY ./back/package.json ./
 COPY ./back/package-lock.json ./
 RUN npm ci --only=production
 
-EXPOSE 3000
-ENV INTERNAL_PORT=3000
+FROM nasdan/azure-pm2-nginx
 ENV NODE_ENV=production
 ENV STATIC_FILES_PATH=./public
 ENV MOCK_REPOSITORY=false
 ENV CORS_ORIGIN=false
 ENV API_URL=/api
+COPY --from=release /usr/src/app ./
 
-RUN npm i pm2 -g
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-CMD pm2 start ./index.js --name "app" --env production --no-daemon
+ENV INTERNAL_PORT=3000
+RUN sed -i -e 's|INTERNAL_PORT|'"$INTERNAL_PORT"'|g' /etc/nginx/conf.d/default.conf
+
+CMD sh docker-entrypoint.sh && \
+  sed -i -e 's|PORT|80|g' /etc/nginx/conf.d/default.conf && \
+  pm2 start ./index.js --name "app" --env production && \
+  nginx -g 'daemon off;'
