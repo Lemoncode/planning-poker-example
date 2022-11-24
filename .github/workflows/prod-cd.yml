@@ -6,7 +6,7 @@ on:
     branches:
       - master
 env:
-  IMAGE_NAME: ghcr.io/lemoncode/planning-poker-example:prod-${{github.run_id}}-${{github.run_attempt}}
+  IMAGE_NAME: ghcr.io/lemoncode/planning-poker-example:prod-${{github.run_number}}-${{github.run_attempt}}
 
 permissions:
   contents: 'read'
