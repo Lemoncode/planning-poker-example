@@ -6,7 +6,7 @@ on:
     branches:
       - master
 env:
-  IMAGE_NAME: ghcr.io/lemoncode/planning-poker-example:prod-${GITHUB_SHA}-${GITHUB_RUN_ATTEMPT}
+  IMAGE_NAME: ghcr.io/lemoncode/planning-poker-example:prod-${GITHUB_SHA}
 
 permissions:
   contents: 'read'
@@ -42,4 +42,4 @@ jobs:
         with:
           app-name: ${{ secrets.AZURE_APP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          images: ghcr.io/lemoncode/bar.io:dev-public-portal-4b882cee2fd5c4d513a4ab9ab204bfffb24f9a07
+          images: ${{env.IMAGE_NAME}}
