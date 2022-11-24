@@ -34,7 +34,7 @@ jobs:
           docker build \
           --build-arg BASE_API_URL=https://tshirtplanning.com \
           --build-arg BASE_APP_URL=https://tshirtplanning.com \
-          -t ${{env.IMAGE_NAME}} .
+          -t ${{env.IMAGE_NAME}} -f azure.Dockerfile .
           docker push ${{env.IMAGE_NAME}}
 
       - name: Deploy to Azure
