@@ -35,7 +35,7 @@ ENV STATIC_FILES_PATH=./public
 ENV MOCK_REPOSITORY=false
 ENV CORS_ORIGIN=false
 ENV API_URL=/api
-COPY --from=release /usr/src/app ./
+COPY --from=release /usr/app ./
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
