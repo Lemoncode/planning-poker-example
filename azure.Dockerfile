@@ -21,8 +21,10 @@ RUN npm run build
 
 # Release
 FROM base AS release
+ENV NODE_ENV=production
+ENV STATIC_FILES_PATH=./public
 COPY --from=build-backend /usr/app/dist ./
-COPY --from=build-frontend /usr/app/dist ./public
+COPY --from=build-frontend /usr/app/dist STATIC_FILES_PATH
 COPY ./back/package.json ./
 COPY ./back/package-lock.json ./
 RUN npm ci --only=production
