@@ -6,7 +6,7 @@ on:
     branches:
       - master
 env:
-  IMAGE_NAME: ghcr.io/lemoncode/planning-poker-example:prod-${GITHUB_SHA}-${GITHUB_RUN_ATTEMPT}
+  IMAGE_NAME: ghcr.io/lemoncode/planning-poker-example:prod-${{github.run_number}}-${{github.run_attempt}}
 
 permissions:
   contents: 'read'
@@ -34,7 +34,7 @@ jobs:
           docker build \
           --build-arg BASE_API_URL=https://tshirtplanning.com \
           --build-arg BASE_APP_URL=https://tshirtplanning.com \
-          -t ${{env.IMAGE_NAME}} -f azure.Dockerfile .
+          -t ${{env.IMAGE_NAME}} .
           docker push ${{env.IMAGE_NAME}}
 
       - name: Deploy to Azure
@@ -42,4 +42,4 @@ jobs:
         with:
           app-name: ${{ secrets.AZURE_APP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          images: ${{ env.IMAGE_NAME }}
+          images: ${{env.IMAGE_NAME}}
