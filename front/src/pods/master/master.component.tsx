@@ -10,6 +10,7 @@ import { DefineStoryComponent } from './components';
 import { VoteOptionsComponent } from 'common-app/components';
 import { PlayerVotingStatus } from 'core';
 import { Button } from '@material-ui/core';
+import { TablePlayerTrendComponent } from 'common-app/components/define-trend';
 
 interface Props {
   room: string;
@@ -196,6 +197,12 @@ const ShowVotingResultsComponent: React.FC<ShowVotingResultsProps> = props => {
             playersCollection={playerVotingStatus}
             ref={tableRef}
           />
+        </div>
+        <div className={classes.containerComponent}>
+          <h2 className={classes.title}>Trend</h2>
+        </div>
+        <div className={classes.containerComponent}>
+         <TablePlayerTrendComponent playersCollection={playerVotingStatus} />
         </div>
         <div className={classes.containerComponent}>
           <Button
